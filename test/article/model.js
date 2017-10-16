@@ -4,15 +4,15 @@
 var should = require('should'),
     app = require('../../server'),
     mongoose = require('mongoose'),
-    User = mongoose.model('User'),
-    Article = mongoose.model('Article');
+    User = mongoose.model('User')
+    // Article = mongoose.model('Article');
 
 //Globals
-var user;
-var article;
+// var user;
+// var article;
 
 //The tests
-describe('<Unit Test>', function() {
+xdescribe('<Unit Test>', function() {
     describe('Model Article:', function() {
         beforeEach(function(done) {
             user = new User({
