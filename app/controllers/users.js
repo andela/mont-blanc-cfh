@@ -72,11 +72,11 @@ exports.checkAvatar = function(req, res) {
   }
 
 };
-
+ 
 /**
  * Create user
  */
-exports.create = function(req, res) {
+exports.create = function(req, res, next) {
   if (req.body.name && req.body.password && req.body.email) {
     User.findOne({
       email: req.body.email
@@ -94,8 +94,10 @@ exports.create = function(req, res) {
             });
           }
           req.logIn(user, function(err) {
-            if (err) return next(err);
-            return res.redirect('/#!/');
+            if (err) 
+            return next(err);
+            var userToken = user.generateJwt();
+            return res.redirect('/#!');
           });
         });
       } else {
