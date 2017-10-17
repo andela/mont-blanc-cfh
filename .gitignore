@@ -7,3 +7,7 @@ dist/
 reports/
 .coverrun
 .env
+package-lock.json
+
+
+
