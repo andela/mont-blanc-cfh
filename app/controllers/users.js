@@ -77,37 +77,36 @@ exports.checkAvatar = function(req, res) {
  * Create user
  */
 exports.create = function(req, res, next) {
-  if (req.body.name && req.body.password && req.body.email) {
-    User.findOne({
-      email: req.body.email
-    }).exec(function(err,existingUser) {
-      if (!existingUser) {
-        var user = new User(req.body);
-        // Switch the user's avatar index to an actual avatar url
-        user.avatar = avatars[user.avatar];
-        user.provider = 'local';
-        user.save(function(err) {
-          if (err) {
-            return res.render('/#!/signup?error=unknown', {
-              errors: err.errors,
-              user: user
+    if (req.body.name && req.body.password && req.body.email) {
+      User.findOne({
+        email: req.body.email
+      }).exec(function(err,existingUser) {
+        if (!existingUser) {
+          var user = new User(req.body);
+          // Switch the user's avatar index to an actual avatar url
+          user.avatar = avatars[user.avatar];
+          user.provider = 'local';
+          user.save(function(err) {
+            if (err) {
+              return res.status(404).send({
+                errors: err.errors,
+                user: user
+              });
+            }
+            return res.status(201).json({
+              message: 'Successfully signed up',
+              token: user.generateJwt()
             });
-          }
-          req.logIn(user, function(err) {
-            if (err) 
-            return next(err);
-            var userToken = user.generateJwt();
-            return res.redirect('/#!');
           });
-        });
-      } else {
-        return res.redirect('/#!/signup?error=existinguser');
-      }
-    });
-  } else {
-    return res.redirect('/#!/signup?error=incomplete');
-  }
-};
+        } else {
+          return res.status(400).send('Failed');
+        }
+      });
+    } else {
+      return res.status(400).send('Failed');
+    }
+  };
+
 
 /**
  * Assign avatar to user
