@@ -1,42 +1,60 @@
-const gulp  = require('gulp');
-const uglify = require('gulp-uglify');
+const gulp = require('gulp');
 const sass = require('gulp-sass');
 const gulpLivereload = require('gulp-livereload');
-const jshint  = require('gulp-jshint');
 const nodemon = require('gulp-nodemon');
 const bower = require('gulp-bower');
 const babel = require('gulp-babel');
 const coverage = require('gulp-coverage');
 const mocha = require('gulp-mocha');
+const eslint = require('gulp-eslint');
+const gulpConnect = require('gulp-connect');
+
+const config = './config/env/all.js';
+
 
 gulp.task('serve', () => {
   nodemon({
     watch: ['./dist', './app', './config', './public'],
     script: 'dist/server.js',
     ext: 'js html jade',
-    env: { NODE_ENV: 'development'},
-  })
-})
+    env: { NODE_ENV: 'development' }
+  });
+});
 
 gulp.task('watch', () => {
   gulpLivereload.listen();
   gulp.watch('./public/**/*.scss', ['sass']);
-  gulp.watch('./public/**/*.html', ['transpile', 'reload']);
-  gulp.watch('./public/**/*.css', ['reload']);
-  gulp.watch('./public/**/*.js', ['transpile', 'reload']);
+  gulp.watch('./public/**/*.html', ['transpile']);
+  gulp.watch('./public/**/*.css');
+  gulp.watch('./public/**/*.js', ['eslint', 'transpile']);
+});
+
+gulp.task('connect', () => {
+  gulpConnect.server({
+    root: ['dist'],
+    port: config.port,
+    livereload: true,
+  });
+});
+
+gulp.task('html', () => {
+  gulp.src('./public/**/*.html')
+    .pipe(gulpConnect.reload());
+});
+
+gulp.task('eslint', () => {
+  return gulp.src(['gruntfile.js', 'public/js/**/*.js', 'test/**/*.js', 'app/**/*.js', '!node_modules/**'])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
 });
 
 gulp.task('sass', () => gulp.src('./public/**/*.scss')
   .pipe(sass().on('error', sass.logError))
-  .pipe(gulp.dest('./public'))
-);
+  .pipe(gulp.dest('./public')));
 
 gulp.task('bower', () => {
-  bower({directory: './public/lib'});
-});
-
-gulp.task('reload', () => {
-  gulpLivereload();
+  bower({ directory: './public/lib' });
 });
 
 gulp.task('public', () => gulp.src([
@@ -51,16 +69,15 @@ gulp.task('public', () => gulp.src([
 
 
 gulp.task('transpile', ['public'], () => {
-  gulp.src(
-    [
-      './**/*.js',
-      '!dist/**',
-      '!node_modules/**',
-      '!public/lib/**'
-    ]
-  )
+  gulp.src([
+    './**/*.js',
+    '!dist/**',
+    '!node_modules/**',
+    '!public/lib/**',
+    '!gulpfile.babel.js'
+  ])
     .pipe(babel({
-      presets: ['es2015']
+      presets: ['es2016']
     }))
     .pipe(gulp.dest('dist'));
 });
@@ -85,4 +102,4 @@ gulp.task('test', () => gulp.src(
   .pipe(gulp.dest('reports')));
 
 
-gulp.task('default', ['bower', 'transpile', 'sass', 'serve', 'watch']);
+gulp.task('default', ['bower', 'transpile', 'sass', 'watch', 'serve', 'connect', 'eslint']);
