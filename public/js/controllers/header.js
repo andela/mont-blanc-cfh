@@ -9,4 +9,5 @@ angular.module('mean.system')
         "title": "Create New Article",
         "link": "articles/create"
     }];
+    
 }]);
