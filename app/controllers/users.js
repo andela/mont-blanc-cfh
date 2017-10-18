@@ -4,7 +4,9 @@
 var mongoose = require('mongoose'),
   User = mongoose.model('User');
 var avatars = require('./avatars').all();
-
+var config = require('../../config/config');
+var jwt = require('jsonwebtoken');
+var bcrypt = require('bcryptjs');
 /**
  * Auth callback
  */
@@ -74,8 +76,18 @@ exports.checkAvatar = function(req, res) {
 };
 
 /**
+ * Generate token for authentication
+ */
+
+/**
  * Create user
  */
+function jwtEncoder (user){
+  var userToken = jwt.sign({ user: user }, config.token, {
+    expiresIn: 60 * 60 * 24 // token expires after 24 hours
+  });
+  return userToken;
+ }
 exports.create = function(req, res) {
   if (req.body.name && req.body.password && req.body.email) {
     User.findOne({
@@ -106,7 +118,46 @@ exports.create = function(req, res) {
     return res.redirect('/#!/signup?error=incomplete');
   }
 };
+/**
+ * Login user
+ */
 
+exports.login = function(req, res) {
+  if (req.body.password && req.body.email) {
+    User
+    .findOne({
+      email: req.body.email
+    })
+    .exec(function(err,existingUser) {
+      if (!existingUser) {
+        return res
+        .status(404)
+        .send({
+          message: 'user does not exist'
+        });
+      }
+      if (!bcrypt.compareSync(req.body.password, existingUser.hashed_password)) {
+        return res
+        .status(406)
+        .send({
+          message: 'Incorrect Password'
+        });
+      }
+      console.log(existingUser)
+      return res
+      .status(200)
+      .send({
+        token: jwtEncoder(existingUser)
+      });
+    });
+  } else {
+    return res
+    .status(400)
+    .send({
+      message: 'All fields are required'
+    });
+  }
+};
 /**
  * Assign avatar to user
  */
