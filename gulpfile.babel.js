@@ -9,15 +9,17 @@ const mocha = require('gulp-mocha');
 const eslint = require('gulp-eslint');
 const gulpConnect = require('gulp-connect');
 
-const config = './config/env/all.js';
+const config = require('./config/env/all.js');
 const tasks = ['bower', 'transpile', 'sass', 'watch', 'serve', 'connect', 'eslint'];
 
 gulp.task('serve', () => {
   nodemon({
-    watch: ['./dist', './app', './config', './public'],
+    watch: ['./dist', './app', './public'],
     script: 'dist/server.js',
     ext: 'js html jade',
-    env: { NODE_ENV: 'development' }
+    env: {
+      "NODE_ENV": 'development'
+    }
   });
 });
 
@@ -32,7 +34,7 @@ gulp.task('watch', () => {
 gulp.task('connect', () => {
   gulpConnect.server({
     root: ['dist'],
-    port: config.port,
+    port: 8000,
     livereload: true,
   });
 });
