@@ -80,7 +80,7 @@ exports.create = function(req, res, next) {
     if (req.body.name && req.body.password && req.body.email) {
       User.findOne({
         email: req.body.email
-      }).exec(function(err,existingUser) {
+      }).exec(function(err,existingUser) { 
         if (!existingUser) {
           var user = new User(req.body);
           // Switch the user's avatar index to an actual avatar url
@@ -88,22 +88,44 @@ exports.create = function(req, res, next) {
           user.provider = 'local';
           user.save(function(err) {
             if (err) {
-              return res.status(404).send({
+              return res.status(400).send({
                 errors: err.errors,
-                user: user
+                message: 'Failed'
               });
             }
-            return res.status(201).json({
+            return res.status(201).send({
               message: 'Successfully signed up',
-              token: user.generateJwt()
+              token: user.generateJwt(),
+              user: user
             });
           });
         } else {
-          return res.status(400).send('Failed');
+          return res.status(409).send({
+            message: 'Email already exists'
+          });
         }
       });
     } else {
-      return res.status(400).send('Failed');
+      if(!req.body.name){
+        return res.status(400).send({
+          message: 'Name is required'
+        });
+      }
+      else if(!req.body.password){
+        return res.status(400).send({
+          message: 'Passsword is required'
+        });
+      }
+      else if(!req.body.email){
+        return res.status(400).send({
+          message: 'Email is required'
+        });
+      }
+      else{
+        return res.status(400).send({
+          message: 'Details are required'
+        });
+      }
     }
   };
 

@@ -4,10 +4,10 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     jwt = require ('jsonwebtoken');
-    config = require('../../config/config');
     bcrypt = require('bcryptjs'),
     _ = require('underscore'),
-    authTypes = ['github', 'twitter', 'facebook', 'google'];
+    authTypes = ['github', 'twitter', 'facebook', 'google'],
+    config = require('../../config/config');
 
 
 /**
