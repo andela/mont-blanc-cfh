@@ -72,40 +72,50 @@ exports.checkAvatar = function(req, res) {
   }
 
 };
-
+ 
 /**
  * Create user
  */
-exports.create = function(req, res) {
-  if (req.body.name && req.body.password && req.body.email) {
-    User.findOne({
-      email: req.body.email
-    }).exec(function(err,existingUser) {
-      if (!existingUser) {
-        var user = new User(req.body);
-        // Switch the user's avatar index to an actual avatar url
-        user.avatar = avatars[user.avatar];
-        user.provider = 'local';
-        user.save(function(err) {
-          if (err) {
-            return res.render('/#!/signup?error=unknown', {
-              errors: err.errors,
+exports.create = function(req, res, next) {
+    if (req.body.name && req.body.password && req.body.email) {
+      User.findOne({
+        email: req.body.email
+      }).exec(function(err,existingUser) { 
+        if (!existingUser) {
+          var user =  new User({
+            name: req.body.name,
+            password: req.body.password,
+            email: req.body.email
+          })
+          // Switch the user's avatar index to an actual avatar url
+          user.avatar = avatars[user.avatar];
+          user.provider = 'local';
+          user.save(function(err) {
+            if (err) {
+              return res.status(400).send({
+                errors: err.errors.hashed_password.type,
+                message: 'Failed'
+              });
+            }
+            return res.status(201).send({
+              message: 'Successfully signed up',
+              token: user.generateJwt(),
               user: user
             });
-          }
-          req.logIn(user, function(err) {
-            if (err) return next(err);
-            return res.redirect('/#!/');
           });
-        });
-      } else {
-        return res.redirect('/#!/signup?error=existinguser');
-      }
-    });
-  } else {
-    return res.redirect('/#!/signup?error=incomplete');
-  }
-};
+        } else {
+          return res.status(409).send({
+            message: 'Email already exists'
+          });
+        }
+      });
+    } else {
+      return res.status(400).send({
+        message: 'Details are required'
+      });
+    }
+  };
+
 
 /**
  * Assign avatar to user
