@@ -10,7 +10,7 @@ const eslint = require('gulp-eslint');
 const gulpConnect = require('gulp-connect');
 
 const config = require('./config/env/all.js');
-const tasks = ['bower', 'transpile', 'sass', 'watch', 'serve', 'connect', 'eslint'];
+const tasks = ['bower', 'transpile', 'sass', 'watch', 'serve', 'connect'];
 
 gulp.task('serve', () => {
   nodemon({
@@ -18,7 +18,7 @@ gulp.task('serve', () => {
     script: 'dist/server.js',
     ext: 'js html jade',
     env: {
-      "NODE_ENV": 'development'
+      NODE_ENV: 'development'
     }
   });
 });
@@ -67,7 +67,11 @@ gulp.task('public', () => {
     './app/**/*',
     './config/**/*',
     './css/**/*',
-    './server.js'
+    './server.js',
+    './**/*.json',
+    '!package.json',
+    '!eslintrc.json',
+    '!bower.json',
   ], { base: './' })
     .pipe(gulp.dest('dist'));
 });
