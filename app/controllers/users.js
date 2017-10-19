@@ -82,14 +82,18 @@ exports.create = function(req, res, next) {
         email: req.body.email
       }).exec(function(err,existingUser) { 
         if (!existingUser) {
-          var user = new User(req.body);
+          var user =  new User({
+            name: req.body.name,
+            password: req.body.password,
+            email: req.body.email
+          });
           // Switch the user's avatar index to an actual avatar url
           user.avatar = avatars[user.avatar];
           user.provider = 'local';
           user.save(function(err) {
             if (err) {
               return res.status(400).send({
-                errors: err.errors,
+                errors: err.errors.hashed_password.type,
                 message: 'Failed'
               });
             }
@@ -106,26 +110,9 @@ exports.create = function(req, res, next) {
         }
       });
     } else {
-      if(!req.body.name){
-        return res.status(400).send({
-          message: 'Name is required'
-        });
-      }
-      else if(!req.body.password){
-        return res.status(400).send({
-          message: 'Passsword is required'
-        });
-      }
-      else if(!req.body.email){
-        return res.status(400).send({
-          message: 'Email is required'
-        });
-      }
-      else{
-        return res.status(400).send({
-          message: 'Details are required'
-        });
-      }
+      return res.status(400).send({
+        message: 'Details are required'
+      });
     }
   };
 
