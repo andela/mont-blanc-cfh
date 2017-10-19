@@ -32,7 +32,7 @@ angular.module('mean.system')
     $scope.signUp = function() {
       $http.post('api/auth/signup',JSON.stringify($scope.data)).then( function(user){
         if (user.data.token){
-          validation(user.data.token, 'signup');
+          validation(user.data.token);
         } else{
           $scope.showMessage = 'Token not provided';
         }
