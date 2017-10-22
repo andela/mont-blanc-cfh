@@ -131,8 +131,8 @@ module.exports = function(io) {
         game.sendUpdate();
         game.sendNotification(player.username+' has joined the game!');
         if (game.players.length >= game.playerMaxLimit) {
+          // start game only when manually initiated
           gamesNeedingPlayers.shift();
-          game.prepareGame();
         }
       } else {
         // TODO: Send an error message back to this user saying the game has already started
