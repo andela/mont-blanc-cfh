@@ -77,15 +77,16 @@ exports.checkAvatar = function(req, res) {
  * Create user
  */
 exports.create = (req, res, next) => {
-    if (req.body.name && req.body.password && req.body.email) {
+  const { body: {name, password, email} } = req;
+    if (name && password && email) {
       User.findOne({
-        email: req.body.email
+        email
       }).exec((err,existingUser) => { 
         if (!existingUser) {
           const user =  new User({
-            name: req.body.name,
-            password: req.body.password,
-            email: req.body.email
+            name,
+            password,
+            email
           });
           // Switch the user's avatar index to an actual avatar url
           user.avatar = avatars[user.avatar];
@@ -100,7 +101,7 @@ exports.create = (req, res, next) => {
             return res.status(201).send({
               message: 'Successfully signed up',
               token: user.generateJwt(),
-              user: user
+              user
             });
           });
         } else {
