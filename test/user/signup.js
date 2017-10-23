@@ -21,7 +21,7 @@ describe('Users', () => {
     beforeEach(()  => {
         user = {
             name: 'Full name',
-            email: 'testt@test.com',
+            email: 'testtt@test.com',
             username: 'user',
             password: 'password'
         };
@@ -30,7 +30,7 @@ describe('Users', () => {
     it('should get token on successful sign up', (done) => {
       testUser = Object.assign({}, user);
       chai.request(app)
-        .post('/api/auth/signup')
+        .post('/api/v1/auth/signup')
         .send(testUser)
         .end((err, res) => {
           res.should.have.status(201);
@@ -39,7 +39,31 @@ describe('Users', () => {
           res.body.token.should.be.string;
           res.body.message.should.equal('Successfully signed up');
           res.should.be.json;
-          if (err) return expect(err.message);
+          if (err) return expect(err.errors);
+          done();
+        });
+    });
+    it('should not get token on unsuccessful sign up', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signup')
+        .send({ name: user.name, email: user.email, username: user.username })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.have.message;
+          res.body.message.should.equal('Details are required');
+          res.should.be.json;
+          done();
+        });
+    });
+    it('should not get token on unsuccessful sign up', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signup')
+        .send({ name: user.name, email: user.email, username: user.username, password:user.password })
+        .end((err, res) => {
+          res.should.have.status(409);
+          res.body.should.have.message;
+          res.body.message.should.equal('Email already exists');
+          res.should.be.json;
           done();
         });
     });
