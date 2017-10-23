@@ -9,7 +9,7 @@ const mocha = require('gulp-mocha');
 const eslint = require('gulp-eslint');
 const gulpConnect = require('gulp-connect');
 
-const tasks = ['eslint', 'sass', 'transpile', 'serve', 'watch'];
+const tasks = ['eslint', 'sass', 'transpile', 'test', 'serve', 'watch'];
 
 gulp.task('serve', () => {
   nodemon({
