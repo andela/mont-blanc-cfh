@@ -76,13 +76,13 @@ exports.checkAvatar = function(req, res) {
 /**
  * Create user
  */
-exports.create = function(req, res, next) {
+exports.create = (req, res, next) => {
     if (req.body.name && req.body.password && req.body.email) {
       User.findOne({
         email: req.body.email
-      }).exec(function(err,existingUser) { 
+      }).exec((err,existingUser) => { 
         if (!existingUser) {
-          var user =  new User({
+          const user =  new User({
             name: req.body.name,
             password: req.body.password,
             email: req.body.email
@@ -90,7 +90,7 @@ exports.create = function(req, res, next) {
           // Switch the user's avatar index to an actual avatar url
           user.avatar = avatars[user.avatar];
           user.provider = 'local';
-          user.save(function(err) {
+          user.save((err) => {
             if (err) {
               return res.status(400).send({
                 errors: err.errors.hashed_password.type,

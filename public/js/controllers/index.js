@@ -19,29 +19,29 @@ angular.module('mean.system')
       }
     };
 
-    var validation = function(token){
+    const validation = (token) => {
       if(token){
         $window.localStorage.setItem('token', token);
-        $http.defaults.headers.common['x-token'] = 'Bearer ' + token;
+        $http.defaults.headers.common['x-token'] = token;
         $location.path('/#!');
       } else{
         $window.localStorage.removeItem('token');
         $http.defaults.headers.common['x-token'] = '';
       }
     };
-    $scope.signUp = function() {
-      $http.post('api/auth/signup',JSON.stringify($scope.data)).then( function(user){
+    $scope.signUp = () => {
+      $http.post('api/auth/signup', JSON.stringify($scope.data)).then((user) =>{
         if (user.data.token){
           validation(user.data.token);
         } else{
           $scope.showMessage = 'Token not provided';
         }
-      }).catch( function(error){
+      }).catch((error) => {
         $scope.showMessage = error;
       }); 
     };
 
-    $scope.signOut = function() {
+    $scope.signOut = () => {
      validation();
     };
 
