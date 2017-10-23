@@ -28,14 +28,14 @@ describe('Users', () => {
     });
   describe('Users', () => {
     it('should get token on successful sign up', (done) => {
-      testUser = Object.assign({}, user)
+      testUser = Object.assign({}, user);
       chai.request(app)
         .post('/api/auth/signup')
         .send(testUser)
         .end((err, res) => {
           res.should.have.status(201);
-          res.body.should.have.token
-          res.body.should.have.message
+          res.body.should.have.token;
+          res.body.should.have.message;
           res.body.token.should.be.string;
           res.body.message.should.equal('Successfully signed up');
           res.should.be.json;
