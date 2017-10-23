@@ -1,11 +1,9 @@
 /**
  * Module dependencies.
  */
-var mongoose = require('mongoose'),
-    async = require('async'),
-    Answer = mongoose.model('Answer'),
-    _ = require('underscore');
+import mongoose from 'mongoose';
 
+const Answer = mongoose.model('Answer');
 
 /**
  * Find answer by id
