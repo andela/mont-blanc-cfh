@@ -19,7 +19,7 @@ angular.module('mean.system')
       }
     };
 
-    const validation = (token) => {
+    const setTokenHeader = (token) => {
       if(token){
         $window.localStorage.setItem('token', token);
         $http.defaults.headers.common['x-token'] = token;
@@ -30,9 +30,9 @@ angular.module('mean.system')
       }
     };
     $scope.signUp = () => {
-      $http.post('api/auth/signup', JSON.stringify($scope.data)).then((user) =>{
+      $http.post('/api/v1/auth/signup', JSON.stringify($scope.data)).then((user) =>{
         if (user.data.token){
-          validation(user.data.token);
+          setTokenHeader(user.data.token);
         } else{
           $scope.showMessage = 'Token not provided';
         }
@@ -42,7 +42,7 @@ angular.module('mean.system')
     };
 
     $scope.signOut = () => {
-     validation();
+      setTokenHeader();
     };
 
     $scope.avatars = [];
