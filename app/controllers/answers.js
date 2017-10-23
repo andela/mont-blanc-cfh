@@ -6,7 +6,6 @@ var mongoose = require('mongoose'),
     Answer = mongoose.model('Answer'),
     _ = require('underscore');
 
-
 /**
  * Find answer by id
  */
