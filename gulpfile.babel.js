@@ -9,14 +9,14 @@ const mocha = require('gulp-mocha');
 const eslint = require('gulp-eslint');
 const gulpConnect = require('gulp-connect');
 
-const config = require('./config/env/all.js');
-const tasks = ['bower', 'transpile', 'sass', 'watch', 'serve', 'connect'];
+const tasks = ['eslint', 'sass', 'bower', 'transpile', 'serve', 'test', 'watch'];
 
 gulp.task('serve', () => {
   nodemon({
     watch: ['./dist', './app', './public'],
     script: 'dist/server.js',
     ext: 'js html jade',
+    ignore: ['dist/config', 'node_modules/**'],
     env: {
       NODE_ENV: 'development'
     }
