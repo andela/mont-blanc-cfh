@@ -2,7 +2,7 @@ var path = require('path');
 var dotenv = require('dotenv');
 dotenv.config();
 
-rootPath = path.normalize(__dirname + '/../..');
+var rootPath = path.normalize(__dirname + '/../..');
 var keys = rootPath + '/keys.txt';
 
 require('dotenv').config();
