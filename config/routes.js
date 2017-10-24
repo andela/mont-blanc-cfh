@@ -9,7 +9,7 @@ module.exports = function(app, passport, auth) {
     app.get('/signout', users.signout);
 
     //Setting up the users api
-    app.post('/users', users.create);
+    app.post('/api/v1/auth/signup', users.create);
     app.post('/users/avatars', users.avatars);
 
     // Donation Routes
@@ -25,7 +25,7 @@ module.exports = function(app, passport, auth) {
 
     //Setting the facebook oauth routes
     app.get('/auth/facebook', passport.authenticate('facebook', {
-        scope: ['email', 'user_about_me'],
+        scope: ['email'],
         failureRedirect: '/signin'
     }), users.signin);
 

@@ -3,9 +3,11 @@
  */
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
+    jwt = require ('jsonwebtoken');
     bcrypt = require('bcryptjs'),
     _ = require('underscore'),
-    authTypes = ['github', 'twitter', 'facebook', 'google'];
+    authTypes = ['github', 'twitter', 'facebook', 'google'],
+    config = require('../../config/config');
 
 
 /**
@@ -111,5 +113,16 @@ UserSchema.methods = {
         return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
     }
 };
+
+UserSchema.methods.generateJwt = function() {
+    var expiryDate = 60 * 60 * 24;
+  
+    return jwt.sign({
+      _id: this._id,
+      email: this.email,
+      name: this.name,
+      exp: parseInt(expiryDate/ 1000),
+    }, config.token);
+  };
 
 mongoose.model('User', UserSchema);
