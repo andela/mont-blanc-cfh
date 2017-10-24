@@ -8,8 +8,7 @@ const coverage = require('gulp-coverage');
 const mocha = require('gulp-mocha');
 const eslint = require('gulp-eslint');
 const gulpConnect = require('gulp-connect');
-
-const tasks = ['eslint', 'sass', 'bower', 'transpile', 'serve', 'test', 'watch'];
+const tasks = ['eslint', 'sass', 'transpile', 'test', 'serve', 'watch'];
 
 gulp.task('serve', () => {
   nodemon({
@@ -64,9 +63,13 @@ gulp.task('bower', () => {
 gulp.task('public', () => {
   gulp.src([
     './public/**/*',
-    './app/**/*',
-    './config/**/*',
     './css/**/*',
+    'public/views/**/*',
+    'app/views/**/*',
+    './**/*.json',
+    '!package.json',
+    '!public/js/**/*',
+    '!node_modules/**/*',
     './server.js',
     './**/*.json',
     '!package.json',
@@ -86,7 +89,7 @@ gulp.task('transpile', ['public'], () => {
     '!gulpfile.babel.js'
   ])
     .pipe(babel({
-      presets: ['es2016']
+      presets: ['es2015']
     }))
     .pipe(gulp.dest('dist'));
   gulpConnect.reload();
