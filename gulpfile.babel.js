@@ -8,7 +8,6 @@ const coverage = require('gulp-coverage');
 const mocha = require('gulp-mocha');
 const eslint = require('gulp-eslint');
 const gulpConnect = require('gulp-connect');
-
 const tasks = ['eslint', 'sass', 'transpile', 'test', 'serve', 'watch'];
 
 gulp.task('serve', () => {
@@ -71,6 +70,9 @@ gulp.task('public', () => {
     '!package.json',
     '!public/js/**/*',
     '!node_modules/**/*',
+    './server.js',
+    './**/*.json',
+    '!package.json',
     '!eslintrc.json',
     '!bower.json',
   ], { base: './' })
