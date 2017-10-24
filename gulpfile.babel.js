@@ -9,15 +9,17 @@ const mocha = require('gulp-mocha');
 const eslint = require('gulp-eslint');
 const gulpConnect = require('gulp-connect');
 
-const config = './config/env/all.js';
-const tasks = ['bower', 'transpile', 'sass', 'watch', 'serve', 'connect', 'eslint'];
+const tasks = ['eslint', 'sass', 'transpile', 'test', 'serve', 'watch'];
 
 gulp.task('serve', () => {
   nodemon({
-    watch: ['./dist', './app', './config', './public'],
+    watch: ['./dist', './app', './public'],
     script: 'dist/server.js',
     ext: 'js html jade',
-    env: { NODE_ENV: 'development' }
+    ignore: ['dist/config', 'node_modules/**'],
+    env: {
+      NODE_ENV: 'development'
+    }
   });
 });
 
@@ -32,7 +34,7 @@ gulp.task('watch', () => {
 gulp.task('connect', () => {
   gulpConnect.server({
     root: ['dist'],
-    port: config.port,
+    port: 8000,
     livereload: true,
   });
 });
@@ -62,10 +64,15 @@ gulp.task('bower', () => {
 gulp.task('public', () => {
   gulp.src([
     './public/**/*',
-    './app/**/*',
-    './config/**/*',
     './css/**/*',
-    './server.js'
+    'public/views/**/*',
+    'app/views/**/*',
+    './**/*.json',
+    '!package.json',
+    '!public/js/**/*',
+    '!node_modules/**/*',
+    '!eslintrc.json',
+    '!bower.json',
   ], { base: './' })
     .pipe(gulp.dest('dist'));
 });
@@ -80,7 +87,7 @@ gulp.task('transpile', ['public'], () => {
     '!gulpfile.babel.js'
   ])
     .pipe(babel({
-      presets: ['es2016']
+      presets: ['es2015']
     }))
     .pipe(gulp.dest('dist'));
   gulpConnect.reload();
