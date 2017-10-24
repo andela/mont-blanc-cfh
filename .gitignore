@@ -4,7 +4,4 @@ public/lib
 .DS_store
 c4h_keys.txt
 package-lock.json
-<<<<<<< HEAD
-=======
 .env
->>>>>>> 7480073ec9e3f2b5c4e91c44d45cc57e813c9fa1
