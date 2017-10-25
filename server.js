@@ -4,9 +4,12 @@ require('dotenv').config();
  */
 var express = require('express'),
     fs = require('fs'),
+    path = require('path'),
     passport = require('passport'),
     logger = require('mean-logger'),
     io = require('socket.io');
+
+// require('dotenv').config();
 
 /**
  * Main application entry file.
@@ -19,9 +22,6 @@ var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development',
     config = require('./config/config'),
     auth = require('./config/middlewares/authorization'),
     mongoose = require('mongoose');
-
-//Bootstrap db connection
-var db = mongoose.connect(config.db);
 
 //Bootstrap models
 var models_path = __dirname + '/app/models';
@@ -48,6 +48,9 @@ var app = express();
 app.use(function(req, res, next){
     next();
 });
+
+//Bootstrap db connection
+var db = mongoose.connect(config.db);
 
 //express settings
 require('./config/express')(app, passport, mongoose);

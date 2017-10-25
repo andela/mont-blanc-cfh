@@ -1,8 +1,11 @@
 angular.module('mean.system')
-.controller('IndexController', 
-['$scope', 'Global','$http','$window', '$location', 'socket', 'game', 'AvatarService',
-function ($scope, Global,$http, $window, $location, socket, game, AvatarService) {
+.controller('IndexController', ['$scope', 'Global', '$location', '$http', '$window', 'socket', 'game', 'AvatarService',
+  function ($scope, Global, $location, $http,
+    $window, socket, game, AvatarService) {
+
     $scope.global = Global;
+    $scope.data = {};
+
     $scope.playAsGuest = function() {
       game.joinGame();
       $location.path('/app');
@@ -14,8 +17,30 @@ function ($scope, Global,$http, $window, $location, socket, game, AvatarService)
         return false;
       }
     };
+
+    const setTokenHeader = (token) => {
+      if(token){
+        $window.localStorage.setItem('token', token);
+        $http.defaults.headers.common['x-token'] = token;
+        $location.path('/#!');
+      } else{
+        $window.localStorage.removeItem('token');
+        $http.defaults.headers.common['x-token'] = '';
+      }
+    };
+    $scope.signUp = () => {
+      $http.post('/api/v1/auth/signup', JSON.stringify($scope.data)).then((user) =>{
+        if (user.data.token){
+          setTokenHeader(user.data.token);
+        } else{
+          $scope.showMessage = 'Token not provided';
+        }
+      }).catch((error) => {
+        $scope.showMessage = error;
+      }); 
+    };
     $scope.logIn = function() {
-      $http.post('api/auth/login',JSON.stringify($scope.data)).then(function(resp, err) {
+      $http.post('api/v1/auth/login',JSON.stringify($scope.data)).then(function(resp, err) {
         if (resp) {
           $window.localStorage.setItem('token', resp.data.token);
           $http.defaults.headers.common['x-token'] = 'Bearer ' + resp.data.token;
@@ -23,15 +48,15 @@ function ($scope, Global,$http, $window, $location, socket, game, AvatarService)
           $window.location.reload();
         }else{
           if(err){
-            console.log(err)
+            $scope.showMessage = 'Unable to log you in';
           }
         }
       });
     };
-    $scope.signOut = function() {
-      $window.localStorage.removeItem('token');
-      $http.defaults.headers.common['x-token'] = '';
-    }
+    $scope.signOut = () => {
+      setTokenHeader();
+    };
+
     $scope.avatars = [];
     AvatarService.getAvatars()
       .then(function(data) {

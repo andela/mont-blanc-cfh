@@ -5,11 +5,11 @@ var config = require('../config');
  * Generic require login routing middleware
  */
 exports.requiresLogin = function(req, res, next) {
-    const token = req.body.token || req.headers['x-token'] || req.params.token;
+    var token = req.body.token || req.headers['x-token'] || req.params.token;
     if (token) {
       jwt.verify(token, config.token, function(err, decoded) {
         if (err) {
-          res.status(403).send({ message: 'Expired token' });
+          res.status(401).send({ message: 'Expired token' });
         } else {
           req.decoded = decoded;
           next();
