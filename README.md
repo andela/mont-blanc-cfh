@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/andela/mont-blanc-cfh.svg?branch=staging)](https://travis-ci.org/andela/mont-blanc-cfh)
 
+[![Coverage Status](https://coveralls.io/repos/github/andela/mont-blanc-cfh/badge.svg?branch=staging)](https://coveralls.io/github/andela/mont-blanc-cfh?branch=staging)
 
 Cards for Humanity - [http://cfh.io](http://cfh.io)
 ===========
