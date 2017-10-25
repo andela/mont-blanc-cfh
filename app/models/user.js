@@ -3,7 +3,7 @@
  */
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    jwt = require ('jsonwebtoken');
+    jwt = require ('jsonwebtoken'),
     bcrypt = require('bcryptjs'),
     _ = require('underscore'),
     authTypes = ['github', 'twitter', 'facebook', 'google'],
