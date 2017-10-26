@@ -1,31 +1,34 @@
 /**
  * Module dependencies.
  */
-const should = require('should'),
-app = require('../../server'),
-mongoose = require('mongoose'),
-User = mongoose.model('User');
-chai = require('chai');
-chaiHttp = require ('chai-http');
+import mongoose from 'mongoose';
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+import dotenv from 'dotenv';
+import app from '../../server';
 
-require('dotenv').config();
+/* eslint-disable no-unused-expressions */
 
+dotenv.config();
+const expect = chai.expect();
 chai.use(chaiHttp);
 
 let user;
 
-// delete all records in User model before each test
+/**
+ * delete all records in User model before each test
+ */
 mongoose.model('User').collection.drop();
 
 describe('Users', () => {
-    beforeEach(()  => {
-        user = {
-            name: 'Full name',
-            email: 'testtt@test.com',
-            username: 'user',
-            password: 'password'
-        };
-    });
+  beforeEach(() => {
+    user = {
+      name: 'Full name',
+      email: 'testtt@test.com',
+      username: 'user',
+      password: 'password'
+    };
+  });
   describe('Users', () => {
     it('should get token on successful sign up', (done) => {
       chai.request(app)
@@ -38,7 +41,9 @@ describe('Users', () => {
           res.body.token.should.be.string;
           res.body.message.should.equal('Successfully signed up');
           res.should.be.json;
-          if (err) return expect(err.errors);
+          if (err) {
+            return expect(err.errors);
+          }
           done();
         });
     });
@@ -57,7 +62,9 @@ describe('Users', () => {
     it('should not get token on unsuccessful sign up', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup')
-        .send({ name: user.name, email: user.email, username: user.username, password:user.password })
+        .send({
+          name: user.name, email: user.email, username: user.username, password: user.password
+        })
         .end((err, res) => {
           res.should.have.status(409);
           res.body.should.have.message;

@@ -1,13 +1,13 @@
-const gulp = require('gulp');
-const sass = require('gulp-sass');
-const gulpLivereload = require('gulp-livereload');
-const nodemon = require('gulp-nodemon');
-const bower = require('gulp-bower');
-const babel = require('gulp-babel');
-const coverage = require('gulp-coverage');
-const mocha = require('gulp-mocha');
-const eslint = require('gulp-eslint');
-const gulpConnect = require('gulp-connect');
+import gulp from 'gulp';
+import sass from 'gulp-sass';
+import gulpLivereload from 'gulp-livereload';
+import nodemon from 'gulp-nodemon';
+import bower from 'gulp-bower';
+import babel from 'gulp-babel';
+import coverage from 'gulp-coverage';
+import mocha from 'gulp-mocha';
+import eslint from 'gulp-eslint';
+import gulpConnect from 'gulp-connect';
 
 const tasks = ['eslint', 'sass', 'transpile', 'test', 'serve', 'watch'];
 

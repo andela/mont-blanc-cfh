@@ -1,73 +1,95 @@
-require('dotenv').config();
 /**
  * Module dependencies.
  */
-var express = require('express'),
-    fs = require('fs'),
-    path = require('path'),
-    passport = require('passport'),
-    logger = require('mean-logger'),
-    io = require('socket.io');
+import express from 'express';
+import fs from 'fs';
+import passport from 'passport';
+import logger from 'mean-logger';
+import io from 'socket.io';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import config from './config/config';
+import auth from './config/middlewares/authorization';
+import expressFunction from './config/express';
+import routesFunction from './config/routes';
+import socketFunction from './config/socket/socket';
+import passportFunction from './config/passport';
 
-// require('dotenv').config();
+/* eslint-disable global-require, import/no-dynamic-require, no-console */
+
+
+dotenv.config();
+const app = express();
 
 /**
  * Main application entry file.
  * Please note that the order of loading is important.
  */
 
-//Load configurations
-//if test env, load example file
-var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development',
-    config = require('./config/config'),
-    auth = require('./config/middlewares/authorization'),
-    mongoose = require('mongoose');
-
-//Bootstrap models
-var models_path = __dirname + '/app/models';
-var walk = function(path) {
-    fs.readdirSync(path).forEach(function(file) {
-        var newPath = path + '/' + file;
-        var stat = fs.statSync(newPath);
-        if (stat.isFile()) {
-            if (/(.*)\.(js|coffee)/.test(file)) {
-                require(newPath);
-            }
-        } else if (stat.isDirectory()) {
-            walk(newPath);
-        }
-    });
+/**
+ * Bootstrap models
+ */
+const modelsPath = `${__dirname}/app/models`;
+const walk = (path) => {
+  fs.readdirSync(path).forEach((file) => {
+    const newPath = `${path}/${file}`;
+    const stat = fs.statSync(newPath);
+    if (stat.isFile()) {
+      if (/(.*)\.(js|coffee)/.test(file)) {
+        require(newPath);
+      }
+    } else if (stat.isDirectory()) {
+      walk(newPath);
+    }
+  });
 };
-walk(models_path);
+walk(modelsPath);
 
-//bootstrap passport config
-require('./config/passport')(passport);
+/**
+ * Bootstrap routes
+ */
+routesFunction(app, passport, auth);
 
-var app = express();
+/**
+ * Bootstrap passport config
+ */
+passportFunction(passport);
 
-app.use(function(req, res, next){
-    next();
+/**
+ * express settings
+ */
+expressFunction(app, passport, mongoose);
+
+/**
+ * Bootstrap db connection
+ */
+mongoose.connect(config.db);
+console.log(config.db, 'we are here ');
+
+app.use((req, res, next) => {
+  next();
 });
 
-//Bootstrap db connection
-var db = mongoose.connect(config.db);
-
-//express settings
-require('./config/express')(app, passport, mongoose);
-
-//Bootstrap routes
-require('./config/routes')(app, passport, auth);
-
-//Start the app by listening on <port>
-var port = config.port;
-var server = app.listen(port);
-var ioObj = io.listen(server, { log: false });
-//game logic handled here
-require('./config/socket/socket')(ioObj);
-console.log('Express app started on port ' + port);
-
-//Initializing logger
+/**
+ * Initializing logger
+ */
 logger.init(app, passport, mongoose);
 
-//expose app
-exports = module.exports = app;
+/**
+ * Start the app by listening on <port>
+ */
+const { port } = config;
+const server = app.listen(port);
+const ioObj = io.listen(server, { log: false });
+
+/**
+ * game logic handled here
+ */
+socketFunction(ioObj);
+console.log(`Express app started on port ${port}`);
+
+
+/**
+ * expose app
+ */
+export default app;

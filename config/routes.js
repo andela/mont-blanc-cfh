@@ -1,93 +1,113 @@
-var async = require('async');
+import { allJSON } from '../app/controllers/avatars';
+import { play, render } from '../app/controllers/index';
+import {
+  all as allQuestions, show as showQuestion, question
+} from '../app/controllers/questions';
+import {
+  all as allAnswers, show as showAnswer, answer
+} from '../app/controllers/answers';
+import {
+  signin,
+  signup,
+  checkAvatar,
+  signout,
+  addDonation,
+  avatars as userAvatars,
+  create,
+  me,
+  session,
+  show as showUser,
+  authCallback,
+  user
+} from '../app/controllers/users';
 
-module.exports = function(app, passport, auth) {
-    //User Routes
-    var users = require('../app/controllers/users');
-    app.get('/signin', users.signin);
-    app.get('/signup', users.signup);
-    app.get('/chooseavatars', users.checkAvatar);
-    app.get('/signout', users.signout);
+export default (app, passport) => {
+  // User Routes
 
-    //Setting up the users api
-    app.post('/api/v1/auth/signup', users.create);
-    app.post('/users/avatars', users.avatars);
 
-    // Donation Routes
-    app.post('/donations', users.addDonation);
+  app.get('/signin', signin);
+  app.get('/signup', signup);
+  app.get('/chooseavatars', checkAvatar);
+  app.get('/signout', signout);
 
-    app.post('/users/session', passport.authenticate('local', {
-        failureRedirect: '/signin',
-        failureFlash: 'Invalid email or password.'
-    }), users.session);
+  /**
+   * Setting up the users api
+   */
+  app.post('/api/v1/auth/signup', create);
+  app.post('/users/avatars', userAvatars);
 
-    app.get('/users/me', users.me);
-    app.get('/users/:userId', users.show);
+  // Donation Routes
+  app.post('/donations', addDonation);
 
-    //Setting the facebook oauth routes
-    app.get('/auth/facebook', passport.authenticate('facebook', {
-        scope: ['email'],
-        failureRedirect: '/signin'
-    }), users.signin);
+  app.post('/users/session', passport.authenticate('local', {
+    failureRedirect: '/signin',
+    failureFlash: 'Invalid email or password.'
+  }), session);
 
-    app.get('/auth/facebook/callback', passport.authenticate('facebook', {
-        failureRedirect: '/signin'
-    }), users.authCallback);
+  app.get('/users/me', me);
+  app.get('/users/:userId', showUser);
 
-    //Setting the github oauth routes
-    app.get('/auth/github', passport.authenticate('github', {
-        failureRedirect: '/signin'
-    }), users.signin);
+  // Setting the facebook oauth routes
+  app.get('/auth/facebook', passport.authenticate('facebook', {
+    scope: ['email'],
+    failureRedirect: '/signin'
+  }), signin);
 
-    app.get('/auth/github/callback', passport.authenticate('github', {
-        failureRedirect: '/signin'
-    }), users.authCallback);
+  app.get('/auth/facebook/callback', passport.authenticate('facebook', {
+    failureRedirect: '/signin'
+  }), authCallback);
 
-    //Setting the twitter oauth routes
-    app.get('/auth/twitter', passport.authenticate('twitter', {
-        failureRedirect: '/signin'
-    }), users.signin);
+  // Setting the github oauth routes
+  app.get('/auth/github', passport.authenticate('github', {
+    failureRedirect: '/signin'
+  }), signin);
 
-    app.get('/auth/twitter/callback', passport.authenticate('twitter', {
-        failureRedirect: '/signin'
-    }), users.authCallback);
+  app.get('/auth/github/callback', passport.authenticate('github', {
+    failureRedirect: '/signin'
+  }), authCallback);
 
-    //Setting the google oauth routes
-    app.get('/auth/google', passport.authenticate('google', {
-        failureRedirect: '/signin',
-        scope: [
-            'https://www.googleapis.com/auth/userinfo.profile',
-            'https://www.googleapis.com/auth/userinfo.email'
-        ]
-    }), users.signin);
+  // Setting the twitter oauth routes
+  app.get('/auth/twitter', passport.authenticate('twitter', {
+    failureRedirect: '/signin'
+  }), signin);
 
-    app.get('/auth/google/callback', passport.authenticate('google', {
-        failureRedirect: '/signin'
-    }), users.authCallback);
+  app.get('/auth/twitter/callback', passport.authenticate('twitter', {
+    failureRedirect: '/signin'
+  }), authCallback);
 
-    //Finish with setting up the userId param
-    app.param('userId', users.user);
+  // Setting the google oauth routes
+  app.get('/auth/google', passport.authenticate('google', {
+    failureRedirect: '/signin',
+    scope: [
+      'https://www.googleapis.com/auth/userinfo.profile',
+      'https://www.googleapis.com/auth/userinfo.email'
+    ]
+  }), signin);
 
-    // Answer Routes
-    var answers = require('../app/controllers/answers');
-    app.get('/answers', answers.all);
-    app.get('/answers/:answerId', answers.show);
-    // Finish with setting up the answerId param
-    app.param('answerId', answers.answer);
+  app.get('/auth/google/callback', passport.authenticate('google', {
+    failureRedirect: '/signin'
+  }), authCallback);
 
-    // Question Routes
-    var questions = require('../app/controllers/questions');
-    app.get('/questions', questions.all);
-    app.get('/questions/:questionId', questions.show);
-    // Finish with setting up the questionId param
-    app.param('questionId', questions.question);
+  // Finish with setting up the userId param
+  app.param('userId', user);
 
-    // Avatar Routes
-    var avatars = require('../app/controllers/avatars');
-    app.get('/avatars', avatars.allJSON);
+  // Answer Routes
+  app.get('/answers', allAnswers);
+  app.get('/answers/:answerId', showAnswer);
+  // Finish with setting up the answerId param
+  app.param('answerId', answer);
 
-    //Home route
-    var index = require('../app/controllers/index');
-    app.get('/play', index.play);
-    app.get('/', index.render);
+  // Question Routes
 
+  app.get('/questions', allQuestions);
+  app.get('/questions/:questionId', showQuestion);
+  // Finish with setting up the questionId param
+  app.param('questionId', question);
+
+  // Avatar Routes
+  app.get('/avatars', allJSON);
+
+  // Home route
+  app.get('/play', play);
+  app.get('/', render);
 };
