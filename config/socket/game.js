@@ -1,9 +1,11 @@
 import async from 'async';
 import _ from 'underscore';
+import * as questions from '../../app/controllers/questions';
+import * as answers from '../../app/controllers/answers';
 
 /* eslint-disable no-underscore-dangle, no-console */
 
-const guestNames = [
+let guestNames = [
   'Disco Potato',
   'Silver Blister',
   'Insulated Mustard',
@@ -139,11 +141,11 @@ class Game {
   assignGuestNames() {
     this.players.forEach((player) => {
       if (player.username === 'Guest') {
-        const randIndex = Math.floor(Math.random() * this.guestNames.length);
-        const [guestName] = this.guestNames.splice(randIndex, 1);
+        const randIndex = Math.floor(Math.random() * guestNames.length);
+        const [guestName] = guestNames.splice(randIndex, 1);
         player.username = guestName;
-        if (!this.guestNames.length) {
-          this.guestNames = guestNames.slice();
+        if (!guestNames.length) {
+          guestNames = guestNames.slice();
         }
       }
     });
@@ -194,7 +196,7 @@ class Game {
     console.log(this.gameID, this.state);
     this.shuffleCards(this.questions);
     this.shuffleCards(this.answers);
-    this.stateChoosing(this);
+    this.stateChoosing();
   }
 
   /**
@@ -252,10 +254,10 @@ class Game {
       this.winningCardPlayer = winnerIndex;
       this.players[winnerIndex].points = this.players[winnerIndex].points + 1;
       this.winnerAutopicked = true;
-      this.stateResults(this);
+      this.stateResults();
     } else {
       // console.log(this.gameID,'no cards were picked!');
-      this.stateChoosing(this);
+      this.stateChoosing();
     }
   }
 
@@ -334,7 +336,7 @@ class Game {
    * @memberof Game
    */
   getQuestions(cb) {
-    this.questions.allQuestionsForGame((data) => {
+    questions.allQuestionsForGame((data) => {
       cb(null, data);
     });
   }
@@ -346,7 +348,7 @@ class Game {
    * @memberof Game
    */
   getAnswers(cb) {
-    this.answers.allAnswersForGame((data) => {
+    answers.allAnswersForGame((data) => {
       cb(null, data);
     });
   }
@@ -358,7 +360,7 @@ class Game {
    * @memberof Game
    */
   shuffleCards(cards) {
-    let shuffleIndex = this.cards.length;
+    let shuffleIndex = cards.length;
     let temp;
     let randNum;
 

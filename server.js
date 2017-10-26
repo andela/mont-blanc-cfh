@@ -45,6 +45,10 @@ const walk = (path) => {
 };
 walk(modelsPath);
 
+app.use((req, res, next) => {
+  next();
+});
+
 /**
  * Bootstrap routes
  */
@@ -66,9 +70,6 @@ expressFunction(app, passport, mongoose);
 mongoose.connect(config.db);
 console.log(config.db, 'we are here ');
 
-app.use((req, res, next) => {
-  next();
-});
 
 /**
  * Initializing logger
