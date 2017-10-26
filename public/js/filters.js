@@ -1,6 +1,7 @@
-/* eslint-disable no-undef */
 angular.module('mean.system')
-  .filter('upperFirstLetter', () => (input) => {
+.filter('upperFirstLetter', function() {
+  return function(input) {
     input = input || '';
     return input.charAt(0).toUpperCase() + input.slice(1);
-  });
+  };
+});
