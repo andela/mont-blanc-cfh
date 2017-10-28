@@ -20,27 +20,37 @@ angular.module('mean.system')
     };
 
     const setTokenHeader = (token) => {
-      if(token){
+      if (token) {
         $window.localStorage.setItem('token', token);
         $http.defaults.headers.common['x-token'] = token;
         $location.path('/#!');
-      } else{
+      } else {
         $window.localStorage.removeItem('token');
         $http.defaults.headers.common['x-token'] = '';
       }
     };
     $scope.signUp = () => {
-      $http.post('/api/v1/auth/signup', JSON.stringify($scope.data)).then((user) =>{
-        if (user.data.token){
+      $http.post('/api/v1/auth/signup', JSON.stringify($scope.data)).then((user) => {
+        if (user.data.token) {
           setTokenHeader(user.data.token);
-        } else{
+        } else {
           $scope.showMessage = 'Token not provided';
         }
       }).catch((error) => {
         $scope.showMessage = error;
-      }); 
+      });
     };
-
+    $scope.logIn = () => {
+      $http.post('/api/v1/auth/login', JSON.stringify($scope.data)).then((user) => {
+        if (user.data.token) {
+          setTokenHeader(user.data.token);
+        } else {
+          $scope.showMessage = 'Token not provided';
+        }
+      }).catch((error) => {
+        $scope.showMessage = error;
+      });
+    };
     $scope.signOut = () => {
       setTokenHeader();
     };
