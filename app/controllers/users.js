@@ -108,9 +108,11 @@ export function checkAvatar(req, res) {
  * @returns {object} response object
  */
 export function create(req, res) {
-  console.log('Incoming request - ---------- --------------------');
-  console.log(req.body);
-  const { body: { name, password, email } } = req;
+  const {
+    name,
+    password,
+    email
+  } = req.body;
   if (name && password && email) {
     User.findOne({
       email
@@ -189,7 +191,7 @@ export function addDonation(req, res) {
         _id: req.user._id
       })
         .exec((err, user) => {
-        // Confirm that this object hasn't already been entered
+          // Confirm that this object hasn't already been entered
           let duplicate = false;
           for (let i = 0; i < user.donations.length; i + 1) {
             if (user.donations[i].crowdrise_donation_id === req.body.crowdrise_donation_id) {
@@ -255,4 +257,3 @@ export function user(req, res, next, id) {
       next();
     });
 }
-

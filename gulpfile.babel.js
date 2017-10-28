@@ -1,118 +1,96 @@
 import gulp from 'gulp';
-import sass from 'gulp-sass';
-import gulpLivereload from 'gulp-livereload';
 import nodemon from 'gulp-nodemon';
-import bower from 'gulp-bower';
-import babel from 'gulp-babel';
-import coverage from 'gulp-coverage';
-import mocha from 'gulp-mocha';
+import browserSync from 'browser-sync';
 import eslint from 'gulp-eslint';
-import gulpConnect from 'gulp-connect';
+import sass from 'gulp-sass';
+import mocha from 'gulp-mocha';
+import bower from 'gulp-bower';
+import runSequence from 'gulp-sequence';
+import clean from 'gulp-rimraf';
+import babel from 'gulp-babel';
 
-const tasks = ['eslint', 'sass', 'transpile', 'test', 'serve', 'watch'];
-
-gulp.task('serve', () => {
-  nodemon({
-    watch: ['./dist', './app', './public'],
-    script: 'dist/server.js',
-    ext: 'js html jade',
-    ignore: ['dist/config', 'node_modules/**'],
-    env: {
-      NODE_ENV: 'development'
-    }
-  });
-});
-
-gulp.task('watch', () => {
-  gulpLivereload.listen();
-  gulp.watch('./public/**/*.scss', ['sass']);
-  gulp.watch('./public/**/*.html', ['transpile']);
-  gulp.watch('./public/**/*.css');
-  gulp.watch('./public/**/*.js', ['eslint', 'transpile']);
-});
-
-gulp.task('connect', () => {
-  gulpConnect.server({
-    root: ['dist'],
-    port: 8000,
-    livereload: true,
-  });
-});
-
-gulp.task('html', () => {
-  gulp.src('./public/**/*.html')
-    .pipe(gulpConnect.reload());
+gulp.task('bs-reload', () => {
+  browserSync.reload();
 });
 
 gulp.task('eslint', () => {
-  gulp.src(['gruntfile.js', 'public/js/**/*.js', 'test/**/*.js', 'app/**/*.js', '!node_modules/**'])
+  gulp.src(['gulpfile.babel.js', 'public/js/**/*.js', 'test/**/*.js', 'app/**/*.js'])
     .pipe(eslint())
-    .pipe(eslint.format())
+    .pipe(eslint.formatEach('compact', process.stderr))
     .pipe(eslint.failAfterError());
 });
 
 gulp.task('sass', () => {
-  gulp.src('./public/**/*.scss')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('./public'));
+  gulp.src('public/css/*.scss')
+    .pipe(sass())
+    .pipe(gulp.dest('public/css/'));
+});
+
+
+gulp.task('test', ['transpile'], () => {
+  gulp.src([
+    './dist/test/game/game.js',
+    './dist/test/user/model.js'
+  ], {
+    read: false
+  }).pipe(mocha({
+    timeout: 15000
+  }));
+});
+
+gulp.task('watch', () => {
+  gulp.watch(['app/views/**', 'public/views/**'], ['bs-reload']);
+  gulp.watch(['public/js/**', 'app/**/*.js'], ['eslint', 'bs-reload']);
+  gulp.watch(['public/css/common.scss, public/css/views/articles.scss'], ['sass']);
+  gulp.watch(['public/css/**'], ['sass', 'bs-reload']);
+});
+
+gulp.task('nodemon', () => {
+  nodemon({
+    script: 'dist/server.js',
+    ext: 'js',
+    ignore: ['README.md', 'node_modules/**', '.DS_Store'],
+    env: {
+      PORT: 3000
+    }
+  });
 });
 
 gulp.task('bower', () => {
-  bower({ directory: 'public/lib' });
+  bower({
+    directory: 'public/lib'
+  });
 });
 
-gulp.task('public', () => {
-  gulp.src([
-    './public/**/*',
-    './css/**/*',
-    'public/views/**/*',
-    'app/views/**/*',
-    './**/*.json',
-    '!package.json',
-    '!public/js/**/*',
-    '!dist/**/*',
-    '!node_modules/**/*',
-    '!eslintrc.json',
-    '!bower.json',
-  ], { base: './' })
+
+gulp.task('clean', () => {
+  gulp.src('public/lib')
+    .pipe(clean({
+      force: true
+    }));
+});
+
+gulp.task('transfer_jades', () => {
+  gulp.src('app/views/**/*')
+    .pipe(gulp.dest('dist/app/views'));
+});
+
+gulp.task('transfer_libs', () => {
+  gulp.src(['public/**/*', '!public/js/**'])
+    .pipe(gulp.dest('dist/public'));
+});
+gulp.task('transfer_json', () => {
+  gulp.src('config/env/**/*.json')
+    .pipe(gulp.dest('dist/config/env'));
+});
+
+
+gulp.task('babelify', () => {
+  gulp.src(['./**/*.js', '!dist/**', '!node_modules/**', '!bower_components/**', '!public/lib/**'])
+    .pipe(babel())
     .pipe(gulp.dest('dist'));
 });
 
-
-gulp.task('transpile', ['public'], () => {
-  gulp.src([
-    './**/*.js',
-    '!dist/**',
-    '!node_modules/**',
-    '!public/lib/**',
-    '!gulpfile.babel.js'
-  ])
-    .pipe(babel({
-      presets: ['es2015']
-    }))
-    .pipe(gulp.dest('dist'));
-  gulpConnect.reload();
-});
-
-
-gulp.task('test', () => {
-  gulp.src(
-    [
-      './test/game/game.js',
-      './test/user/model.js'
-    ],
-    { read: false }
-  )
-    .pipe(coverage.instrument({
-      pattern: ['**/test*'],
-      debugDirectory: 'debug'
-    }))
-    .pipe(mocha({
-      timeout: 15000
-    }))
-    .pipe(coverage.gather())
-    .pipe(coverage.format())
-    .pipe(gulp.dest('reports'));
-});
-
-gulp.task('default', tasks);
+gulp.task('transpile', runSequence('babelify', 'transfer_json', 'transfer_jades', 'transfer_libs'));
+gulp.task('install', runSequence('bower', 'angular', 'angular-bootstrap', 'angularUtils', 'bootstrap', 'jquery', 'underscore', 'intro', 'angular-intro', 'angular-cookies', 'angular-unstable', 'font-awesome', 'angular-resource', 'emoji'));
+gulp.task('default', runSequence('transpile'));
