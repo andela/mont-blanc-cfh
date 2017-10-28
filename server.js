@@ -44,7 +44,7 @@ const walk = (path) => {
   });
 };
 walk(modelsPath);
-
+app.use(express.bodyParser());
 app.use((req, res, next) => {
   next();
 });
@@ -79,9 +79,13 @@ logger.init(app, passport, mongoose);
 /**
  * Start the app by listening on <port>
  */
-const { port } = config;
+const {
+  port
+} = config;
 const server = app.listen(port);
-const ioObj = io.listen(server, { log: false });
+const ioObj = io.listen(server, {
+  log: false
+});
 
 /**
  * game logic handled here

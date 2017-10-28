@@ -32,11 +32,13 @@ const UserSchema = mongoose.Schema({
 /**
  * Virtuals
  */
-UserSchema.virtual('password').set((password) => {
+UserSchema.virtual('password').set(function (password) {
   this._password = password;
   this.hashed_password = this.encryptPassword(password);
 })
-  .get(() => this._password);
+  .get(function () {
+    return this._password;
+  });
 
 /**
  * Validations
@@ -53,7 +55,7 @@ const validatePresenceOf = value => value && value.length;
 /**
  * if you are authenticating by any of the oauth strategies, don't validate
  */
-UserSchema.path('name').validate((name) => {
+UserSchema.path('name').validate(function (name) {
   if (authTypes.includes(this.provider)) {
     return true;
   }
@@ -63,7 +65,7 @@ UserSchema.path('name').validate((name) => {
 /**
  * if you are authenticating by any of the oauth strategies, don't validate
  */
-UserSchema.path('email').validate((email) => {
+UserSchema.path('email').validate(function (email) {
   if (authTypes.includes(this.provider)) {
     return true;
   }
@@ -73,7 +75,7 @@ UserSchema.path('email').validate((email) => {
 /**
  * if you are authenticating by any of the oauth strategies, don't validate
  */
-UserSchema.path('username').validate((username) => {
+UserSchema.path('username').validate(function (username) {
   if (authTypes.includes(this.provider)) {
     return true;
   }
@@ -83,7 +85,7 @@ UserSchema.path('username').validate((username) => {
 /**
  * if you are authenticating by any of the oauth strategies, don't validate
  */
-UserSchema.path('hashed_password').validate((hashedPassword) => {
+UserSchema.path('hashed_password').validate(function (hashedPassword) {
   if (authTypes.includes(this.provider)) {
     return true;
   }
@@ -94,7 +96,7 @@ UserSchema.path('hashed_password').validate((hashedPassword) => {
 /**
  * Pre-save hook
  */
-UserSchema.pre('save', (next) => {
+UserSchema.pre('save', function (next) {
   if (!this.isNew) {
     return next();
   }
@@ -110,11 +112,11 @@ UserSchema.pre('save', (next) => {
  */
 UserSchema.methods = {
   /**
-     * Authenticate - check if the passwords are the same
-     * @param {String} plainText
-     * @returns {Boolean} checks for hashed password
-     * @api public
-     */
+   * Authenticate - check if the passwords are the same
+   * @param {String} plainText
+   * @returns {Boolean} checks for hashed password
+   * @api public
+   */
   authenticate(plainText) {
     if (!plainText || !this.hashed_password) {
       return false;
@@ -132,7 +134,7 @@ UserSchema.methods = {
   }
 };
 
-UserSchema.methods.generateJwt = () => {
+UserSchema.methods.generateJwt = function () {
   const expiryDate = 60 * 60 * 24;
 
   return jwt.sign({
