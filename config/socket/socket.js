@@ -2,7 +2,9 @@ import mongoose from 'mongoose';
 import consoleStamp from 'console-stamp';
 import Game from './game';
 import Player from './player';
-import { all } from '../../app/controllers/avatars';
+import {
+  all
+} from '../../app/controllers/avatars';
 
 /* eslint-disable no-console */
 
@@ -25,7 +27,7 @@ export default (io) => {
     // Generate a random 6-character game ID
     while (!isUniqueRoom) {
       uniqueRoom = '';
-      for (let i = 0; i < 6; i + 1) {
+      for (let i = 0; i < 6; i += 1) {
         uniqueRoom += chars[Math.floor(Math.random() * chars.length)];
       }
       if (!allGames[uniqueRoom] && !(/^\d+$/).test(uniqueRoom)) {
@@ -91,7 +93,7 @@ export default (io) => {
       // Also checking the number of players, so node doesn't crash when
       // no one is in this custom room.
       if (game.state === 'awaiting players' && (!game.players.length ||
-        game.players[0].socket.id !== socket.id)) {
+          game.players[0].socket.id !== socket.id)) {
         // Put player into the requested game
         console.log('Allowing player to join', requestedGameId);
         allPlayers[socket.id] = true;
@@ -162,7 +164,7 @@ export default (io) => {
         game.removePlayer(socket.id);
       } else {
         game.stateDissolveGame();
-        for (let j = 0; j < game.players.length; j + 1) {
+        for (let j = 0; j < game.players.length; j += 1) {
           game.players[j].socket.leave(socket.gameID);
         }
         game.killGame();
@@ -174,7 +176,9 @@ export default (io) => {
 
   io.sockets.on('connection', (socket) => {
     console.log(`${socket.id} Connected`);
-    socket.emit('id', { id: socket.id });
+    socket.emit('id', {
+      id: socket.id
+    });
 
     socket.on('pickCards', (data) => {
       console.log(socket.id, 'picked', data);

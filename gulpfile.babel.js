@@ -9,9 +9,10 @@ import mocha from 'gulp-mocha';
 import eslint from 'gulp-eslint';
 import gulpConnect from 'gulp-connect';
 
-const tasks = ['eslint', 'sass', 'transpile', 'test', 'serve', 'watch'];
+// const tasks = ['eslint', 'sass', 'transpile', 'serve'];
+const tasks = ['eslint', 'sass', 'transpile', 'test', 'serve'];
 
-gulp.task('serve', () => {
+gulp.task('serve', ['sass', 'transpile'], () => {
   nodemon({
     watch: ['./dist', './app', './public'],
     script: 'dist/server.js',
@@ -45,7 +46,7 @@ gulp.task('html', () => {
 });
 
 gulp.task('eslint', () => {
-  gulp.src(['gruntfile.js', 'public/js/**/*.js', 'test/**/*.js', 'app/**/*.js', '!node_modules/**'])
+  gulp.src(['public/js/**/*.js', 'test/**/*.js', 'app/**/*.js', '!node_modules/**'])
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
@@ -58,7 +59,9 @@ gulp.task('sass', () => {
 });
 
 gulp.task('bower', () => {
-  bower({ directory: 'public/lib' });
+  bower({
+    directory: 'public/lib'
+  });
 });
 
 gulp.task('public', () => {
@@ -74,7 +77,9 @@ gulp.task('public', () => {
     '!node_modules/**/*',
     '!eslintrc.json',
     '!bower.json',
-  ], { base: './' })
+  ], {
+    base: './'
+  })
     .pipe(gulp.dest('dist'));
 });
 
@@ -91,18 +96,17 @@ gulp.task('transpile', ['public'], () => {
       presets: ['es2015']
     }))
     .pipe(gulp.dest('dist'));
-  gulpConnect.reload();
+  // gulpConnect.reload();
 });
 
 
-gulp.task('test', () => {
-  gulp.src(
-    [
-      './test/game/game.js',
-      './test/user/model.js'
-    ],
-    { read: false }
-  )
+gulp.task('test', ['transpile'], () => {
+  gulp.src([
+    './dist/test/game/game.js',
+    './dist/test/user/model.js'
+  ], {
+    read: false
+  })
     .pipe(coverage.instrument({
       pattern: ['**/test*'],
       debugDirectory: 'debug'
