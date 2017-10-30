@@ -4,6 +4,7 @@
 import should from 'should';
 import mongoose from 'mongoose';
 
+
 const User = mongoose.model('User');
 
 // Globals
