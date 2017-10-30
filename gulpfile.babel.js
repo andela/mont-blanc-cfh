@@ -8,9 +8,22 @@ import bower from 'gulp-bower';
 import runSequence from 'gulp-sequence';
 import clean from 'gulp-rimraf';
 import babel from 'gulp-babel';
+import coverage from 'gulp-coverage';
+import gulpConnect from 'gulp-connect';
 
-gulp.task('bs-reload', () => {
-  browserSync.reload();
+// const tasks = ['eslint', 'sass', 'transpile', 'serve'];
+const tasks = ['eslint', 'sass', 'transpile', 'test', 'serve'];
+
+gulp.task('serve', ['sass', 'transpile'], () => {
+  nodemon({
+    watch: ['./dist', './app', './public'],
+    script: 'dist/server.js',
+    ext: 'js html jade',
+    ignore: ['dist/config', 'node_modules/**'],
+    env: {
+      NODE_ENV: 'development'
+    }
+  });
 });
 
 gulp.task('eslint', () => {
@@ -38,11 +51,11 @@ gulp.task('test', ['transpile'], () => {
   }));
 });
 
-gulp.task('watch', () => {
-  gulp.watch(['app/views/**', 'public/views/**'], ['bs-reload']);
-  gulp.watch(['public/js/**', 'app/**/*.js'], ['eslint', 'bs-reload']);
-  gulp.watch(['public/css/common.scss, public/css/views/articles.scss'], ['sass']);
-  gulp.watch(['public/css/**'], ['sass', 'bs-reload']);
+gulp.task('eslint', () => {
+  gulp.src(['public/js/**/*.js', 'test/**/*.js', 'app/**/*.js', '!node_modules/**'])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
 });
 
 gulp.task('nodemon', () => {
@@ -62,12 +75,23 @@ gulp.task('bower', () => {
   });
 });
 
-
-gulp.task('clean', () => {
-  gulp.src('public/lib')
-    .pipe(clean({
-      force: true
-    }));
+gulp.task('public', () => {
+  gulp.src([
+    './public/**/*',
+    './css/**/*',
+    'public/views/**/*',
+    'app/views/**/*',
+    './**/*.json',
+    '!package.json',
+    '!public/js/**/*',
+    '!dist/**/*',
+    '!node_modules/**/*',
+    '!eslintrc.json',
+    '!bower.json',
+  ], {
+    base: './'
+  })
+    .pipe(gulp.dest('dist'));
 });
 
 gulp.task('transfer_jades', () => {
@@ -75,20 +99,39 @@ gulp.task('transfer_jades', () => {
     .pipe(gulp.dest('dist/app/views'));
 });
 
-gulp.task('transfer_libs', () => {
-  gulp.src(['public/**/*', '!public/js/**'])
-    .pipe(gulp.dest('dist/public'));
-});
-gulp.task('transfer_json', () => {
-  gulp.src('config/env/**/*.json')
-    .pipe(gulp.dest('dist/config/env'));
-});
-
-
-gulp.task('babelify', () => {
-  gulp.src(['./**/*.js', '!dist/**', '!node_modules/**', '!bower_components/**', '!public/lib/**'])
-    .pipe(babel())
+gulp.task('transpile', ['public'], () => {
+  gulp.src([
+    './**/*.js',
+    '!dist/**',
+    '!node_modules/**',
+    '!public/lib/**',
+    '!gulpfile.babel.js'
+  ])
+    .pipe(babel({
+      presets: ['es2015']
+    }))
     .pipe(gulp.dest('dist'));
+  // gulpConnect.reload();
+});
+
+
+gulp.task('test', ['transpile'], () => {
+  gulp.src([
+    './dist/test/game/game.js',
+    './dist/test/user/model.js'
+  ], {
+    read: false
+  })
+    .pipe(coverage.instrument({
+      pattern: ['**/test*'],
+      debugDirectory: 'debug'
+    }))
+    .pipe(mocha({
+      timeout: 15000
+    }))
+    .pipe(coverage.gather())
+    .pipe(coverage.format())
+    .pipe(gulp.dest('reports'));
 });
 
 gulp.task('transpile', runSequence('babelify', 'transfer_json', 'transfer_jades', 'transfer_libs'));

@@ -19,6 +19,8 @@ import passportFunction from './config/passport';
 
 
 dotenv.config();
+// if test env, load example file
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 const app = express();
 
 /**

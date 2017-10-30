@@ -277,7 +277,7 @@ class Game {
     console.log(self.state);
     // TODO: do stuff
     let winner = -1;
-    for (let i = 0; i < self.players.length; i++) {
+    for (let i = 0; i < self.players.length; i += 1) {
       if (self.players[i].points >= self.pointLimit) {
         winner = i;
       }
@@ -364,7 +364,7 @@ class Game {
     const storeAnswers = function (err, data) {
       this.answers = data;
     };
-    for (let i = 0; i < this.players.length; i++) {
+    for (let i = 0; i < this.players.length; i += 1) {
       while (this.players[i].hand.length < maxAnswers) {
         this.players[i].hand.push(this.answers.pop());
         if (!this.answers.length) {
@@ -412,9 +412,9 @@ class Game {
         if (!previouslySubmitted) {
           // Find the indices of the cards in the player's hand (given the card ids)
           const tableCard = [];
-          for (let i = 0; i < thisCardArray.length; i++) {
+          for (let i = 0; i < thisCardArray.length; i += 1) {
             let cardIndex = null;
-            for (let j = 0; j < this.players[playerIndex].hand.length; j++) {
+            for (let j = 0; j < this.players[playerIndex].hand.length; j += 1) {
               if (this.players[playerIndex].hand[j].id === thisCardArray[i]) {
                 cardIndex = j;
               }
@@ -473,7 +473,7 @@ class Game {
       const playerName = this.players[playerIndex].username;
 
       // If this player submitted a card, take it off the table
-      for (let i = 0; i < this.table.length; i++) {
+      for (let i = 0; i < this.table.length; i += 1) {
         if (this.table[i].player === thisPlayer) {
           this.table.splice(i, 1);
         }
