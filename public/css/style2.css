@@ -1,0 +1,249 @@
+/* Format body */
+
+body, html {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+
+.navbar-scroll {
+	background-color: #43bf06 !important;
+    padding: 0px;
+    height:70px;
+}
+
+.row {
+    padding: 0;
+    margin: 0;
+}
+
+.first-section {
+    background-image: url('../img/newimage3.png');
+    background-size: cover;
+    min-height:100%;
+    background-position: center;
+    display: flex;
+    flex-direction: row;
+    background-attachment: fixed;
+
+}
+
+.content {
+    text-align: center;
+}
+
+.content h1 {
+    margin-top: 250px;
+    color: #43bf06;
+    font-size: 60px;
+    font-family: 'Berkshire Swash', cursive !important;
+}
+
+@media (max-width:400px) {
+
+    .first-section {
+    background-image: url('../img/third-sectionbg.png');
+    background-size: cover;
+    min-height:100%;
+    background-position: center;
+    display: flex;
+    flex-direction: row;
+    background-attachment: fixed;
+    }
+    .content h1 {
+        margin-top: 100px;
+    }
+
+
+}
+
+.content h4 {
+    margin-top: 50px;
+    color: white;
+    font-size: 30px;
+}
+
+.content span {
+    /* color: #c00423; */
+    color: #ecb60d;
+}
+
+.content .buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 90px;
+    margin-bottom: 30px;
+}
+
+@media (max-width: 400px) {
+    .content .buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+  }
+}
+
+.content .buttons .signup {
+    line-height: 50px;
+    min-width: 160px;
+    text-align: center;
+    background: #43bf06;
+    margin-right: 30px;
+    color: white;
+    border-radius: 10px;
+    padding: 5px 30px;
+    font-size: 16px;
+    text-transform: uppercase;
+    transition: color 1.0s, background-color 1.0s;
+}
+
+.content .buttons .signup:hover {
+    line-height: 50px;
+    min-width: 160px;
+    text-align: center;
+    background: white;
+    margin-right: 30px;
+    color: #43bf06;
+    border-radius: 20px;
+    padding: 5px 30px;
+}
+
+.content .buttons .guest {
+    line-height: 50px;
+    min-width: 160px;
+    text-align: center;
+    background: white;
+    margin-right: 30px;
+    color: #43bf06;
+    border-radius: 20px;
+    border-color: transparent;
+    padding: 5px 30px;
+    font-size: 17px;
+    text-transform: uppercase;
+    
+}
+
+.content .buttons .guest:hover {
+    line-height: 50px;
+    min-width: 160px;
+    text-align: center;
+    background: #43bf06;
+    margin-right: 30px;
+    color: white;
+    border-radius: 20px;
+    padding: 5px 30px;
+    transition: color 1.0s, background-color 1.0s;
+}
+
+
+.second-section {
+    height: auto;
+}
+
+.second-section .title-question {
+    margin:  auto;
+    margin-top: 90px;
+    color: #43bf06;
+    font-weight: bold;
+    line-height: 0.001em;
+    word-wrap: break-word;
+}
+
+.second-section .title-question h1{
+    text-align: center;
+}
+
+.second-section .description {
+    margin-top: 40px;
+    height: auto;
+    text-align: center;
+    font-size: 25px;   
+    padding-bottom: 50px;
+}
+
+.third-section {
+    height: auto;
+    background-color: black;
+    padding-top: 60px;
+    padding-bottom: 60px; 
+ 
+}
+
+.third-section .how-to-play-title {
+    margin: auto;
+}
+
+.third-section .how-to-play-title h1 {
+    text-align: center;
+    color: white;
+}
+
+.third-section img {
+    margin-top: 20px;
+    max-height: 324px;
+    max-width: 251px;
+
+}
+
+.third-section img:hover {
+    margin-top: 20px;
+    height: 324px;
+    width: 251px;
+    left: 50%;
+}
+
+
+.fourth-section {
+    background-color: white;
+    min-height: 100%;
+    padding-top: 50px;
+}
+
+.fourth-section h1{
+   text-align: center;
+   color: #43bf06;
+   font-weight: bold;
+}
+
+.fourth-section h2 {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.fourth-section h2 i{
+    color: #ecb60d;
+    font-size: 15px;
+}
+
+.fourth-section .fourth-section-content {
+    margin-top: 50px;
+}
+
+.fourth-section .fourth-section-content img {
+    max-width: 200px;
+}
+
+.fourth-section .fourth-section-content .makeAWish, 
+.fourth-section .fourth-section-content .video {
+    margin: auto;
+    padding-bottom: 30px;
+    padding-top: 30px;
+}
+
+.fourth-section .fourth-section-content iframe {
+  /* max-width: 560px;
+  max-height: auto;
+  width: 560px;
+  height: auto; */
+}
+
+/* .footer-section {
+  background-color: #43bf06;
+  height: 100px;
+  width: 100%;
+} */
