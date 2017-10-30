@@ -165,10 +165,10 @@ export const logIn = (req, res) => {
         email
       }).then((existingUser) => {
         if (!existingUser) {
-          return res.status(404).send({ message: 'User not found' });
+          return res.status(404).send({ message: 'You seem to have not registered this account with us' });
         }
         if (!bcrypt.compareSync(req.body.password, existingUser.hashed_password)) {
-          return res.status(401).send({ message: 'Incorrect Password/Email' });
+          return res.status(401).send({ message: 'Incorrect login details' });
         }
         res.status(200).send({
           token: existingUser.generateJwt(),
