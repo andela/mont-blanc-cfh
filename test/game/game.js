@@ -86,13 +86,13 @@ describe('Game Server', () => {
     const expectStartGame = () => {
       client1.emit('startGame');
       client1.on('gameUpdate', (gameData) => {
-        gameData.state.should.equal('waiting for players to pick');
+        gameData.state.should.equal('waiting for czar to draw a card');
       });
       client2.on('gameUpdate', (gameData) => {
-        gameData.state.should.equal('waiting for players to pick');
+        gameData.state.should.equal('waiting for czar to draw a card');
       });
       client3.on('gameUpdate', (gameData) => {
-        gameData.state.should.equal('waiting for players to pick');
+        gameData.state.should.equal('waiting for czar to draw a card');
       });
       setTimeout(disconnect, 200);
     };
@@ -137,22 +137,22 @@ describe('Game Server', () => {
     const expectStartGame = () => {
       client1.emit('startGame');
       client1.on('gameUpdate', (gameData) => {
-        gameData.state.should.equal('waiting for players to pick');
+        gameData.state.should.equal('waiting for czar to draw a card');
       });
       client2.on('gameUpdate', (gameData) => {
-        gameData.state.should.equal('waiting for players to pick');
+        gameData.state.should.equal('waiting for czar to draw a card');
       });
       client3.on('gameUpdate', (gameData) => {
-        gameData.state.should.equal('waiting for players to pick');
+        gameData.state.should.equal('waiting for czar to draw a card');
       });
       client4.on('gameUpdate', (gameData) => {
-        gameData.state.should.equal('waiting for players to pick');
+        gameData.state.should.equal('waiting for czar to draw a card');
       });
       client5.on('gameUpdate', (gameData) => {
-        gameData.state.should.equal('waiting for players to pick');
+        gameData.state.should.equal('waiting for czar to draw a card');
       });
       client6.on('gameUpdate', (gameData) => {
-        gameData.state.should.equal('waiting for players to pick');
+        gameData.state.should.equal('waiting for czar to draw a card');
       });
       setTimeout(disconnect, 200);
     };
