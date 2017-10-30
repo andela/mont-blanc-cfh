@@ -29,8 +29,8 @@ describe('Users', () => {
       .send(firstUser)
       .end((err, res) => {
         res.should.have.status(200);
-        res.body.should.have.token;
-        res.body.should.have.message;
+        res.body.should.return.token;
+        res.body.should.return.message;
         res.body.token.should.be.string;
         res.body.message.should.equal('Successfully logged in');
         res.should.be.json;
@@ -43,8 +43,8 @@ describe('Users', () => {
       .post('/api/v1/auth/login')
       .send({ email: firstUser.email })
       .end((err, res) => {
-        res.should.have.status(400);
-        res.body.should.have.message;
+        res.should.return.status(400);
+        res.body.should.return.message;
         res.body.message.should.equal('All fields are required');
         res.should.be.json;
         done();
@@ -55,8 +55,8 @@ describe('Users', () => {
       .post('/api/v1/auth/login')
       .send({ password: firstUser.password })
       .end((err, res) => {
-        res.should.have.status(400);
-        res.body.should.have.message;
+        res.should.return.status(400);
+        res.body.should.return.message;
         res.body.message.should.equal('All fields are required');
         res.should.be.json;
         done();
@@ -68,8 +68,8 @@ describe('Users', () => {
       .send({ secondUser })
       .end((err, res) => {
         res.should.have.status(401);
-        res.body.should.have.message;
-        res.body.message.should.equal('Incorrect Password/Email');
+        res.body.should.return.message;
+        res.body.message.should.equal('Incorrect login details');
         res.should.be.json;
         done();
       });
@@ -79,9 +79,9 @@ describe('Users', () => {
       .post('/api/v1/auth/login')
       .send({ email: secondUser.email })
       .end((err, res) => {
-        res.should.have.status(404);
-        res.body.should.have.message;
-        res.body.message.should.equal('User not found');
+        res.should.return.status(401);
+        res.body.should.return.message;
+        res.body.message.should.equal('You seem to have not registered this account with us');
         res.should.be.json;
         done();
       });
@@ -94,9 +94,9 @@ describe('Users', () => {
         password: 'sjbhjsk'
       })
       .end((err, res) => {
-        res.should.have.status(404);
-        res.body.should.have.message;
-        res.body.message.should.equal('Invalid email');
+        res.should.return.status(400);
+        res.body.should.return.message;
+        res.body.message.should.equal('Emails are allowed only');
         res.should.be.json;
         done();
       });
