@@ -13,6 +13,7 @@
     "npm": "3.10.10"
   },
   "scripts": {
+    "seeder": "node ./node_modules/.bin/babel-node seeder/seedDatabase",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "bower": "node node_modules/gulp-cli/bin/gulp bower",
     "start": "npm run bower && node node_modules/gulp-cli/bin/gulp",
