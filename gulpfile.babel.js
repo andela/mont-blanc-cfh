@@ -1,12 +1,14 @@
 import gulp from 'gulp';
-import sass from 'gulp-sass';
-import gulpLivereload from 'gulp-livereload';
 import nodemon from 'gulp-nodemon';
+import browserSync from 'browser-sync';
+import eslint from 'gulp-eslint';
+import sass from 'gulp-sass';
+import mocha from 'gulp-mocha';
 import bower from 'gulp-bower';
+import runSequence from 'gulp-sequence';
+import clean from 'gulp-rimraf';
 import babel from 'gulp-babel';
 import coverage from 'gulp-coverage';
-import mocha from 'gulp-mocha';
-import eslint from 'gulp-eslint';
 import gulpConnect from 'gulp-connect';
 
 // const tasks = ['eslint', 'sass', 'transpile', 'serve'];
@@ -24,25 +26,29 @@ gulp.task('serve', ['sass', 'transpile'], () => {
   });
 });
 
-gulp.task('watch', () => {
-  gulpLivereload.listen();
-  gulp.watch('./public/**/*.scss', ['sass']);
-  gulp.watch('./public/**/*.html', ['transpile']);
-  gulp.watch('./public/**/*.css');
-  gulp.watch('./public/**/*.js', ['eslint', 'transpile']);
+gulp.task('eslint', () => {
+  gulp.src(['gulpfile.babel.js', 'public/js/**/*.js', 'test/**/*.js', 'app/**/*.js'])
+    .pipe(eslint())
+    .pipe(eslint.formatEach('compact', process.stderr))
+    .pipe(eslint.failAfterError());
 });
 
-gulp.task('connect', () => {
-  gulpConnect.server({
-    root: ['dist'],
-    port: 8000,
-    livereload: true,
-  });
+gulp.task('sass', () => {
+  gulp.src('public/css/*.scss')
+    .pipe(sass())
+    .pipe(gulp.dest('public/css/'));
 });
 
-gulp.task('html', () => {
-  gulp.src('./public/**/*.html')
-    .pipe(gulpConnect.reload());
+
+gulp.task('test', ['transpile'], () => {
+  gulp.src([
+    './dist/test/game/game.js',
+    './dist/test/user/model.js'
+  ], {
+    read: false
+  }).pipe(mocha({
+    timeout: 15000
+  }));
 });
 
 gulp.task('eslint', () => {
@@ -52,10 +58,15 @@ gulp.task('eslint', () => {
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('sass', () => {
-  gulp.src('./public/**/*.scss')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('./public'));
+gulp.task('nodemon', () => {
+  nodemon({
+    script: 'dist/server.js',
+    ext: 'js',
+    ignore: ['README.md', 'node_modules/**', '.DS_Store'],
+    env: {
+      PORT: 3000
+    }
+  });
 });
 
 gulp.task('bower', () => {
@@ -83,6 +94,10 @@ gulp.task('public', () => {
     .pipe(gulp.dest('dist'));
 });
 
+gulp.task('transfer_jades', () => {
+  gulp.src('app/views/**/*')
+    .pipe(gulp.dest('dist/app/views'));
+});
 
 gulp.task('transpile', ['public'], () => {
   gulp.src([
@@ -119,4 +134,6 @@ gulp.task('test', ['transpile'], () => {
     .pipe(gulp.dest('reports'));
 });
 
-gulp.task('default', tasks);
+gulp.task('transpile', runSequence('babelify', 'transfer_json', 'transfer_jades', 'transfer_libs'));
+gulp.task('install', runSequence('bower', 'angular', 'angular-bootstrap', 'angularUtils', 'bootstrap', 'jquery', 'underscore', 'intro', 'angular-intro', 'angular-cookies', 'angular-unstable', 'font-awesome', 'angular-resource', 'emoji'));
+gulp.task('default', runSequence('transpile'));
