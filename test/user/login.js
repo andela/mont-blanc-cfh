@@ -2,14 +2,14 @@
  * Module dependencies.
  */
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../server';
 
-require('dotenv').config();
-
+dotenv.config();
 chai.use(chaiHttp);
-const expect = chai.expect;
+const { expect } = chai;
 // delete all records in User model before each test
 mongoose.model('User').collection.drop();
 
