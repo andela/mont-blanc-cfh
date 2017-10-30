@@ -158,32 +158,35 @@ export function create(req, res) {
 }
 export const logIn = (req, res) => {
   const { email, password } = req.body;
-  if (password && email) {
-    if (validator.isEmail(req.body.email)) {
-      User.findOne({
-        email
-      }).then((existingUser) => {
-        if (!existingUser) {
-          return res.status(404).send({ message: 'You seem to have not registered this account with us' });
-        }
-        if (!bcrypt.compareSync(req.body.password, existingUser.hashed_password)) {
-          return res.status(401).send({ message: 'Incorrect login details' });
-        }
-        res.status(200).send({
-          token: existingUser.generateJwt(),
-          message: 'Successfully logged in'
-        });
-      })
-        .catch((err) => {
+  if (email) {
+    if (password) {
+      if (validator.isEmail(req.body.email)) {
+        User.findOne({
+          email
+        }).then((existingUser) => {
+          if (!existingUser) {
+            return res.status(401).send({ message: 'You seem to have not registered this account with us' });
+          }
+          if (!bcrypt.compareSync(req.body.password, existingUser.hashed_password)) {
+            return res.status(401).send({ message: 'Incorrect credentials' });
+          }
+          res.status(200).send({
+            token: existingUser.generateJwt(),
+            message: 'Successfully logged in'
+          });
+        }).catch((err) => {
           if (err) {
             res.status(500).send({ errors: 'Something went wrong' });
           }
         });
+      } else {
+        res.status(400).send({ message: 'Emails are allowed only' });
+      }
     } else {
-      res.status(400).send({ message: 'Emails are allowed only' });
+      res.status(400).send({ message: 'Password is required' });
     }
   } else {
-    res.status(400).send({ message: 'All fields are required' });
+    res.status(400).send({ message: 'Email is required' });
   }
 };
 /**

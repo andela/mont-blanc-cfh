@@ -28,9 +28,9 @@ describe('Users', () => {
       .post('/api/v1/auth/login')
       .send(firstUser)
       .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.have.token;
-        res.body.should.have.message;
+        res.should.return.status(200);
+        res.body.should.return.token;
+        res.body.should.return.message;
         res.body.token.should.be.string;
         res.body.message.should.equal('Successfully logged in');
         res.should.be.json;
@@ -38,55 +38,43 @@ describe('Users', () => {
         done();
       });
   });
-  it('should have all details', (done) => {
+  it('should require password to login', (done) => {
     chai.request(app)
       .post('/api/v1/auth/login')
       .send({ email: firstUser.email })
       .end((err, res) => {
-        res.should.have.status(400);
-        res.body.should.have.message;
-        res.body.message.should.equal('All fields are required');
+        res.should.return.status(400);
+        res.body.should.return.message;
+        res.body.message.should.equal('Password is required');
         res.should.be.json;
         done();
       });
   });
-  it('should have all details', (done) => {
+  it('should require email to login', (done) => {
     chai.request(app)
       .post('/api/v1/auth/login')
       .send({ password: firstUser.password })
       .end((err, res) => {
-        res.should.have.status(400);
-        res.body.should.have.message;
-        res.body.message.should.equal('All fields are required');
+        res.should.return.status(400);
+        res.body.should.return.message;
+        res.body.message.should.equal('Email is required');
         res.should.be.json;
         done();
       });
   });
-  it('should not get token on authentication failure', (done) => {
+  it('should not login with incorrect credentials', (done) => {
     chai.request(app)
       .post('/api/v1/auth/login')
       .send({ secondUser })
       .end((err, res) => {
-        res.should.have.status(401);
-        res.body.should.have.message;
-        res.body.message.should.equal('Incorrect Password/Email');
+        res.should.return.status(401);
+        res.body.should.return.message;
+        res.body.message.should.equal('Incorrect credentials');
         res.should.be.json;
         done();
       });
   });
-  it('should not get token on authentication failure', (done) => {
-    chai.request(app)
-      .post('/api/v1/auth/login')
-      .send({ email: secondUser.email })
-      .end((err, res) => {
-        res.should.have.status(404);
-        res.body.should.have.message;
-        res.body.message.should.equal('User not found');
-        res.should.be.json;
-        done();
-      });
-  });
-  it('should not get token on invalid credentials', (done) => {
+  it('should not login with invalid credentials', (done) => {
     chai.request(app)
       .post('/api/v1/auth/login')
       .send({
@@ -94,9 +82,9 @@ describe('Users', () => {
         password: 'sjbhjsk'
       })
       .end((err, res) => {
-        res.should.have.status(404);
-        res.body.should.have.message;
-        res.body.message.should.equal('Invalid email');
+        res.should.return.status(400);
+        res.body.should.return.message;
+        res.body.message.should.equal('Emails are allowed only');
         res.should.be.json;
         done();
       });
