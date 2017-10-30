@@ -9,7 +9,7 @@ import app from '../../server';
 require('dotenv').config();
 
 chai.use(chaiHttp);
-
+const expect = chai.expect;
 // delete all records in User model before each test
 mongoose.model('User').collection.drop();
 
