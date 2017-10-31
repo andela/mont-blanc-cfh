@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
-import { token as secret } from '../env/all';
+import {
+  token as secret
+} from '../env/all';
 
 /**
  * Generic require login routing middleware
@@ -14,14 +16,18 @@ export function requiresLogin(req, res, next) {
   if (token) {
     jwt.verify(token, secret, (err, decoded) => {
       if (err) {
-        res.status(401).send({ message: 'Expired token' });
+        res.status(401).send({
+          message: 'Expired token'
+        });
       } else {
         req.decoded = decoded;
         next();
       }
     });
   } else {
-    res.status(403).send({ message: 'Token not provided' });
+    res.status(403).send({
+      message: 'Token not provided'
+    });
   }
 }
 

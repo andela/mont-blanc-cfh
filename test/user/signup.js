@@ -1,23 +1,24 @@
 /**
  * Module dependencies.
  */
-import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import should from 'should';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 import app from '../../server';
 
-/* eslint-disable no-unused-expressions */
 
 dotenv.config();
-const expect = chai.expect();
+
+const User = mongoose.model('User');
+
+
 chai.use(chaiHttp);
 
 let user;
 
-/**
- * delete all records in User model before each test
- */
+// delete all records in User model before each test
 mongoose.model('User').collection.drop();
 
 describe('Users', () => {
@@ -41,16 +42,18 @@ describe('Users', () => {
           res.body.token.should.be.string;
           res.body.message.should.equal('Successfully signed up');
           res.should.be.json;
-          if (err) {
-            return expect(err.errors);
-          }
+          if (err) return expect(err.errors);
           done();
         });
     });
     it('should not get token on unsuccessful sign up', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup')
-        .send({ name: user.name, email: user.email, username: user.username })
+        .send({
+          name: user.name,
+          email: user.email,
+          username: user.username
+        })
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.have.message;
@@ -63,7 +66,10 @@ describe('Users', () => {
       chai.request(app)
         .post('/api/v1/auth/signup')
         .send({
-          name: user.name, email: user.email, username: user.username, password: user.password
+          name: user.name,
+          email: user.email,
+          username: user.username,
+          password: user.password
         })
         .end((err, res) => {
           res.should.have.status(409);

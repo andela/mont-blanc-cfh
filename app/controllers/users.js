@@ -1,9 +1,10 @@
 /**
  * Module dependencies.
  */
-import User from '../models/user';
+import validator from 'validator';
+import bcrypt from 'bcryptjs';
 
-/* eslint-disable no-underscore-dangle, no-console, no-shadow */
+import User from '../models/user';
 
 const allAvatars = require('./avatars').all();
 
@@ -108,9 +109,11 @@ export function checkAvatar(req, res) {
  * @returns {object} response object
  */
 export function create(req, res) {
-  console.log('Incoming request - ---------- --------------------');
-  console.log(req.body);
-  const { body: { name, password, email } } = req;
+  const {
+    name,
+    password,
+    email
+  } = req.body;
   if (name && password && email) {
     User.findOne({
       email
@@ -151,7 +154,39 @@ export function create(req, res) {
     });
   }
 }
-
+export const logIn = (req, res) => {
+  const { email, password } = req.body;
+  if (email) {
+    if (password) {
+      if (validator.isEmail(req.body.email)) {
+        User.findOne({
+          email
+        }).then((existingUser) => {
+          if (!existingUser) {
+            return res.status(401).send({ message: 'You seem to have not registered this account with us' });
+          }
+          if (!bcrypt.compareSync(req.body.password, existingUser.hashed_password)) {
+            return res.status(401).send({ message: 'Incorrect credentials' });
+          }
+          res.status(200).send({
+            token: existingUser.generateJwt(),
+            message: 'Successfully logged in'
+          });
+        }).catch((err) => {
+          if (err) {
+            res.status(500).send({ errors: 'Something went wrong' });
+          }
+        });
+      } else {
+        res.status(400).send({ message: 'Emails are allowed only' });
+      }
+    } else {
+      res.status(400).send({ message: 'Password is required' });
+    }
+  } else {
+    res.status(400).send({ message: 'Email is required' });
+  }
+};
 /**
  * Assign avatar to user
  * @export
@@ -189,7 +224,7 @@ export function addDonation(req, res) {
         _id: req.user._id
       })
         .exec((err, user) => {
-        // Confirm that this object hasn't already been entered
+          // Confirm that this object hasn't already been entered
           let duplicate = false;
           for (let i = 0; i < user.donations.length; i + 1) {
             if (user.donations[i].crowdrise_donation_id === req.body.crowdrise_donation_id) {
@@ -255,4 +290,3 @@ export function user(req, res, next, id) {
       next();
     });
 }
-
