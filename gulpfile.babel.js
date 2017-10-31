@@ -9,7 +9,6 @@ import mocha from 'gulp-mocha';
 import eslint from 'gulp-eslint';
 import gulpConnect from 'gulp-connect';
 
-// const tasks = ['eslint', 'sass', 'transpile', 'serve'];
 const tasks = ['eslint', 'sass', 'transpile', 'test', 'serve'];
 
 gulp.task('serve', ['sass', 'transpile'], () => {
@@ -48,8 +47,8 @@ gulp.task('html', () => {
 gulp.task('eslint', () => {
   gulp.src(['public/js/**/*.js', 'test/**/*.js', 'app/**/*.js', '!node_modules/**'])
     .pipe(eslint())
-    .pipe(eslint.format())
-    .pipe(eslint.failAfterError());
+    .pipe(eslint.formatEach())
+    .pipe(eslint.failOnError());
 });
 
 gulp.task('sass', () => {
