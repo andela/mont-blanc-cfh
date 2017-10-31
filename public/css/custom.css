@@ -1,0 +1,231 @@
+.navbar {
+	background-color: transparent !important;
+	padding: 0px;
+	height: 50px;
+	transition: background-color 0.5s, height 0.5s;
+	border: none;
+}
+ /* @media only screen and (max-width: 400px){
+	 .navbar{
+		background-color: #43bf06 !important;
+		padding: 0px;
+		height: 50px;
+		transition: background-color 0.5s, height 0.5s;
+		border: none;
+	 }
+ } */
+
+.navbar-brand {
+	font-family: 'Berkshire Swash', cursive !important;
+	font-size: 20px;
+}
+
+.navbar-brand img{
+	height: 70px;
+	margin-top: -20px;
+}
+
+body {
+	font-family: 'Comfortaa', 'Roboto', 'Ubuntu Mono', sans-serif;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.navbar-nav li {
+	list-style-type: none;
+	z-index: 1000;
+}
+
+.navbar-nav li a {
+	color: white !important;
+}
+
+.nav-item {
+	padding: 13px 10px;
+}
+
+.nav-link {
+    display: block;
+    padding: .5rem 1rem;
+}
+
+a.nav-link {
+	background-color: transparent !important;
+	text-align: center;
+	font-size: 17px;
+}
+
+.nav-link:hover {
+	background-color:#024d28 !important;
+	border-radius: 10px;
+	text-decoration: none;
+	width: 100px;
+}
+
+.nav-item-cfh {
+	height: 66px;
+	color: #0d9c58 !important;
+}
+
+.nav-item-cfh:hover{
+	background-color: rgba(0,0,0, 0.2);
+}
+
+.navbar-nav ul li {
+	height: 100%;
+	color: #0d9c58;
+}
+
+.btn-tweet {
+	background-color: #1b95e0;
+	color: #fff;
+	border-radius: 3px !important;
+}
+
+.btn-cfh{
+    background-color: #000;
+    color: #fff;
+}
+
+.cfh-green{
+	color: #0d9c58 !important;
+}
+
+.btn-cfh-black {
+	background-color: #000;
+	color: #fff;
+	font-size: 20px;
+	text-transform: capitalize;
+}
+.btn-cfh-white{
+	background-color: #fff;
+	color: #fff;
+	text-transform: capitalize;
+}
+
+.btn-cfh-wine {
+	background-color: rgba(144, 19, 19, 0.99);
+	color: #fff;
+	font-size: 20px;
+	text-transform: capitalize;
+}
+
+.btn-cfh-blue {
+}
+
+.spaced-sm{
+	margin-top: 3%;
+}
+
+.spaced-md{
+	margin-top: 6%;
+}
+
+.spaced-lg{
+	margin-top: 9%;
+}
+
+.centralized{
+	text-align: center;
+}
+
+.centralized-div{
+	width: 60%;
+	margin: 0 auto;
+}
+
+.game-header{
+	margin-top: 4%;
+}
+
+.question, .counter {
+	min-height: 150px;
+	border-radius: 0px;
+}
+
+.instructions{
+	background-color: #fff;
+	margin-top: 4%;
+	padding: 15px;
+	border-radius: 0px 0px 30px 30px;
+}
+
+.typed{
+	background: transparent;
+	margin-top: 4%;
+	padding: 15px;
+	color: #fff;
+}
+
+.typed p {
+
+}
+
+.instructions ul{
+	list-style-type: katakana;
+}
+
+.counter {
+	padding: 20px;
+	background-color: rgba(142, 19, 18, 0.62);
+	color: #fff;
+}
+
+.counter p {
+	font-size: 90px;
+	text-align: center;
+}
+
+.counter h6 {
+	text-align: center;
+}
+
+.question{
+	padding: 30px;
+	background-color: #fff;
+}
+.question h1{
+
+}
+
+.question p {
+
+}
+
+.players-count{
+	font-size: 36px;
+}
+
+
+
+
+.no-js #loader { display: none;  }
+.js #loader { display: block; position: absolute; left: 100px; top: 0; }
+.se-pre-con {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url('../img/loader-128x/Preloader_2.gif') center no-repeat #fff;
+}
+
+.load-con {
+	width: 60%;
+	height: 60%;
+	z-index: 9999;
+	background: url('../img/loader-32x/loader5.gif') center no-repeat #fff;
+}
+
+.gamer{
+	padding-right: 0px;
+	padding-left: 0px;
+}
+.unpadded {
+	padding: 0px;
+}
+
+.button-row{
+	margin-top: 7% !important;
+}
