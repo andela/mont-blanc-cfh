@@ -12,7 +12,7 @@ import app from '../../server';
 dotenv.config();
 
 const User = mongoose.model('User');
-
+const expect = chai.expect;
 
 chai.use(chaiHttp);
 

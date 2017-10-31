@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 angular.module('mean.directives', [])
   .directive('player', () => ({
     restrict: 'EA',

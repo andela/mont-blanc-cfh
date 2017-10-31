@@ -6,7 +6,6 @@
 // const Question = mongoose.model('Question');
 import Question from '../models/question';
 
-/* eslint-disable no-console */
 
 /**
  * Find question by id
