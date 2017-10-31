@@ -1,7 +1,7 @@
 // window.bootstrap = function() {
 //     angular.bootstrap(document, ['mean']);
 // };
-/* eslint-disable no-undef */
+
 // window.init = function() {
 //     window.bootstrap();
 // };

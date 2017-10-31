@@ -3,7 +3,6 @@
  */
 import User from '../models/user';
 
-/* eslint-disable no-underscore-dangle, no-console, no-shadow */
 
 const allAvatars = require('./avatars').all();
 
@@ -102,9 +101,9 @@ export function checkAvatar(req, res) {
 /**
  * Create user
  * @export
- * @param {any} req
- * @param {any} res
- * @param {any} next
+ * @param {object} req
+ * @param {object} res
+ * @param {object} next
  * @returns {object} response object
  */
 export function create(req, res) {

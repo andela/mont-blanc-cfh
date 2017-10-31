@@ -7,8 +7,6 @@ import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
 
 import config from './config';
 
-/* eslint-disable no-underscore-dangle, no-console */
-
 const User = mongoose.model('User');
 
 export default (passport) => {

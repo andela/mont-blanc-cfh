@@ -6,8 +6,6 @@ import {
   all
 } from '../../app/controllers/avatars';
 
-/* eslint-disable no-console */
-
 consoleStamp(console, 'm/dd HH:MM:ss');
 const User = mongoose.model('User');
 const avatars = all();
