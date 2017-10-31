@@ -1,0 +1,288 @@
+/* Format body */
+
+body, html {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+
+.navbar-scroll {
+	background-color: #43bf06 !important;
+    padding: 0px;
+    height:70px;
+}
+
+.row {
+    padding: 0;
+    margin: 0;
+}
+
+.first-section {
+    background-image: url('../img/newimage3.png');
+    background-size: cover;
+    min-height:100%;
+    background-position: center;
+    display: flex;
+    flex-direction: row;
+    background-attachment: fixed;
+
+}
+
+.content {
+    text-align: center;
+}
+
+.content h1 {
+    margin-top: 250px;
+    color: #43bf06;
+    font-size: 60px;
+    font-family: 'Righteous', cursive !important;
+}
+
+@media (max-width:400px) {
+
+    .first-section {
+    background-image: url('../img/third-sectionbg.png');
+    background-size: cover;
+    min-height:100%;
+    background-position: center;
+    display: flex;
+    flex-direction: row;
+    background-attachment: fixed;
+    }
+    .content h1 {
+        margin-top: 100px;
+    }
+
+
+}
+
+.content h4 {
+    margin-top: 50px;
+    color: white;
+    font-size: 30px;
+}
+
+.content span {
+    /* color: #c00423; */
+    color: #ecb60d;
+}
+
+.content .buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 90px;
+    margin-bottom: 30px;
+}
+
+@media (max-width: 400px) {
+    .content .buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+  }
+}
+
+.content .buttons .signup {
+    line-height: 50px;
+    min-width: 180px;
+    text-align: center;
+    background: #43bf06;
+    margin-right: 30px;
+    color: white;
+    border-radius: 10px;
+    font-size: 16px;
+    text-transform: uppercase;
+    transition: color 1.0s, background-color 1.0s;
+}
+
+.content .buttons .signup:hover {
+    background: white;
+    color: #43bf06;
+}
+
+.content .buttons .guest {
+    line-height: 50px;
+    min-width: 160px;
+    text-align: center;
+    background: white;
+    margin-right: 30px;
+    color: #43bf06;
+    border-radius: 10px;
+    border-color: transparent;
+    font-size: 17px;
+    text-transform: uppercase;
+    
+}
+
+.content .buttons .guest:hover {
+    text-align: center;
+    background: #43bf06;
+    color: white;
+    transition: color 1.0s, background-color 1.0s;
+}
+
+
+.second-section {
+    height: auto;
+    margin-top: 40px;
+    margin-bottom: 40px;    
+}
+
+.second-section .title-question {
+    margin:  auto;
+    margin-top: 80px;
+    color: #43bf06;
+    font-weight: bold;
+    line-height: 0.001em;
+    word-wrap: break-word;
+}
+
+.second-section .title-question h1{
+    text-align: center;
+    font-family: 'Righteous';
+}
+
+.second-section .description {
+    margin-top: 20px;
+    height: auto;
+    text-align: center;
+    font-size: 25px;   
+    padding-bottom: 50px;
+    font-family: 'Hammersmith+One';
+}
+
+.third-section {
+    height: auto;
+    background-color: black;
+    padding-top: 60px;
+    padding-bottom: 80px;
+}
+
+.third-section .howto {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.third-section .how-to-play-title {
+    margin: auto;
+}
+
+.third-section .how-to-play-title h1 {
+    text-align: center;
+    color: white;
+    font-family: 'Righteous';
+    padding-bottom: 20px;
+}
+
+.third-section img {
+    margin-top: 20px;
+    max-height: 324px;
+    max-width: 251px;
+    margin: auto;
+}
+
+
+.fourth-section {
+    background-color: white;
+    min-height: 100%;
+    padding-top: 80px;
+}
+
+.fourth-section h1{
+   text-align: center;
+   color: #43bf06;
+   font-family: 'Righteous';
+}
+
+.fourth-section h2 {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 30px;
+    font-family: 'Hammersmith+One';
+}
+
+.fourth-section h2 i{
+    color: #ecb60d;
+    font-size: 15px;
+}
+
+.fourth-section .fourth-section-content {
+    margin-top: 50px;
+}
+
+.fourth-section .fourth-section-content p {
+  font-family: 'Hammersmith+One';
+  font-size: 20px;
+}
+.fourth-section .fourth-section-content img {
+    max-width: 200px;
+}
+
+.fourth-section .fourth-section-content .makeAWish, 
+.fourth-section .fourth-section-content .donate {
+    margin: auto;
+    padding-bottom: 30px;
+    padding-top: 30px;
+}
+
+.fourth-section .fourth-section-content .donate {
+    color: #ffffff;
+    font-weight: bold;
+    border-top: 1px solid #fedaac;
+    display: block;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background: rgba(249,147,49, 1);
+    transition: background 1s;
+    margin-top: 20px;
+
+}
+
+.fourth-section .fourth-section-content .donate .btn:hover {
+    background: rgb(245, 152, 66);
+}
+
+.footer-section {
+  background-color:black;
+  position: relative;
+}
+
+.footer-section p {
+  color: white;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  font-family: 'Hammersmith+One';
+}
+
+.footer-section p a {
+  color: #43bf06;
+  font-family: 'Hammersmith+One';
+}
+
+.footer-section .github{
+ display: flex;
+ flex-direction: row;
+ justify-content: center;
+ align-content: center;
+ align-items: center;
+} 
+
+.footer-section .github .twitter-follow-button .btn{
+    height: 50px;
+}
+@media (max-width: 400px) {
+  .footer-section .github{
+    margin-top: 0px;
+    float: left;
+  } 
+}
+

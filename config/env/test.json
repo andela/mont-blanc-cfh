@@ -4,9 +4,9 @@
         "name": "Cards for Humanity - Test"
     },
     "facebook": {
-        "clientID": "APP_ID",
-        "clientSecret": "APP_SECRET",
-        "callbackURL": "http://localhost:3000/auth/facebook/callback"
+        "clientID": "2052374978329466",
+        "clientSecret": "263b8f8e5f1e1b04b17ce3169d694bc0",
+        "callbackURL": "http://localhost:3001/auth/facebook/callback"
     },
     "twitter": {
         "clientID": "CONSUMER_KEY",

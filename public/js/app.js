@@ -16,10 +16,10 @@ angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', '
         templateUrl: '/views/bottom.html'
       })
       .when('/signin', {
-        templateUrl: '/views/signin.html'
+        templateUrl: '/views/signin.html',
       })
       .when('/signup', {
-        templateUrl: '/views/signup.html'
+        templateUrl: '/views/signup.html',
       })
       .when('/choose-avatar', {
         templateUrl: '/views/choose-avatar.html'
