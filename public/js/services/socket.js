@@ -1,20 +1,15 @@
-/* eslint-disable no-undef, no-console, prefer-rest-params,
-no-unused-expressions, no-underscore-dangle, func-names */
-
 angular.module('mean.system')
   .factory('socket', ['$rootScope', function ($rootScope) {
     const socket = io.connect();
     return {
       on(eventName, callback) {
-        socket.on(eventName, function () {
-          const args = arguments;
+        socket.on(eventName, (...args) => {
           $rootScope.safeApply(() => {
             callback.apply(socket, args);
           });
         });
       },
-      emit(eventName, data, callback) {
-        const args = arguments;
+      emit(eventName, data, callback, ...args) {
         socket.emit(eventName, data, () => {
         });
         $rootScope.safeApply(() => {
@@ -24,8 +19,7 @@ angular.module('mean.system')
         });
       },
       removeAllListeners(eventName, callback) {
-        socket.removeAllListeners(eventName, function () {
-          const args = arguments;
+        socket.removeAllListeners(eventName, (...args) => {
           $rootScope.safeApply(() => {
             if (callback) {
               callback.apply(socket, args);

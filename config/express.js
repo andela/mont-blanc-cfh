@@ -7,8 +7,6 @@ import helpers from 'view-helpers';
 import connectMongo from 'connect-mongo';
 import config from './config';
 
-/* eslint-disable no-console */
-
 const mongoStore = connectMongo(express);
 
 export default (app, passport, mongoose) => {

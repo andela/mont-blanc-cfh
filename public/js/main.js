@@ -1,5 +1,7 @@
 $(document).ready(() => {
-  //  Initialize AOS
+  /**
+   * Initialize AOS
+   */
   AOS.init();
 
 

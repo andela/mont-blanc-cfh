@@ -15,8 +15,6 @@ import routesFunction from './config/routes';
 import socketFunction from './config/socket/socket';
 import passportFunction from './config/passport';
 
-/* eslint-disable global-require, import/no-dynamic-require, no-console */
-
 
 dotenv.config();
 // if test env, load example file

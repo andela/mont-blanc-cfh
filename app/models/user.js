@@ -6,7 +6,6 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import config from '../../config/config';
 
-/* eslint-disable no-underscore-dangle, no-console, no-shadow */
 
 const authTypes = ['github', 'twitter', 'facebook', 'google'];
 

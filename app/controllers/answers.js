@@ -4,7 +4,6 @@
 // import mongoose from 'mongoose';
 import Answer from '../models/answer';
 
-/* eslint-disable no-console */
 
 /**
  * find answer by id
