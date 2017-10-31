@@ -3,23 +3,23 @@
         "name": "Cards for Humanity"
     },
     "facebook": {
-        "clientID": "APP_ID",
-        "clientSecret": "APP_SECRET",
-        "callbackURL": "http://cfh.io/auth/facebook/callback"
+        "clientID": "process.env.clientID",
+        "clientSecret": "process.env.clientSecret",
+        "callbackURL": "https://mont-blanc-cfh.herokuapp.com/auth/facebook/callback"
     },
     "twitter": {
-        "clientID": "CONSUMER_KEY",
-        "clientSecret": "CONSUMER_SECRET",
-        "callbackURL": "http://cfh.io/auth/twitter/callback"
+        "clientID": "process.env.twitterConsumerKey",
+        "clientSecret": "process.env.twitterConsumerSecret",
+        "callbackURL": "https://mont-blanc-cfh.herokuapp.com/auth/twitter/callback"
     },
     "github": {
-        "clientID": "APP_ID",
-        "clientSecret": "APP_SECRET",
-        "callbackURL": "http://cfh.io/auth/github/callback"
+        "clientID": "process.env.githubClientID",
+        "clientSecret": "process.env.githubClientSecret",
+        "callbackURL": "https://mont-blanc-cfh.herokuapp.com/auth/github/callback"
     },
     "google": {
-        "clientID": "APP_ID",
-        "clientSecret": "APP_SECRET",
-        "callbackURL": "http://cfh.io/auth/google/callback"
+        "clientID": "process.env.googleClientID",
+        "clientSecret": "process.env.googleClientSecret",
+        "callbackURL": "https://mont-blanc-cfh.herokuapp.com/auth/google/callback"
     }
 }
