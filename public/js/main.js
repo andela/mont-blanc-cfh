@@ -8,9 +8,9 @@ $(document).ready(() => {
   $(window).bind('scroll', () => {
     const scrollAmount = $(window).scrollTop();
     if (scrollAmount > 50) {
-      $('.navbar').addClass('navbar-scroll');
+      $('.navbar-landing').addClass('navbar-scroll');
     } else {
-      $('.navbar').removeClass('navbar-scroll');
+      $('.navbar-landing').removeClass('navbar-scroll');
     }
   });
 });
