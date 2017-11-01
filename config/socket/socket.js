@@ -223,6 +223,23 @@ export default (io) => {
       }
     });
 
+    socket.on('drawCard', () => {
+      if (allGames[socket.gameID]) {
+        const thisGame = allGames[socket.gameID];
+        console.log('comparing', thisGame.players[0].socket.id, 'with', socket.id);
+        if (thisGame.players.length >= thisGame.playerMinLimit) {
+          // Remove this game from gamesNeedingPlayers so new players can't join it.
+          gamesNeedingPlayers.forEach((game, index) => {
+            if (game.gameID === socket.gameID) {
+              return gamesNeedingPlayers.splice(index, 1);
+            }
+          });
+          thisGame.drawCard();
+          thisGame.sendNotification('Players should select their answers!');
+        }
+      }
+    });
+
     socket.on('leaveGame', () => {
       exitGame(socket);
     });

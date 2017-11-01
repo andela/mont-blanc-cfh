@@ -46,6 +46,7 @@ class Game {
     this.state = 'awaiting players';
     this.round = 0;
     this.questions = null;
+    this.czarState = false;
     this.answers = null;
     this.curQuestion = null;
     this.timeLimits = {
@@ -157,6 +158,25 @@ class Game {
     });
 
     const self = this;
+    self.startGame();
+  }
+  /**
+   *
+   * @returns {void} description
+   * @memberof Game
+   */
+  startGame() {
+    console.log(this.gameID, this.state);
+    this.setCzar(this);
+  }
+
+  /**
+   *
+   * @returns {void} description
+   * @memberof Game
+   */
+  drawCard() {
+    const self = this;
     async.parallel(
       [
         this.getQuestions,
@@ -168,22 +188,15 @@ class Game {
         }
         self.questions = results[0];
         self.answers = results[1];
-
-        self.startGame();
       }
     );
+    setTimeout(() => {
+      this.shuffleCards(this.questions);
+      this.shuffleCards(this.answers);
+      this.stateChoosing(this);
+    }, 100);
   }
-  /**
-   *
-   * @returns {void} description
-   * @memberof Game
-   */
-  startGame() {
-    console.log(this.gameID, this.state);
-    this.shuffleCards(this.questions);
-    this.shuffleCards(this.answers);
-    this.stateChoosing(this);
-  }
+
 
   /**
    *
@@ -196,13 +209,29 @@ class Game {
 
   /**
    *
+   *@returns {void}
+   * @param {any} self
+   * @memberof Game
+   */
+  setCzar(self) {
+    self.state = 'waiting for czar to draw a card';
+    if (self.czar >= self.players.length - 1) {
+      self.czar = 0;
+    } else {
+      self.czar += 1;
+    }
+    self.czarState = false;
+    self.sendUpdate();
+  }
+
+  /**
+   *
    * @returns {void} description
    * @param {any} self
    * @memberof Game
    */
   stateChoosing(self) {
     self.state = 'waiting for players to pick';
-    // console.log(self.gameID,self.state);
     self.table = [];
     self.winningCard = -1;
     self.winningCardPlayer = -1;
@@ -213,13 +242,17 @@ class Game {
         self.questions = data;
       });
     }
-    self.round++;
+    self.round += 1;
     self.dealAnswers();
     // Rotate card czar
-    if (self.czar >= self.players.length - 1) {
-      self.czar = 0;
+    if (self.czarState) {
+      if (self.czar >= self.players.length - 1) {
+        self.czar = 0;
+      } else {
+        self.czar += 1;
+      }
     } else {
-      self.czar++;
+      self.czarState = true;
     }
     self.sendUpdate();
 
@@ -237,12 +270,11 @@ class Game {
       this.winningCard = 0;
       const winnerIndex = this._findPlayerIndexBySocket(this.table[0].player);
       this.winningCardPlayer = winnerIndex;
-      this.players[winnerIndex].points++;
+      this.players[winnerIndex].points += 1;
       this.winnerAutopicked = true;
       this.stateResults(this);
     } else {
-      // console.log(this.gameID,'no cards were picked!');
-      this.stateChoosing(this);
+      this.setCzar(this);
     }
   }
   /**
@@ -287,7 +319,7 @@ class Game {
       if (winner !== -1) {
         self.stateEndGame(winner);
       } else {
-        self.stateChoosing(self);
+        self.setCzar(self);
       }
     }, self.timeLimits.stateResults * 1000);
   }
@@ -346,7 +378,7 @@ class Game {
     let randNum;
 
     while (shuffleIndex) {
-      randNum = Math.floor(Math.random() * shuffleIndex--);
+      randNum = Math.floor(Math.random() * (shuffleIndex -= 1));
       temp = cards[randNum];
       cards[randNum] = cards[shuffleIndex];
       cards[shuffleIndex] = temp;
@@ -493,7 +525,7 @@ class Game {
         if (this.state === 'waiting for players to pick') {
           clearTimeout(this.choosingTimeout);
           this.sendNotification('The Czar left the game! Starting a new round.');
-          return this.stateChoosing(this);
+          return this.setCzar(this);
         } else if (this.state === 'waiting for czar to decide') {
           // If players are waiting on a czar to pick, auto pick.
           this.sendNotification('The Czar left the game! First answer submitted wins!');
@@ -502,7 +534,7 @@ class Game {
       } else {
         // Update the czar's position if the removed player is above the current czar
         if (playerIndex < this.czar) {
-          this.czar--;
+          this.czar -= 1;
         }
         this.sendNotification(`${playerName} has left the game.`);
       }
@@ -532,7 +564,7 @@ class Game {
         const winnerIndex = this._findPlayerIndexBySocket(this.table[cardIndex].player);
         this.sendNotification(`${this.players[winnerIndex].username} has won the round!`);
         this.winningCardPlayer = winnerIndex;
-        this.players[winnerIndex].points++;
+        this.players[winnerIndex].points += 1;
         clearTimeout(this.judgingTimeout);
         this.winnerAutopicked = autopicked;
         this.stateResults(this);

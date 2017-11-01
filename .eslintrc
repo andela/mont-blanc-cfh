@@ -21,6 +21,7 @@
     "no-plusplus": 0,
     "func-names": 0,
     "no-unused-vars": 0,
+    "no-restricted-globals": 0,
     "no-unused-expressions": 0,
     "curly": ["error", "multi-line"],
     "import/no-unresolved": [2, {
@@ -50,6 +51,7 @@
     "window": false,
     "AOS": false,
     "_": false,
-    "io": false
+    "io": false,
+    "event": true
   }
 }
