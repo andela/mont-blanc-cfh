@@ -40,6 +40,17 @@ angular.module('mean.system')
           $scope.showMessage = error;
         });
       };
+      $scope.logIn = () => {
+        $http.post('/api/v1/auth/login', JSON.stringify($scope.data)).then((user) => {
+          if (user.data.token) {
+            setTokenHeader(user.data.token);
+          } else {
+            $scope.showMessage = 'Token not provided';
+          }
+        }).catch((error) => {
+          $scope.showMessage = error;
+        });
+      };
 
       $scope.signOut = () => {
         setTokenHeader();
