@@ -26,7 +26,7 @@
     "import/no-unresolved": [2, {
       "commonjs": true
     }],
-    "no-shadow": ["error", {
+    "no-shadow": ["off", {
       "allow": ["req", "res", "err"]
     }],
     "valid-jsdoc": ["error", {
