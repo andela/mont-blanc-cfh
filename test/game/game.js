@@ -22,7 +22,7 @@ describe('Game Server', () => {
         room: '',
         createPrivate: false
       });
-      setTimeout(disconnect, 200);
+      disconnect();
     });
   });
 
@@ -41,7 +41,7 @@ describe('Game Server', () => {
       client1.on('gameUpdate', (gameData) => {
         gameData.gameID.should.match(/\d+/);
       });
-      setTimeout(disconnect, 200);
+      disconnect();
     });
   });
 
@@ -70,7 +70,7 @@ describe('Game Server', () => {
           gameData.notification.should.match(/ has joined the game!/);
         });
       });
-      setTimeout(disconnect, 200);
+      setTimeout(disconnect, 50);
     });
   });
 
@@ -94,7 +94,7 @@ describe('Game Server', () => {
       client3.on('gameUpdate', (gameData) => {
         gameData.state.should.equal('waiting for players to pick');
       });
-      setTimeout(disconnect, 200);
+      disconnect();
     };
     client1.on('connect', () => {
       client1.emit('joinGame', {
@@ -116,7 +116,7 @@ describe('Game Server', () => {
             room: '',
             createPrivate: false
           });
-          setTimeout(expectStartGame, 100);
+          expectStartGame();
         });
       });
     });
@@ -154,7 +154,7 @@ describe('Game Server', () => {
       client6.on('gameUpdate', (gameData) => {
         gameData.state.should.equal('waiting for players to pick');
       });
-      setTimeout(disconnect, 200);
+      disconnect();
     };
     client1.on('connect', () => {
       client1.emit('joinGame', {
@@ -204,7 +204,7 @@ describe('Game Server', () => {
                       room: gameID,
                       createPrivate: false
                     });
-                    setTimeout(expectStartGame, 100);
+                    expectStartGame();
                   });
                 });
               });
