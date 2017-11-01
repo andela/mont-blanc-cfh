@@ -3,7 +3,7 @@ angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', '
     function ($routeProvider) {
       $routeProvider
         .when('/', {
-          templateUrl: 'views/landing_page.html'
+          templateUrl: 'views/landing_page.html',
         })
         .when('/app', {
           templateUrl: '/views/app.html',

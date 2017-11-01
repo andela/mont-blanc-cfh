@@ -85,8 +85,8 @@ export function checkAvatar(req, res) {
     User.findOne({
       _id: req.user._id
     })
-      .exec((err, user) => {
-        if (user.avatar !== undefined) {
+      .exec((err, response) => {
+        if (response.avatar !== undefined) {
           res.redirect('/#!/');
         } else {
           res.redirect('/#!/choose-avatar');
@@ -167,9 +167,9 @@ export function avatars(req, res) {
     User.findOne({
       _id: req.user._id
     })
-      .exec((err, user) => {
-        user.avatar = avatars[req.body.avatar];
-        user.save();
+      .exec((err, response) => {
+        response.avatar = avatars[req.body.avatar];
+        response.save();
       });
   }
   return res.redirect('/#!/app');
@@ -189,19 +189,19 @@ export function addDonation(req, res) {
       User.findOne({
         _id: req.user._id
       })
-        .exec((err, user) => {
+        .exec((err, response) => {
           // Confirm that this object hasn't already been entered
           let duplicate = false;
           for (let i = 0; i < user.donations.length; i + 1) {
-            if (user.donations[i].crowdrise_donation_id === req.body.crowdrise_donation_id) {
+            if (response.donations[i].crowdrise_donation_id === req.body.crowdrise_donation_id) {
               duplicate = true;
             }
           }
           if (!duplicate) {
             console.log('Validated donation');
-            user.donations.push(req.body);
-            user.premium = 1;
-            user.save();
+            response.donations.push(req.body);
+            response.premium = 1;
+            response.save();
           }
         });
     }
@@ -217,10 +217,10 @@ export function addDonation(req, res) {
  * @param {any} res
  */
 export function show(req, res) {
-  const user = req.profile;
+  const gameUser = req.profile;
   res.render('users/show', {
-    title: user.name,
-    user
+    title: gameUser.name,
+    user: gameUser
   });
 }
 
@@ -249,10 +249,10 @@ export function user(req, res, next, id) {
     .findOne({
       _id: id
     })
-    .exec((err, user) => {
+    .exec((err, response) => {
       if (err) return next(err);
-      if (!user) return next(new Error(`Failed to load User ${id}`));
-      req.profile = user;
+      if (!response) return next(new Error(`Failed to load User ${id}`));
+      req.profile = response;
       next();
     });
 }
