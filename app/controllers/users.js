@@ -1,6 +1,8 @@
 /**
  * Module dependencies.
  */
+import validator from 'validator';
+import bcrypt from 'bcryptjs';
 import User from '../models/user';
 
 
@@ -152,7 +154,39 @@ export function create(req, res) {
     });
   }
 }
-
+export const logIn = (req, res) => {
+  const { email, password } = req.body;
+  if (email) {
+    if (password) {
+      if (validator.isEmail(req.body.email)) {
+        User.findOne({
+          email
+        }).then((existingUser) => {
+          if (!existingUser) {
+            return res.status(401).send({ message: 'You seem to have not registered this account with us' });
+          }
+          if (!bcrypt.compareSync(req.body.password, existingUser.hashed_password)) {
+            return res.status(401).send({ message: 'Incorrect credentials' });
+          }
+          return res.status(200).send({
+            token: existingUser.generateJwt(),
+            message: 'Successfully logged in'
+          });
+        }).catch((err) => {
+          if (err) {
+            return res.status(500).send({ errors: 'Something went wrong' });
+          }
+        });
+      } else {
+        return res.status(400).send({ message: 'Emails are allowed only' });
+      }
+    } else {
+      return res.status(400).send({ message: 'Password is required' });
+    }
+  } else {
+    return res.status(400).send({ message: 'Email is required' });
+  }
+};
 /**
  * Assign avatar to user
  * @export
