@@ -3,23 +3,23 @@ export default [{
     name: 'Cards for Humanity - Development'
   },
   facebook: {
-    clientID: 'APP_ID',
-    clientSecret: 'APP_SECRET',
-    callbackURL: 'http://cardsforhumanity.com:3000/auth/facebook/callback'
+    clientID: process.env.facebookID,
+    clientSecret: process.env.facebookSecret,
+    callbackURL: process.env.callback
   },
   twitter: {
-    clientID: 'CONSUMER_KEY',
-    clientSecret: 'CONSUMER_SECRET',
-    callbackURL: 'http://cardsforhumanity.com:3000/auth/twitter/callback'
+    clientID: process.env.twitterID,
+    clientSecret: process.env.twitterSecret,
+    callbackURL: process.env.callback
   },
   github: {
-    clientID: 'APP_ID',
-    clientSecret: 'APP_SECRET',
-    callbackURL: 'http://cardsforhumanity.com:3000/auth/github/callback'
+    clientID: process.env.githubID,
+    clientSecret: process.env.githubSecret,
+    callbackURL: process.env.callback
   },
   google: {
-    clientID: 'APP_ID',
-    clientSecret: 'APP_SECRET',
-    callbackURL: 'http://cardsforhumanity.com:3000/auth/google/callback'
+    clientID: process.env.googleID,
+    clientSecret: process.env.googleSecret,
+    callbackURL: process.env.callback
   }
 }];
