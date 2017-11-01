@@ -68,7 +68,6 @@ expressFunction(app, passport, mongoose);
  * Bootstrap db connection
  */
 mongoose.connect(config.db);
-console.log(config.db, 'we are here ');
 
 
 /**

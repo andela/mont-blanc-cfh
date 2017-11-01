@@ -3,10 +3,11 @@
  */
 import should from 'should';
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import User from '../../app/models/user';
 
 
-const User = mongoose.model('User');
-
+dotenv.config();
 // Globals
 let user;
 
@@ -25,14 +26,16 @@ describe('<Unit Test>', () => {
     });
 
     describe('Method Save', () => {
-      it('should be able to save without problems', done => user.save((err) => {
-        should.not.exist(err);
-        done();
-      }));
+      it('should be able to save without problems', (done) => {
+        user.save((err) => {
+          should.not.exist(err);
+          done();
+        });
+      });
 
       it('should be able to show an error when try to save without name', (done) => {
         user.name = '';
-        return user.save((err) => {
+        user.save((err) => {
           should.exist(err);
           done();
         });
