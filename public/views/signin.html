@@ -1,71 +1,103 @@
-<div id="main-bod" ng-controller="IndexController">
-  <!-- Fixed Logo & Menu Bar Start -->
-  <div id="top-part">
-    <div class="wpb-top-bar">
-      <div class="mod-contain" id="navver">
-        <div class="row">
-          <!-- Logo -->
-          <div class="wpb-logo-container">
-            <div id="landing-logo"> 
-              <span id="first-word">Cards</span>
-              <span id="second-word"> for</span> 
-              <span id="third-word">Humanity</span> 
-            </div> 
-            <div class="col-md-9 wpb-menu-container">
-              <ul class="wpb-main-menu">
-                <li><a href="/">Home</a></li>
-              </ul>
-            </div>
-          </div>      
-        </div>
-      </div>
-    </div>
-  </div>
-<!-- Fixed Logo & Menu Bar End -->
+<div landing id="main-bod" ng-controller="IndexController">
+  <body data-spy="scroll" data-target=".navbar" data-offset="50">
 
-<!-- Landing Start -->
-<div class="wpb-teaser parallax-background" id="homer">
-  <div class="background-opacity"></div> 
-  <div class="modified-container">
-    <div class="row" id="main-text"> 
-    <!-- Teaser Text Start -->
-    <div id="landing-logo">
-      <h2 id="slogan">Sign in with:</h2>
-      <div id="login-buttons">
-        <a href="/auth/facebook"><img class="login-item" src="/img/icons/facebook.png"></a>
-        <a href="/auth/github"><img class="login-item" src="/img/icons/github.png"></a>
-        <a href="/auth/twitter"><img class="login-item" src="/img/icons/twitter.png"></a>
-        <a href="/auth/google"><img class="login-item" src="/img/icons/google.png"></a>
-      </div>
-      <p id="create">Or log in below:</p>
 
-      <div class="sign-body">
-        <div class="more-sign">
-          <div class="sign-error" ng-show="showError() === 'invalid'">
-            Please check your username/password and try again.
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="#"><img src="./img/logo.png" alt="logo"></a>
+          <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav navbar-right">
+              <li class="nav-item active">
+                <a class="nav-link" href="/">Home
+                </a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="/#!/#about">About
+                </a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" data-scroll href="/#!/#charity">Charity
+                </a>
+              </li>
+  
+              <li class="nav-item active" ng-show="showOptions">
+                  <a class="nav-link" href="signup">Sign up
+                  </a>
+               </li>
+            </ul>
           </div>
-          <form class="signup form-horizontal" ng-submit="logIn()">
-            <div class="control-group">
-              <label for="email" class="control-label"></label>
-              <div class="controls">
-                <input class="input-info" id="email" type="text" name="email" placeholder="Email" ng-model="data.email" required novalidate />
-              </div>
-            </div>
-            <div class="control-group">
-              <label for="password" class="control-label"></label>
-              <div class="controls">
-                <input class="input-info" id="password" type="password" name="password" placeholder="Password" ng-model="data.password" required novalidate />
-              </div>
-            </div>
-            <div class="form-actions top-margin">
-              <button id="sign-up-btn-other" type='submit'>Sign In</button>
-            </div>
-          </form>
         </div>
-      </div>
-    </div>
-    </div>
-    </div>
-  </div>
-</div>
+      </nav>
 
+    <div class="container">
+            <div class="row">
+              <div class="Fixed-Center is-Responsive col-xs-8">
+                <div>
+                  <form class="glyphicon" action="" id="SigninForm" action="/users/session" method="post">
+                    <div class="sign-error" ng-show="showError() === 'invalid'">
+                      
+                    </div>
+                    <div class="social-box">
+                        <div class="row mg-btm">
+                            <div class="col-md-3">
+                                <a href="/auth/facebook" class="btn btn-primary btn-block">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                    <a href="/auth/github" class="btn btn-link btn-block github" >
+                                        <i class="fa fa-github"></i>
+                                    </a>
+                            </div>
+                            <div class="col-md-3">
+                                    <a href="/auth/twitter" class="btn btn-info btn-block" >
+                                        <i class="fa fa-twitter"></i>
+                                    </a>
+                            </div>
+                            <div class="col-md-3">
+                                    <a href="/auth/google" class="btn btn-danger btn-block" >
+                                        <i class="fa fa-google-plus"></i>
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group input-group">
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                      <input class="form-control" id="email" type="text" name='email' placeholder="Email" required novalidate/>          
+                    </div>
+                    <div class="form-group input-group">
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                      <input class="form-control" id="password" type="password" name='password' placeholder="Password" required novalidate/>     
+                    </div>
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-success btn-block">Signin</button>
+                    </div>
+                    <div class="form-group text-center">
+                      Don't have an account? <a href="signup">Sign up</a>
+                    </div>
+                  </form>        
+                </div>  
+              </div>    
+            </div>
+        </div>
+
+   <!-- First section content -->
+
+   <div class="container-fluid first-section">
+    <div class="container content">
+
+    </div>
+   </div>
+      
+   <!-- First section content ends here-->
+
+   </div>
+  </body>
+</html>
