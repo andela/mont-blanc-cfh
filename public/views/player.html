@@ -1,22 +1,34 @@
-  <div class="row" ng-repeat="player in game.players">
-    <div class="col-md-12">
-      <div class="player-card">
-        <div class="row">
-            <div class="col-md-2">
-                <img ng-src="{{player.avatar}}" width="35px" height="35px" alt="avatar">
+<div class="row" ng-repeat="player in game.players" ng-hide="game.state === 'game ended' || game.state ==='game dissolved'">
+  <div class="col-md-12">
+    <div class="player-card">
+      <div class="row">
+        <div class="col-md-2">
+          <img ng-src="{{player.avatar}}" width="35px" height="35px" alt="avatar">
+        </div>
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-md-9">
+              <h5 id="player-username">{{player.username}}
+                <span> {{player.points}}/{{game.pointLimit}}</span>
+              </h5>
+              <h5 ng-show="currentCzar($index)" class="czar"> Czar</h5>
             </div>
-            <div class="col-md-10">
-              <div class="row">
-                <div class="col-md-9">
-                  <h5>{{player.username | upperFirstLetter}}<span> {{player.points}}/{{game.pointLimit}}</span></h5>
-                  <h5 ng-show="isPlayer($index)" class="czar"> Czar</h5>
-                </div>
-                <div class="col-md-3">
-                    <img src="../img/card6.png" width="30px" height="30px" alt="card">
-                </div>
+            <div class="col-md-3">
+              <div ng-show="isPlayer($index)">
+                <img src="../img/card6.png" width="30px" height="30px" alt="card">
               </div>
             </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<div class="row feedback-row count" ng-show="game.state === 'game ended' || game.state ==='game dissolved'">
+  <div class="col-md-12">
+    <h4>Tell Us How You Feel</h4>
+    <p>You have played this game. We hope you enjoyed it. Your thoughts matter to us so much!</p>
+    <a href="" class="btn btn-lg btn-block btn-cfh-green">Provide Feedback</a>
+  </div>
+</div>

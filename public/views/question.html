@@ -1,28 +1,69 @@
 <div class="col-md-8">
   <div class="question-box">
-    <div id="question-console" ng-show="game.state === 'awaiting players'">
-      <h4>Searching for Players</h4>
-      <p>{{game.players.length}}/12 players found</p>
-      <div id="loading-container">
-        <div id="loading-gif">
-          <img ng-src="../img/loader.gif" />
-        </div>
+    <div id="question-console">
+      <div id="game-dissolved" ng-show="game.state ==='game dissolved' && game.gameWinner === -1">
+        <h3>What the!? The game ended because too many people left! </h3>
+        <h3>Our sincere apologies</h3>
+        <h3>Game has been dissolved! </h3>
       </div>
-
-      <div class="row">
-        <div class="col-md-5 pull-left">
-          <a ng-show="(game.playerIndex === 0 || game.joinOverride) && game.players.length >= game.playerMinLimit" data-toggle="modal"
-            data-target="#start-game-modal" class="btn btn-block btn-cfh-green">Start Game</a>
+      <div id="game-ended" ng-show="game.state === 'game ended' && game.gameWinner === game.playerIndex">
+        <h3>Congratulations! You won the game, {{game.players[game.playerIndex].username}}!</h3>
+        <h3>We hope you feel special. If you'd like to share that special feeling with the world, consider donating to charity.
+          Or just horde it all for youself. </h3>
+      </div>
+      <div id="game-ended" ng-show="game.state === 'game ended' && game.gameWinner !== game.playerIndex">
+        <h3>Aw, shucks! {{game.players[game.gameWinner].username}} won the game! </h3>
+        <h3>That makes you a loser, unfortunately.</h3>
+      </div>
+      <h4 ng-bind-html-unsafe="game.curQuestion.text" ng-hide="game.state === 'game ended' || game.state ==='game dissolved' || game.state === 'awaiting players'">Question: </h4>
+      <div ng-show="game.state === 'awaiting players'">
+        <div id="notifications" ng-if="game.notification" ng-animate="{enter:'animated fadeInLeft', leave:'animated fadeOut'}">
+          {{game.notification}}
         </div>
-        <div class="col-md-2"></div>
-        <div class="col-md-5 pull-right">
-          <a class="btn btn-block btn-cfh-white" data-toggle="modal" data-target="#invite-players-modal">Invite Players</a>
+        <h4>Searching for Players</h4>
+        <p>{{game.players.length}}/12 players found</p>
+        <div id="loading-container">
+          <div id="loading-gif">
+            <img ng-src="../img/loader.gif" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-5 pull-left">
+            <a ng-show="(game.playerIndex === 0 || game.joinOverride) && game.players.length >= game.playerMinLimit" data-toggle="modal"
+              data-target="#start-game-modal" class="btn btn-block btn-cfh-green">Start Game</a>
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-md-5 pull-right">
+            <a class="btn btn-block btn-cfh-white" data-toggle="modal" data-target="#invite-players-modal">Invite Players</a>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
+  <div class="row" ng-show="game.state === 'awaiting players'" id="instructions-row">
+    <div class="col-md-12">
+      <h4>Instructions</h4>
+      <ol>
+        <li>Each player begins with, and will always have, 10 white answer cards.</li>
+        <li>For each round, one player is randomly chosen as the Card Czar.</li>
+        <li>Everyone else answers the black question card by clicking on the answer card they want to use.</li>
+        <li>The Card Czar then picks a favorite answer, and whoever played that answer wins the round.</li>
+        <li>Want to adorn your avatar with a glorious crown? Donate to charity after the game!</li>
+      </ol>
+    </div>
+  </div>
+
   <!-- Game console notifications -->
-  <notification></notification>
+  <div class="row czar-notification">
+    <div class="col-md-12" ng-show="isCzar($index) && game.table.length===0 && game.state !== 'game dissolved' && game.state !== 'awaiting players'">
+      <h3>
+        Czar! You're Czar!!
+      </h3>
+      <h3>Other players are selecting their answers. Get ready to choose the winner!</h3>
+    </div>
+
+  </div>
 
 </div>
