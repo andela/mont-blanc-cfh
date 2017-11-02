@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <div class="row">
       <span ng-show="winnerPicked()"></span>
-      <div class="col-md-2 col-sm-6 col-xs-6 unpadded" ng-style="{'cursor':'pointer'}" ng-click="pickCard(card)" ng-hide="showTable || isCzar()"
+      <div class="col-md-2 col-sm-6 col-xs-6 unpadded" ng-style="{'cursor':'pointer'}" ng-click="pickCard(card)" ng-hide="showTable || isCzar() || game.state==='waiting for czar to draw a card'"
         ng-repeat="card in game.players[game.playerIndex].hand" ng-animate="{enter:'animated fadeInUp', leave: 'animated fadeInOut'}">
         <div class="answer-card">
           <div class="card-overlay">
@@ -15,7 +15,8 @@
 
       <span ng-repeat="answer in game.table">
         <div class="col-md-2 col-sm-6 col-xs-6 unpadded" ng-style="pointerCursorStyle()" id='table' ng-click="pickWinning(answer)"
-          ng-show="showTable || isCzar()" ng-repeat="card in answer.card" ng-animate="{enter:'animated bounceInLeft'}">
+          ng-show="showTable || isCzar() && game.state!=='waiting for czar to draw a card'" ng-repeat="card in answer.card"
+          ng-animate="{enter:'animated bounceInLeft'}">
           <div class="answer-card">
             <div class="card-overlay">
               <span ng-bind-html-unsafe="card.text"></span>
@@ -51,4 +52,24 @@
     </div>
   </div>
 
+</div>
+<div>
+  <div id="czarModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <center>
+          <h4 id="Text">You are the Czar, Please draw a black card</h4>
+          <div ng-click="drawCard()" ng-style="{'cursor':'pointer'}" style='margin: auto;'>
+            <center>
+              <img src='../img/cards/blackCard1.png' style='width: 100px;' class='animated flipInX' id='card1' />
+              <img src='../img/cards/blackCard1.png' style='width: 100px;' class='animated flipInX' id='card2' />
+              <img src='../img/cards/blackCard1.png' style='width: 100px;' class='animated flipInX' id='card3' />
+              <img src='../img/cards/blackCard1.png' style='width: 100px;' class='animated flipInX' id='card4' />
+            </center>
+          </div>
+        </center>
+      </div>
+    </div>
+  </div>
 </div>
