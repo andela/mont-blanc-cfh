@@ -46,6 +46,7 @@ class Game {
     this.state = 'awaiting players';
     this.round = 0;
     this.questions = null;
+    this.czarState = false;
     this.answers = null;
     this.curQuestion = null;
     this.timeLimits = {
@@ -100,9 +101,9 @@ class Game {
     };
   }
   /**
-   *
-   * @returns {void} description
-   * @param {any} msg
+   *@description this method is used to emit notification
+   * @returns {void}
+   * @param {string} msg
    * @memberof Game
    */
   sendNotification(msg) {
@@ -111,12 +112,10 @@ class Game {
     });
   }
 
-  // Currently called on each joinGame event from socket.js
-  // Also called on removePlayer IF game is in 'awaiting players' state
   /**
    * Currently called on each joinGame event from socket.js
    * Also called on removePlayer IF game is in 'awaiting players' state
-   * @returns {void} description
+   * @returns {void}
    * @memberof Game
    */
   assignPlayerColors() {
@@ -125,8 +124,8 @@ class Game {
     });
   }
   /**
-   *
-   * @returns {void} description
+   *@description this method assigns guest names
+   * @returns {void}
    * @memberof Game
    */
   assignGuestNames() {
@@ -142,8 +141,8 @@ class Game {
     });
   }
   /**
-   *
-   * @returns {void} description
+   *@description this method setup the game and triggers startGame method
+   * @returns {void}
    * @memberof Game
    */
   prepareGame() {
@@ -157,6 +156,25 @@ class Game {
     });
 
     const self = this;
+    self.startGame();
+  }
+  /**
+   * @description this method triggers setCzar method
+   * @returns {void}
+   * @memberof Game
+   */
+  startGame() {
+    console.log(this.gameID, this.state);
+    this.setCzar(this);
+  }
+
+  /**
+   * @description this method shuffle and choose questions when czar  draws  card
+   * @returns {void}
+   * @memberof Game
+   */
+  drawCard() {
+    const self = this;
     async.parallel(
       [
         this.getQuestions,
@@ -168,26 +186,19 @@ class Game {
         }
         self.questions = results[0];
         self.answers = results[1];
-
-        self.startGame();
       }
     );
-  }
-  /**
-   *
-   * @returns {void} description
-   * @memberof Game
-   */
-  startGame() {
-    console.log(this.gameID, this.state);
-    this.shuffleCards(this.questions);
-    this.shuffleCards(this.answers);
-    this.stateChoosing(this);
+    setTimeout(() => {
+      this.shuffleCards(this.questions);
+      this.shuffleCards(this.answers);
+      this.stateChoosing(this);
+    }, 100);
   }
 
+
   /**
-   *
-   * @returns {void} description
+   * @description This method sends game update
+   * @returns {void}
    * @memberof Game
    */
   sendUpdate() {
@@ -195,14 +206,30 @@ class Game {
   }
 
   /**
-   *
-   * @returns {void} description
-   * @param {any} self
+   *@description this method selects a czar and changes game state
+   *@returns {void}
+   *@param {object} self
+   *@memberof Game
+   */
+  setCzar(self) {
+    self.state = 'waiting for czar to draw a card';
+    if (self.czar >= self.players.length - 1) {
+      self.czar = 0;
+    } else {
+      self.czar += 1;
+    }
+    self.czarState = false;
+    self.sendUpdate();
+  }
+
+  /**
+   *@description This method chooses question and triggers choosingTimeout
+   * @returns {void}
+   * @param {object} self
    * @memberof Game
    */
   stateChoosing(self) {
     self.state = 'waiting for players to pick';
-    // console.log(self.gameID,self.state);
     self.table = [];
     self.winningCard = -1;
     self.winningCardPlayer = -1;
@@ -213,13 +240,17 @@ class Game {
         self.questions = data;
       });
     }
-    self.round++;
+    self.round += 1;
     self.dealAnswers();
     // Rotate card czar
-    if (self.czar >= self.players.length - 1) {
-      self.czar = 0;
+    if (self.czarState) {
+      if (self.czar >= self.players.length - 1) {
+        self.czar = 0;
+      } else {
+        self.czar += 1;
+      }
     } else {
-      self.czar++;
+      self.czarState = true;
     }
     self.sendUpdate();
 
@@ -228,8 +259,8 @@ class Game {
     }, self.timeLimits.stateChoosing * 1000);
   }
   /**
-   *
-   * @returns {void} description
+   * @description this method selects the first answer automatically
+   * @returns {void}
    * @memberof Game
    */
   selectFirst() {
@@ -237,22 +268,21 @@ class Game {
       this.winningCard = 0;
       const winnerIndex = this._findPlayerIndexBySocket(this.table[0].player);
       this.winningCardPlayer = winnerIndex;
-      this.players[winnerIndex].points++;
+      this.players[winnerIndex].points += 1;
       this.winnerAutopicked = true;
       this.stateResults(this);
     } else {
-      // console.log(this.gameID,'no cards were picked!');
-      this.stateChoosing(this);
+      this.setCzar(this);
     }
   }
   /**
-   *@param {any} self
-   * @returns {void} description
+   * @description this method change game state to waiting for czar to decide
+   *@param {object} self
+   * @returns {void}
    * @memberof Game
    */
   stateJudging(self) {
     self.state = 'waiting for czar to decide';
-    // console.log(self.gameID,self.state);
 
     if (self.table.length <= 1) {
       // Automatically select a card if only one card was submitted
@@ -268,9 +298,9 @@ class Game {
   /**
    *
    *
-   * @param {any} self
+   * @param {object} self
    * @memberof Game
-   * @returns {void} description
+   * @returns {void}
    */
   stateResults(self) {
     self.state = 'winner has been chosen';
@@ -287,14 +317,14 @@ class Game {
       if (winner !== -1) {
         self.stateEndGame(winner);
       } else {
-        self.stateChoosing(self);
+        self.setCzar(self);
       }
     }, self.timeLimits.stateResults * 1000);
   }
   /**
-   *
-   * @returns {void} description
-   * @param {any} winner
+   *@description this method change game state to "end game"
+   * @returns {void}
+   * @param {object} winner
    * @memberof Game
    */
   stateEndGame(winner) {
@@ -303,8 +333,8 @@ class Game {
     this.sendUpdate();
   }
   /**
-   *
-   * @returns {void} description
+   *@description this method change game state to "game dissolved"
+   * @returns {void}
    * @memberof Game
    */
   stateDissolveGame() {
@@ -312,32 +342,32 @@ class Game {
     this.sendUpdate();
   }
   /**
-   *
-   * @returns {void} description
-   * @param {any} cb
+   *@description this method triggers get all question controller
+   * @returns {void}
+   * @param {function} callBack
    * @memberof Game
    */
-  getQuestions(cb) {
+  getQuestions(callBack) {
     questions.allQuestionsForGame((data) => {
-      cb(null, data);
+      callBack(null, data);
     });
   }
   /**
-   *
-   * @returns {void} description
-   * @param {any} cb
+   * @description this method triggers get all answer controller
+   * @returns {void}
+   * @param {function} callBack
    * @memberof Game
    */
-  getAnswers(cb) {
+  getAnswers(callBack) {
     answers.allAnswersForGame((data) => {
-      cb(null, data);
+      callBack(null, data);
     });
   }
 
   /**
-   *
-   * @returns {void} description
-   * @param {any} cards
+   * @description this method randomly selects questions and answers
+   * @returns {void}
+   * @param {array} cards
    * @memberof Game
    */
   shuffleCards(cards) {
@@ -346,7 +376,7 @@ class Game {
     let randNum;
 
     while (shuffleIndex) {
-      randNum = Math.floor(Math.random() * shuffleIndex--);
+      randNum = Math.floor(Math.random() * (shuffleIndex -= 1));
       temp = cards[randNum];
       cards[randNum] = cards[shuffleIndex];
       cards[shuffleIndex] = temp;
@@ -355,8 +385,8 @@ class Game {
     return cards;
   }
   /**
-   *
-   * @returns {void} description
+   *@description this method stores triggers getAnser method
+   * @returns {void}
    * @param {number} [maxAnswers=10]
    * @memberof Game
    */
@@ -374,7 +404,7 @@ class Game {
     }
   }
   /**
-   *
+   *@description this method returns player index
    * @param {any} thisPlayer
    * @returns {Number} player index
    * @memberof Game
@@ -389,8 +419,8 @@ class Game {
     return playerIndex;
   }
   /**
-   *
-   * @returns {void} description
+   *@description this method changes game state to "waiting for players to pick"
+   * @returns {void}
    * @param {any} thisCardArray
    * @param {any} thisPlayer
    * @memberof Game
@@ -446,9 +476,9 @@ class Game {
   }
   /**
    *
-   *
-   * @param {any} thisPlayer
-   * @returns {void} description
+   *@description this method get player details based on player index
+   * @param {object} thisPlayer
+   * @returns {void}
    * @memberof Game
    */
   getPlayer(thisPlayer) {
@@ -460,9 +490,9 @@ class Game {
   }
   /**
    *
-   *
-   * @param {any} thisPlayer
-   * @returns {void} description
+   *@description this method remove player
+   * @param {object} thisPlayer
+   * @returns {void}
    * @memberof Game
    */
   removePlayer(thisPlayer) {
@@ -493,7 +523,7 @@ class Game {
         if (this.state === 'waiting for players to pick') {
           clearTimeout(this.choosingTimeout);
           this.sendNotification('The Czar left the game! Starting a new round.');
-          return this.stateChoosing(this);
+          return this.setCzar(this);
         } else if (this.state === 'waiting for czar to decide') {
           // If players are waiting on a czar to pick, auto pick.
           this.sendNotification('The Czar left the game! First answer submitted wins!');
@@ -502,7 +532,7 @@ class Game {
       } else {
         // Update the czar's position if the removed player is above the current czar
         if (playerIndex < this.czar) {
-          this.czar--;
+          this.czar -= 1;
         }
         this.sendNotification(`${playerName} has left the game.`);
       }
@@ -511,8 +541,8 @@ class Game {
     }
   }
   /**
-   *
-   * @returns {void} description
+   *@description this method picks the winner and change game state to "waiting for czar to decide"
+   * @returns {void}
    * @param {any} thisCard
    * @param {any} thisPlayer
    * @param {boolean} [autopicked=false]
@@ -532,7 +562,7 @@ class Game {
         const winnerIndex = this._findPlayerIndexBySocket(this.table[cardIndex].player);
         this.sendNotification(`${this.players[winnerIndex].username} has won the round!`);
         this.winningCardPlayer = winnerIndex;
-        this.players[winnerIndex].points++;
+        this.players[winnerIndex].points += 1;
         clearTimeout(this.judgingTimeout);
         this.winnerAutopicked = autopicked;
         this.stateResults(this);
@@ -545,8 +575,8 @@ class Game {
     }
   }
   /**
-   *
-   * @returns {void} description
+   * @description this method clear all game process
+   * @returns {void}
    * @memberof Game
    */
   killGame() {

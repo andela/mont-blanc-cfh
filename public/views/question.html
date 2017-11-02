@@ -1,25 +1,28 @@
 <div class="col-md-8">
-    <div class="question-box" >
-      <div id="question-console" ng-show="game.state === 'awaiting players'">
-          <h4>Searching for Players</h4>
-          <p>{{game.players.length}}/12 players found</p>
-          <div id="loading-container">
-            <div id="loading-gif"><img ng-src="../img/loader.gif"/></div>
-          </div>
+  <div class="question-box">
+    <div id="question-console" ng-show="game.state === 'awaiting players'">
+      <h4>Searching for Players</h4>
+      <p>{{game.players.length}}/12 players found</p>
+      <div id="loading-container">
+        <div id="loading-gif">
+          <img ng-src="../img/loader.gif" />
+        </div>
+      </div>
 
-          <div class="row">
-            <div class="col-md-5 pull-left">
-              <a ng-show="(game.playerIndex === 0 || game.joinOverride) && game.players.length >= game.playerMinLimit" data-toggle="modal" data-target="#start-game-modal" class="btn btn-block btn-cfh-green">Start Game</a>
-            </div>
-            <div class="col-md-2"></div>
-            <div class="col-md-5 pull-right">
-              <a class="btn btn-block btn-cfh-white" data-toggle="modal" data-target="#invite-players-modal">Invite Players</a>
-            </div>
-          </div>
+      <div class="row">
+        <div class="col-md-5 pull-left">
+          <a ng-show="(game.playerIndex === 0 || game.joinOverride) && game.players.length >= game.playerMinLimit" data-toggle="modal"
+            data-target="#start-game-modal" class="btn btn-block btn-cfh-green">Start Game</a>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-5 pull-right">
+          <a class="btn btn-block btn-cfh-white" data-toggle="modal" data-target="#invite-players-modal">Invite Players</a>
+        </div>
       </div>
     </div>
-
-    <!-- Game console notifications -->
-    <notification></notification>
-    
   </div>
+
+  <!-- Game console notifications -->
+  <notification></notification>
+
+</div>
