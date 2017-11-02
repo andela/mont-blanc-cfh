@@ -1,28 +1,54 @@
-<div class="row answers-row unpadded" ng-hide="game.state === 'game ended' || game.state ==='game dissolved'">
-    <div class="col-md-12">
-      <div class="row">
-          <span ng-show="winnerPicked()"></span>
-          <div class="col-md-2 unpadded" ng-style="{'cursor':'pointer'}" ng-click="pickCard(card)" ng-hide="showTable || isCzar()"
-          ng-repeat="card in game.players[game.playerIndex].hand" ng-animate="{enter:'animated fadeInUp', leave: 'animated fadeInOut'}">
-            <div class="answer-card">
+<div id="answers-row" class="row unpadded" ng-hide="game.state === 'game ended' || game.state ==='game dissolved'">
+  <div class="col-md-12">
+    <div class="row">
+      <span ng-show="winnerPicked()"></span>
+      <div class="col-md-2 col-sm-6 col-xs-6 unpadded" ng-style="{'cursor':'pointer'}" ng-click="pickCard(card)" ng-hide="showTable || isCzar()"
+        ng-repeat="card in game.players[game.playerIndex].hand" ng-animate="{enter:'animated fadeInUp', leave: 'animated fadeInOut'}">
+        <div class="answer-card">
+          <div class="card-overlay">
+            <span ng-bind-html-unsafe="card.text"></span>
+            <span id='selection-number' ng-show="showFirst(card)"> 1 </span>
+            <span id='selection-number' ng-show="showSecond(card)"> 2 </span>
+          </div>
+        </div>
+      </div>
+
+      <span ng-repeat="answer in game.table">
+        <div class="col-md-2 col-sm-6 col-xs-6 unpadded" ng-style="pointerCursorStyle()" id='table' ng-click="pickWinning(answer)"
+          ng-show="showTable || isCzar()" ng-repeat="card in answer.card" ng-animate="{enter:'animated bounceInLeft'}">
+          <div class="answer-card">
+            <div class="card-overlay">
               <span ng-bind-html-unsafe="card.text"></span>
               <span id='selection-number' ng-show="showFirst(card)"> 1 </span>
               <span id='selection-number' ng-show="showSecond(card)"> 2 </span>
             </div>
           </div>
+        </div>
+      </span>
 
-          <span ng-repeat="answer in game.table">
-              <div class="col-md-2 unpadded" ng-style="pointerCursorStyle()" id='table' ng-click="pickWinning(answer)" ng-show="showTable || isCzar()"
-              ng-repeat="card in answer.card" ng-animate="{enter:'animated bounceInLeft'}" style="background-color:{{winningColor($parent.$index)}}">
-                <div class="answer-card">
-                  <span ng-bind-html-unsafe="card.text"></span>
-                  <span id='selection-number' ng-show="showFirst(card)"> 1 </span>
-                  <span id='selection-number' ng-show="showSecond(card)"> 2 </span>
-                </div>
-              </div>
-          </span>
+    </div>
+  </div>
+</div>
 
+<div id="answers-row" class="row donation-row" ng-show="game.state === 'game ended' || game.state ==='game dissolved'">
+  <div class="col-md-12">
+    <h4>Hey friend! What do you do now? Make An Impact Today!</h4>
+    <p>You might consider donating to atone for the horrifying answers you have given in this game. Make people's lives better!
+    </p>
+  </div>
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-3">
+        <a href="/#!/app" class="btn btn-cfh-white btn-block btn-lg">New Game</a>
+      </div>
+      <div class="col-md-6">
+        <a href="https://www.crowdrise.com/donate/project/cfhio/cards4humanity?widget=true&redirect_to=http%3A%2F%2Flocalhost%3A3001%2F%23!%2Fapp%3Fgame%3DtKZXSa&stylesheet=&amounts="
+          class="btn btn-lg btn-cfh-green btn-block">DONATE NOW</a>
+      </div>
+      <div class="col-md-3">
+        <a href="/" class="btn btn-cfh-white btn-block btn-lg">Go To Lobby</a>
       </div>
     </div>
   </div>
 
+</div>
