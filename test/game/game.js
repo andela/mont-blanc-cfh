@@ -22,7 +22,7 @@ describe('Game Server', () => {
         room: '',
         createPrivate: false
       });
-      disconnect();
+      setTimeout(disconnect, 200);
     });
   });
 
@@ -41,7 +41,7 @@ describe('Game Server', () => {
       client1.on('gameUpdate', (gameData) => {
         gameData.gameID.should.match(/\d+/);
       });
-      disconnect();
+      setTimeout(disconnect, 200);
     });
   });
 
@@ -70,11 +70,12 @@ describe('Game Server', () => {
           gameData.notification.should.match(/ has joined the game!/);
         });
       });
-      setTimeout(disconnect, 50);
+      setTimeout(disconnect, 200);
     });
   });
 
-  it('Should start game when startGame event is sent with 3 players', (done) => {
+
+  it('Should change game state to waiting for czar to draw card', (done) => {
     let client2, client3;
     const client1 = io.connect(socketURL, options);
     const disconnect = () => {
@@ -83,19 +84,23 @@ describe('Game Server', () => {
       client3.disconnect();
       done();
     };
+
+
     const expectStartGame = () => {
       client1.emit('startGame');
       client1.on('gameUpdate', (gameData) => {
-        gameData.state.should.equal('waiting for players to pick');
+        gameData.state.should.equal('waiting for czar to draw a card');
       });
       client2.on('gameUpdate', (gameData) => {
-        gameData.state.should.equal('waiting for players to pick');
+        gameData.state.should.equal('waiting for czar to draw a card');
       });
       client3.on('gameUpdate', (gameData) => {
-        gameData.state.should.equal('waiting for players to pick');
+        gameData.state.should.equal('waiting for czar to draw a card');
       });
       disconnect();
     };
+
+
     client1.on('connect', () => {
       client1.emit('joinGame', {
         userID: 'unauthenticated',
@@ -121,6 +126,51 @@ describe('Game Server', () => {
       });
     });
   });
+  // ///
+
+  it('Should change game state to waiting for players to pick card', (done) => {
+    let client2, client3;
+    const client1 = io.connect(socketURL, options);
+    const disconnect = () => {
+      client1.disconnect();
+      client2.disconnect();
+      client3.disconnect();
+      done();
+    };
+
+    const expectDrawCard = () => {
+      client1.emit('drawCard');
+      client1.on('gameUpdate', (gameData) => {
+        gameData.state.should.equal('waiting for players to pick');
+      });
+      setTimeout(disconnect, 200);
+    };
+    client1.on('connect', () => {
+      client1.emit('joinGame', {
+        userID: 'unauthenticated',
+        room: '',
+        createPrivate: false
+      });
+      client2 = io.connect(socketURL, options);
+      client2.on('connect', () => {
+        client2.emit('joinGame', {
+          userID: 'unauthenticated',
+          room: '',
+          createPrivate: false
+        });
+        client3 = io.connect(socketURL, options);
+        client3.on('connect', () => {
+          client3.emit('joinGame', {
+            userID: 'unauthenticated',
+            room: '',
+            createPrivate: false
+          });
+          setTimeout(expectDrawCard, 100);
+        });
+      });
+    });
+  });
+  // //
 
   it('Should automatically start game when 6 players are in a game', (done) => {
     let client2, client3, client4, client5, client6;
@@ -137,24 +187,24 @@ describe('Game Server', () => {
     const expectStartGame = () => {
       client1.emit('startGame');
       client1.on('gameUpdate', (gameData) => {
-        gameData.state.should.equal('waiting for players to pick');
+        gameData.state.should.equal('waiting for czar to draw a card');
       });
       client2.on('gameUpdate', (gameData) => {
-        gameData.state.should.equal('waiting for players to pick');
+        gameData.state.should.equal('waiting for czar to draw a card');
       });
       client3.on('gameUpdate', (gameData) => {
-        gameData.state.should.equal('waiting for players to pick');
+        gameData.state.should.equal('waiting for czar to draw a card');
       });
       client4.on('gameUpdate', (gameData) => {
-        gameData.state.should.equal('waiting for players to pick');
+        gameData.state.should.equal('waiting for czar to draw a card');
       });
       client5.on('gameUpdate', (gameData) => {
-        gameData.state.should.equal('waiting for players to pick');
+        gameData.state.should.equal('waiting for czar to draw a card');
       });
       client6.on('gameUpdate', (gameData) => {
-        gameData.state.should.equal('waiting for players to pick');
+        gameData.state.should.equal('waiting for czar to draw a card');
       });
-      disconnect();
+      setTimeout(disconnect, 200);
     };
     client1.on('connect', () => {
       client1.emit('joinGame', {
@@ -204,7 +254,7 @@ describe('Game Server', () => {
                       room: gameID,
                       createPrivate: false
                     });
-                    expectStartGame();
+                    setTimeout(expectStartGame, 100);
                   });
                 });
               });
@@ -215,3 +265,44 @@ describe('Game Server', () => {
     });
   });
 });
+
+
+// const expectDrawCard = () => {
+// // client1.emit('startGame');
+// // client1.on('gameUpdate', (gameData) => {
+// // console.log('*******************');
+// // console.log(gameData.state);
+// // gameData.state.should.equal('waiting for czar to draw a card');
+// // });
+// client1.emit('drawCard');
+// client1.on('gameUpdate', (gameData) => {
+// console.log('*******************');
+// console.log(gameData.state);
+// gameData.state.should.equal('waiting for players to pick');
+// });
+// setTimeout(disconnect, 200);
+// };
+// client1.on('connect', () => {
+// client1.emit('joinGame', {
+// userID: 'unauthenticated',
+// room: '',
+// createPrivate: false
+// });
+// client2 = io.connect(socketURL, options);
+// client2.on('connect', () => {
+// client2.emit('joinGame', {
+// userID: 'unauthenticated',
+// room: '',
+// createPrivate: false
+// });
+// client3 = io.connect(socketURL, options);
+// client3.on('connect', () => {
+// client3.emit('joinGame', {
+// userID: 'unauthenticated',
+// room: '',
+// createPrivate: false
+// });
+// setTimeout(expectDrawCard, 100);
+// });
+// });
+// });
