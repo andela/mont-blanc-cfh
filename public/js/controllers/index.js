@@ -54,6 +54,7 @@ angular.module('mean.system')
 
       $scope.signOut = () => {
         setTokenHeader();
+        $location.path('/#!');
       };
 
       $scope.avatars = [];
