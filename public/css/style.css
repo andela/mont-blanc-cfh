@@ -20,90 +20,104 @@ body {
   font-size: 14px;
 }
 
-.navbar {
-  background-color: transparent !important;
-  border-color: transparent;
-  padding: 0px;
-  height: 50px;
-  transition: background-color 0.5s, height 0.5s;
-  padding-top: 20px;
+.navbar-landing {
+	background-color: transparent !important;
+	padding: 0px;
+	height: 50px;
+	transition: background-color 0.5s, height 0.5s;
+	padding-top: 20px;
+	border: 0;
 }
 
-.navbar-brand {
-  font-family: 'Quicksand', cursive !important;
-  font-size: 30px;
+.navbar-brand .initialLogo{
+	max-height: 100px;
+	margin-top: -20px;
 }
 
-.navbar-brand img {
-  max-height: 90px;
+
+.navbar-nav li, .navbar-nav a {
+	color: white !important;
+	cursor: pointer;
+	background: transparent !important;	
+}
+
+.navbar-collapse {
+	border: none !important;
+}
+
+.link-adjust {
+	margin-top: 20px;
 }
 
 .navbar-scroll {
-  background-color: #43bf06 !important;
+	background-color: #43bf06 !important;
   padding: 0px;
-  height: 70px;
+  height:80px;
+}
+
+.finalLogo{
+	max-height: 60px;
+	margin-top: -5px;
+}
+
+
+.toggleButton {
+	margin-top: 20px;
+}
+
+@media screen and (max-width: 1000px) {
+	.navbar-nav li, .navbar-nav a {
+		color: white !important;
+		cursor: pointer;
+		background: #43bf06 !important;	
+	
+	}
+	.navbar-brand .initialLogo{
+		max-height: 50px;
+		margin-top: -10px;
+	}
+
+	.finalLogo{
+		max-height: 60px;
+		margin-top: 1px;
+	}
+}
+
+.navbar-nav a {
+	height: 50px;
+	font-size: 15px;
+}
+
+.navbar-nav li a:hover {
+	border-top: 1px solid white;
+	border-bottom:  1px solid white;
+	border-radius: 5px;
+}
+
+.changeHover {
+	border-top: 1px solid #43bf06;
+	border-bottom:  1px solid #43bf06;
+	border-radius: 5px;
+	color: #43bf06 !important;
+	background-color: white !important;
 }
 
 #abandon {
   background-color: #d95450 !important;
   color: #fff !important;
   border-radius: 10px;
-  padding: 10px;
+  padding: 14px;
+  margin-top: 9px;
+  margin-right: 10px;
 }
 
 #twitter {
   background-color: #08abed !important;
   color: #fff !important;
   border-radius: 10px;
-  padding: 10px;
-}
-
-.navbar-nav {
-  list-style: none;
-}
-
-.navbar-nav a {
-  color: #fff !important
-}
-
-.navbar-dark {
-  color: #F8F8F8;
-}
-
-.nav-item {
-  padding: 13px 10px;
-}
-
-.nav-link {
-  display: block;
-  padding: .3rem 1rem;
-}
-
-a.nav-link {
-  background-color: transparent !important;
-  text-align: center;
-  font-size: 15px;
-}
-
-.nav-link:hover,
-.nav-link:focus {
-  background-color: #ecb60f !important;
-  border-radius: 2px;
-  text-decoration: none;
-}
-
-.nav-item-cfh {
-  height: 66px;
-  color: #0d9c58 !important;
-}
-
-.nav-item-cfh:hover {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.navbar-nav ul li {
-  height: 100%;
-  color: #0d9c58;
+  padding: 14px;
+  margin-top: 9px;
+  margin-right: 10px;
 }
 
 .btn-tweet {
@@ -158,11 +172,101 @@ a.nav-link {
 .first-section {
   background-image: url('../img/newimage4.png');
   background-size: cover;
-  min-height: 100%;
+  min-height:100%;
   background-position: center;
+  background-attachment: fixed;
+
+}
+
+.content {
+  text-align: center;
+}
+
+.content h1 {
+  margin-top: 250px;
+  color: #43bf06;
+  font-size: 60px;
+  font-family: 'Righteous', cursive !important;
+}
+
+@media (max-width:400px) {
+
+  .first-section {
+  background-image: url('../img/third-sectionbg.png');
+  background-size: cover;
+  min-height:100%;
+  background-position: center;
+  /* display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-attachment: fixed; */
+  }
+  .content h1 {
+      margin-top: 100px;
+  }
+
+
+}
+
+.content h4 {
+  margin-top: 50px;
+  color: white;
+  font-size: 30px;
+}
+
+.content span {
+  /* color: #c00423; */
+  color: #ecb60d;
+}
+
+
+/* @media (max-width: 400px) {
+  .content .buttons {
   display: flex;
   flex-direction: row;
-  background-attachment: fixed;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+}
+} */
+
+.content .signup {
+  line-height: 50px;
+  min-width: 180px;
+  text-align: center;
+  background: #43bf06;
+  color: white;
+  border-radius: 10px;
+  margin: 30px 0 30px 0;
+  font-size: 16px;
+  text-transform: uppercase;
+  transition: color 1.0s, background-color 1.0s;
+}
+
+.content .signup:hover {
+  background: white;
+  color: #43bf06;
+}
+
+.content .guest {
+  line-height: 50px;
+  min-width: 160px;
+  text-align: center;
+  margin: 30px 0 30px 0;
+  background: white;
+  color: #43bf06;
+  border-radius: 10px;
+  border-color: transparent;
+  font-size: 17px;
+  text-transform: uppercase;
+  
+}
+
+.content .guest:hover {
+  text-align: center;
+  background: #43bf06;
+  color: white;
+  transition: color 1.0s, background-color 1.0s;
 }
 
 .game-screen {
@@ -173,7 +277,7 @@ a.nav-link {
   background-attachment: fixed;
 }
 
-.content {
+/* .content {
   text-align: center;
 }
 
@@ -261,7 +365,7 @@ a.nav-link {
   background: #43bf06;
   color: white;
   transition: color 1.0s, background-color 1.0s;
-}
+} */
 
 .second-section {
   height: auto;
