@@ -2,78 +2,72 @@
   
   <body data-spy="scroll" data-target=".navbar" data-offset="50">
     <!-- Navigation -->
-    <nav class="navbar navbar-landing navbar-default navbar-fixed-top">
-      <div class="container">
-        <a class="navbar-brand" href="#"><img src="img/logo3.png" alt=""></a>
-        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav navbar-right">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">HOME
-              </a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="#about">ABOUT
-              </a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" data-scroll href="#charity">CHARITY
-              </a>
-            </li>
-
-            <li class="nav-item active" ng-show="showOptions">
-                <a class="nav-link" href="signIn.html">SIGN IN
-                </a>
-             </li>
-
-             <li class="nav-item active" ng-show="showOptions">
-              <a class="nav-link" href="signup.html">SIGN UP
-              </a>
-           </li>
-          </ul>
+    <div class="container-fluid">
+        <div class="row">
+          <nav class="navbar navbar-landing navbar-default navbar-fixed-top">
+            <div class="container">
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle toggleButton" data-toggle="collapse" data-target="#cfhNavbar">
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span> 
+                </button>
+                <a class="navbar-brand" href="#"><img src="img/logo10.png" class=initialLogo id="image" alt="CFH LOGO"></a>
+              </div>
+              <div class="collapse navbar-collapse" id="cfhNavbar">
+                <ul class="nav navbar-nav-landing navbar-nav navbar-right" align="center">
+                  <li active><a onClick="window.scroll(0,0)">Home</a></li>
+                  <li><a onClick="window.scroll(0,680)">About</a></li> 
+                  <li><a onClick="window.scroll(0,1140)">How to Play</a></li> 
+                  <li><a onClick="window.scroll(0,1700)">Charity</a></li> 
+                  <li ng-show="showOptions"><a href="#!/signin" > Sign In</a></li>
+                  <li ng-show="showOptions"><a href="#!/signup"> Sign Up</a></li>
+                  <li ng-hide="showOptions"><a href="#!/dashboard"> Dashboard</a></li> 
+                  <li ng-hide="showOptions" ng-click="signOut()"><a> Sign Out</a></li>
+                </ul>
+              </div>
+            </div>
+          </nav>
         </div>
       </div>
-    </nav>
-
+    
    <!-- First section content -->
 
-   <div class="container-fluid first-section">
-    <div class="container content">
-      <!--  First row -->
-      <div class="row">
-        <div class="col-sm-12">
-          <h1>CARDS FOR HUMANITY</h1>
+   <div class="container-fluid first-section" id="home">
+      <div class="container content">
+        <!--  First row -->
+        <div class="row header-message">
+          <div class="col-sm-12">
+            <h1>CARDS FOR HUMANITY</h1>
+          </div>
+  
+          <div class="col-sm-12">
+            <h4>A GAME FOR HORRIBLE PEOPLE <span>DESPERATELY</span> TRYING TO BE GOOD</h4>
+          </div>
+        </div>
+  
+        <!-- End of first row -->
+  
+        <!--  Second row for button -->
+        <div class="row">
+          <div class="col-sm-12 col-md-6 col-lg-6 col-lg-offset-3" ng-show="showOptions">
+            <a class="btn signup" href="/#!signup">Sign up</a>
+          <a class="btn btn-success guest" href="/#!app">Play as a guest</a>
+          </div>
         </div>
 
-        <div class="col-sm-12">
-          <h4>A GAME FOR HORRIBLE PEOPLE <span>DESPERATELY</span> TRYING TO BE GOOD</h4>
-        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-6 col-lg-offset-3" ng-hide="showOptions">
+              <a class="btn signup" href="/#!app">Play Game with Strangers</a>
+            <a class="btn btn-success guest" href="/#!app">Play Game with Friends</a>
+            </div>
+          </div>
+        <!-- Second row ends -->
       </div>
-
-      <!-- End of first row -->
-
-      <!--  Second row for button -->
-      <div class="row buttons" ng-show="showOptions">
-        <a class="btn signup" href="signup.html">Sign up</a>
-        <a class="btn btn-success guest">Play as a guest</a>
-      </div>
-
-      <div class="row buttons" ng-hide="showOptions">
-          <a class="btn signup" href="signup.html">Play Game with Strangers</a>
-          <a class="btn btn-success guest">Play Game with Friends</a> 
-        </div>
-      <!-- Second row ends -->
-    </div>
-   </div>
-      
-   <!-- First section content ends here-->
-
-
+     </div>
+        
+     <!-- First section content ends here-->
+    
    <!-- Second section content starts here-->
    <div class="container second-section" id="about">
      <div class="row title-holder">
@@ -182,33 +176,8 @@
         <div class="col-sm-12 col-lg-3 github">
             <div class="row">
               <div class="col-sm-12 col-lg-6">
-                  <a href="https://github.com/cardsforhumanity/cardsforhumanity" target="_blank">
+                  <a href="https://github.com/andela/mont-blanc-cfh" target="_blank">
                   <img src="img/github.png" id="gitcat"></a> 
-              </div>  
-              
-              <div class="col-sm-12 col-lg-6">
-                  <a href="https://twitter.com/cfh_app" class="twitter-follow-button" data-show-count="false" data-dnt="true">Follow @cfh_app</a>                
-                
-                  <div class="row">
-                      <div class="col-sm-12 col-lg-12">
-                          <a href="#"
-                          onclick="
-                            window.open(
-                              'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
-                              'facebook-share-dialog',
-                              'width=626,height=436');
-                            return false;">
-                          Facebook
-                        </a>
-                      </div>
-                  </div>
-  
-  
-                  <div class="row">
-                      <div class="col-sm-12 col-lg-12">
-                          <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://cfh.io" data-text="Cards for Humanity: A Game for Horrible People Desperately Trying to do Good" data-related="CFH_App">Tweet</a>                        
-                      </div>
-                  </div>
               </div>  
             </div>
           </div>
