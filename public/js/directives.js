@@ -21,7 +21,7 @@ angular.module('mean.directives', [])
             if (cardText.indexOf('.', cardText.length - 2) === cardText.length - 1) {
               cardText = cardText.slice(0, cardText.length - 1);
             } else if ((cardText.indexOf('!', cardText.length - 2) === cardText.length - 1 ||
-              cardText.indexOf('?', cardText.length - 2) === cardText.length - 1) &&
+                cardText.indexOf('?', cardText.length - 2) === cardText.length - 1) &&
               cardIndex === curQ.numAnswers - 1) {
               shouldRemoveQuestionPunctuation = true;
             }
@@ -36,9 +36,9 @@ angular.module('mean.directives', [])
             }
             curQ.text = curQuestionArr.join('');
             /**
-           * Clean up the last punctuation mark in the
-           * question if there already is one in the answer
-           */
+             * Clean up the last punctuation mark in the
+             * question if there already is one in the answer
+             */
             if (shouldRemoveQuestionPunctuation) {
               if (curQ.text.indexOf('.', curQ.text.length - 2) === curQ.text.length - 1) {
                 curQ.text = curQ.text.slice(0, curQ.text.length - 2);
@@ -71,4 +71,9 @@ angular.module('mean.directives', [])
         scope.showOptions = true;
       }
     }
+  }))
+  .directive('chat', () => ({
+    restrict: 'EA',
+    templateUrl: '/views/chat.html',
+    link(scope, elem, attr) {}
   }));
