@@ -1,103 +1,90 @@
 <div landing id="main-bod" ng-controller="IndexController">
+
   <body data-spy="scroll" data-target=".navbar" data-offset="50">
 
 
     <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-          <a class="navbar-brand" href="#"><img src="./img/logo.png" alt="logo"></a>
-          <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav navbar-right">
-              <li class="nav-item active">
-                <a class="nav-link" href="/">Home
-                </a>
-              </li>
-              <li class="nav-item active">
-                <a class="nav-link" href="/#!/#about">About
-                </a>
-              </li>
-              <li class="nav-item active">
-                <a class="nav-link" data-scroll href="/#!/#charity">Charity
-                </a>
-              </li>
-  
-              <li class="nav-item active" ng-show="showOptions">
-                  <a class="nav-link" href="signup">Sign up
-                  </a>
-               </li>
-            </ul>
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="navbar navbar-landing navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle toggleButton" data-toggle="collapse" data-target="#cfhNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span> 
+              </button>
+              <a class="navbar-brand" href="#"><img src="img/logo10.png" class=initialLogo id="image" alt="CFH LOGO"></a>
+            </div>
+            <div class="collapse navbar-collapse" id="cfhNavbar">
+              <ul class="nav navbar-nav-landing navbar-nav navbar-right" align="center">
+                <li active><a href="/#!/">Home</a></li>
+                <li><a href="/#!/#about">About</a></li>
+                <li><a href="/#!/#charity">Charity</a></li>
+                <li ng-show="showOptions"><a href="#!/signin"> Sign In</a></li>
+                <li ng-show="showOptions"><a href="#!/signup"> Sign Up</a></li>
+              </ul>
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      </div>
+    </div>
 
     <div class="container">
-            <div class="row">
-              <div class="Fixed-Center is-Responsive col-xs-8">
-                <div>
-                  <form class="glyphicon" action="" id="SigninForm" action="/users/session" method="post">
-                    <div class="sign-error" ng-show="showError() === 'invalid'">
-                      
-                    </div>
-                    <div class="social-box">
-                        <div class="row mg-btm">
-                            <div class="col-md-3">
-                                <a href="/auth/facebook" class="btn btn-primary btn-block">
-                                    <i class="fa fa-facebook"></i>
-                                </a>
-                            </div>
-                            <div class="col-md-3">
-                                    <a href="/auth/github" class="btn btn-link btn-block github" >
-                                        <i class="fa fa-github"></i>
-                                    </a>
-                            </div>
-                            <div class="col-md-3">
-                                    <a href="/auth/twitter" class="btn btn-info btn-block" >
-                                        <i class="fa fa-twitter"></i>
-                                    </a>
-                            </div>
-                            <div class="col-md-3">
-                                    <a href="/auth/google" class="btn btn-danger btn-block" >
-                                        <i class="fa fa-google-plus"></i>
-                                    </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group input-group">
-                      <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                      <input class="form-control" id="email" type="text" name='email' placeholder="Email" required novalidate/>          
-                    </div>
-                    <div class="form-group input-group">
-                      <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                      <input class="form-control" id="password" type="password" name='password' placeholder="Password" required novalidate/>     
-                    </div>
-                    <div class="form-group">
-                      <button type="submit" class="btn btn-success btn-block">Signin</button>
-                    </div>
-                    <div class="form-group text-center">
-                      Don't have an account? <a href="signup">Sign up</a>
-                    </div>
-                  </form>        
-                </div>  
-              </div>    
-            </div>
+      <div class="row">
+        <div class="Fixed-Center is-Responsive col-xs-8">
+          <div>
+            <form class="glyphicon" action="" id="SigninForm" ng-submit="logIn()">
+              <div class="sign-error" ng-show="showError() === 'invalid'"></div>
+              <div class="social-box">
+                <div class="row mg-btm">
+                  <div class="col-md-3">
+                    <a href="/auth/facebook" class="btn btn-primary btn-block">
+                      <i class="fa fa-facebook"></i>
+                    </a>
+                  </div>
+                  <div class="col-md-3">
+                    <a href="/auth/github" class="btn btn-link btn-block github">
+                      <i class="fa fa-github"></i>
+                    </a>
+                  </div>
+                  <div class="col-md-3">
+                    <a href="/auth/twitter" class="btn btn-info btn-block">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                  </div>
+                  <div class="col-md-3">
+                    <a href="/auth/google" class="btn btn-danger btn-block">
+                      <i class="fa fa-google-plus"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input class="form-control" id="email" type="text" name='email' placeholder="Email" ng-model="data.email" required novalidate/>
+              </div>
+              <div class="form-group input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input class="form-control" id="password" type="password" name='password' placeholder="Password" ng-model="data.password"
+                  required novalidate/>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-success btn-block">Signin</button>
+              </div>
+              <div class="form-group text-center">
+                Don't have an account? <a href="signup">Sign up</a>
+              </div>
+            </form>
+          </div>
         </div>
-
-   <!-- First section content -->
-
-   <div class="container-fluid first-section">
-    <div class="container content">
-
+      </div>
     </div>
-   </div>
-      
-   <!-- First section content ends here-->
 
-   </div>
+    <!-- First section content -->
+
+    <div class="container-fluid first-section">
+      <div class="container content"></div>
+    </div>
+    <!-- First section content ends here-->
   </body>
-</html>
