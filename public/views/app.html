@@ -68,7 +68,7 @@
       </div>
     </div>
 
-    <div id="start-game-modal" class="modal fade" role="dialog">
+    <div id="startModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -80,10 +80,23 @@
                 <p>Are you sure you want to start the game? </p>
               </div>
               <div class="col-md-3 col-md-offset-3">
-                <button ng-click="startGame()" data-dismiss="modal" type="button" class="btn btn-block btn-cfh-green">Yes, Start!</button>
+                <button 
+                  ng-click="startGame()" 
+                  data-dismiss="modal" 
+                  type="button" 
+                  class="btn btn-block btn-cfh-green"
+                >
+                  Yes, Start!
+                </button>
               </div>
               <div class="col-md-3">
-                <button type="button" class="btn btn-block btn-danger" data-dismiss="modal">No, Return!</button>
+                <button 
+                  type="button" 
+                  class="btn btn-block btn-danger" 
+                  data-dismiss="modal"
+                >
+                  No, Return!
+                </button>
               </div>
             </div>
           </div>

@@ -1,5 +1,5 @@
 angular.module('mean.system')
-  .factory('game', ['socket', '$timeout', (socket, $timeout) => {
+  .factory('game', ['socket', '$timeout', '$http', (socket, $timeout, $http) => {
     const game = {
       id: null, // This player's socket ID, so we know who this player is
       gameID: null,
@@ -182,6 +182,14 @@ angular.module('mean.system')
 
     socket.on('notification', (data) => {
       addToNotificationQueue(data.notification);
+    });
+
+    // Notify backend to save game logs When the game ended
+    socket.on('saveGame', (data) => {
+      if (game.state === 'game ended' && window.localStorage.token) {
+        $http.post(`/api/v1/games/${game.gameID}/start`, data, { headers: { 'x-token': window.localStorage.token } })
+          .success(response => response);
+      }
     });
 
     game.joinGame = (mode, room, createPrivate) => {

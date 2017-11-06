@@ -134,14 +134,14 @@ UserSchema.methods = {
 };
 
 UserSchema.methods.generateJwt = function () {
-  const expiryDate = 60 * 60 * 24;
+  const expiryDate = Date.now() + (24 * 60 * 60 * 1000);
 
   return jwt.sign({
     _id: this._id,
     email: this.email,
     name: this.name,
-    exp: parseInt(expiryDate / 1000, 10),
-  }, config.token);
+    exp: parseInt(expiryDate, 10),
+  }, config.secret);
 };
 
 export default mongoose.model('User', UserSchema);
