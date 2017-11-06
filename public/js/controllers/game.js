@@ -115,6 +115,16 @@ angular.module('mean.system')
       }, 500);
     };
 
+    $scope.checkPlayerLimit = function () {
+      if (game.players.length >= game.playerMinLimit) {
+        $('#startModal').modal({
+          keyboard: false,
+          backdrop: 'static'
+        });
+        $('#startModal').modal('show');
+      }
+    };
+
     $scope.abandonGame = () => {
       game.leaveGame();
       $location.path('/');

@@ -4,7 +4,6 @@ import _ from 'underscore';
 import * as questions from '../../app/controllers/questions';
 import * as answers from '../../app/controllers/answers';
 
-
 const guestNames = [
   'Disco Potato',
   'Silver Blister',
@@ -19,6 +18,7 @@ const guestNames = [
   'The Spleen',
   'Dingle Dangle'
 ];
+
 /**
  *
  *
@@ -100,6 +100,7 @@ class Game {
       curQuestion: this.curQuestion
     };
   }
+
   /**
    *@description this method is used to emit notification
    * @returns {void}
@@ -123,6 +124,7 @@ class Game {
       player.color = index;
     });
   }
+
   /**
    *@description this method assigns guest names
    * @returns {void}
@@ -140,6 +142,7 @@ class Game {
       }
     });
   }
+
   /**
    *@description this method setup the game and triggers startGame method
    * @returns {void}
@@ -258,6 +261,7 @@ class Game {
       self.stateJudging(self);
     }, self.timeLimits.stateChoosing * 1000);
   }
+
   /**
    * @description this method selects the first answer automatically
    * @returns {void}
@@ -275,6 +279,7 @@ class Game {
       this.setCzar(this);
     }
   }
+
   /**
    * @description this method change game state to waiting for czar to decide
    *@param {object} self
@@ -295,6 +300,7 @@ class Game {
       }, self.timeLimits.stateJudging * 1000);
     }
   }
+
   /**
    *
    *
@@ -321,26 +327,37 @@ class Game {
       }
     }, self.timeLimits.stateResults * 1000);
   }
+
   /**
    *@description this method change game state to "end game"
    * @returns {void}
    * @param {object} winner
    * @memberof Game
-   */
+  */
   stateEndGame(winner) {
     this.state = 'game ended';
     this.gameWinner = winner;
+    const gamePlayers = this.players.map(player => player.username);
     this.sendUpdate();
+    const saveGameData = {
+      gamePlayers,
+      gameRound: this.round,
+      gameID: this.gameID,
+      gameWinner: this.players[winner].username
+    };
+    this.io.sockets.in(this.gameID).emit('saveGame', saveGameData);
   }
+
   /**
-   *@description this method change game state to "game dissolved"
+   * @description this method change game state to "game dissolved"
    * @returns {void}
    * @memberof Game
-   */
+  */
   stateDissolveGame() {
     this.state = 'game dissolved';
     this.sendUpdate();
   }
+
   /**
    *@description this method triggers get all question controller
    * @returns {void}
@@ -352,6 +369,7 @@ class Game {
       callBack(null, data);
     });
   }
+
   /**
    * @description this method triggers get all answer controller
    * @returns {void}
@@ -384,6 +402,7 @@ class Game {
 
     return cards;
   }
+
   /**
    *@description this method stores triggers getAnser method
    * @returns {void}
@@ -403,6 +422,7 @@ class Game {
       }
     }
   }
+
   /**
    *@description this method returns player index
    * @param {any} thisPlayer
@@ -418,6 +438,7 @@ class Game {
     });
     return playerIndex;
   }
+
   /**
    *@description this method changes game state to "waiting for players to pick"
    * @returns {void}
@@ -474,6 +495,7 @@ class Game {
       console.log('NOTE:', thisPlayer, 'picked a card during', this.state);
     }
   }
+
   /**
    *
    *@description this method get player details based on player index
@@ -488,6 +510,7 @@ class Game {
     }
     return {};
   }
+
   /**
    *
    *@description this method remove player
@@ -540,6 +563,7 @@ class Game {
       this.sendUpdate();
     }
   }
+
   /**
    *@description this method picks the winner and change game state to "waiting for czar to decide"
    * @returns {void}
@@ -574,6 +598,7 @@ class Game {
       this.sendUpdate();
     }
   }
+
   /**
    * @description this method clear all game process
    * @returns {void}

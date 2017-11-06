@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
-import {
-  token as secret
-} from '../env/all';
+import config from '../env/all';
+
+const { secret } = config;
 
 /**
  * Generic require login routing middleware

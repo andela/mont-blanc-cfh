@@ -21,6 +21,8 @@ import {
   authCallback,
   user
 } from '../app/controllers/users';
+import { requiresLogin } from './middlewares/authorization';
+import createGameLogs from '../app/controllers/games';
 
 export default (app, passport) => {
   // User Routes
@@ -112,4 +114,7 @@ export default (app, passport) => {
   // Home route
   app.get('/play', play);
   app.get('/', render);
+
+  // Game Routes
+  app.post('/api/v1/games/:id/start', requiresLogin, createGameLogs);
 };

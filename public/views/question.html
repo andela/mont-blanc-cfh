@@ -30,8 +30,14 @@
 
         <div class="row">
           <div class="col-md-5 pull-left">
-            <a ng-show="(game.playerIndex === 0 || game.joinOverride) && game.players.length >= game.playerMinLimit" data-toggle="modal"
-              data-target="#start-game-modal" class="btn btn-block btn-cfh-green">Start Game</a>
+            <a 
+              ng-show="(game.playerIndex === 0 || game.joinOverride)"
+              data-target="#start-game-modal" 
+              class="btn btn-block btn-cfh-green"
+              ng-click="checkPlayerLimit()" 
+            >
+              Start Game
+            </a>
           </div>
           <div class="col-md-2"></div>
           <div class="col-md-5 pull-right">
