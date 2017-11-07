@@ -612,3 +612,12 @@ body {
   border-radius: 7px;
   text-align: center;
 }
+
+#regionSelectGuest, #regionSelectFriends {
+  width: 100%;
+}
+
+#regionSelectWrapper {
+  margin-top: 2%;
+  margin-bottom: 5%;
+}
