@@ -103,28 +103,28 @@ describe('Create game using authenticated route', () => {
   });
 });
 
-
 describe('Leaderboard route', () => {
-      it('should load leaderboard', (done) => {
-        server
-          .get(leaderboardUrl)
-          .set('Connection', 'keep alive')
-          .set('Accept', 'application/json')
-          .set('x-token', token)
-          .set('Content-Type', 'application/json')
-          .type('form')
-          .end((err, res) => {
-            expect(res).to.be.json;
-            expect(res.body).to.have.property('message');
-            expect(res.body).to.have.property('success');
-            expect(res.body).to.have.property('leaderboard');
-            expect(res.body.message).to.be.equal('Game leaderboard successfully retrieved');
-            expect(res.body.success).to.be.equal(true);
-            expect(res.body.leaderboard).to.include({
-              victoria: 1
-            });
-            expect(res.body.leaderboard).to.have.property('victoria');
-            if (err) return done(err);
-            done();
-          });
+  it('should load leaderboard', (done) => {
+    server
+      .get(leaderboardUrl)
+      .set('Connection', 'keep alive')
+      .set('Accept', 'application/json')
+      .set('x-token', token)
+      .set('Content-Type', 'application/json')
+      .type('form')
+      .end((err, res) => {
+        expect(res).to.be.json;
+        expect(res.body).to.have.property('message');
+        expect(res.body).to.have.property('success');
+        expect(res.body).to.have.property('leaderboard');
+        expect(res.body.message).to.be.equal('Game leaderboard successfully retrieved');
+        expect(res.body.success).to.be.equal(true);
+        expect(res.body.leaderboard).to.include({
+          victoria: 1
+        });
+        expect(res.body.leaderboard).to.have.property('victoria');
+        if (err) return done(err);
+        done();
       });
+  });
+});

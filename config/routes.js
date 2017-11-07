@@ -1,10 +1,19 @@
-import { allJSON } from '../app/controllers/avatars';
-import { play, render } from '../app/controllers/index';
 import {
-  all as allQuestions, show as showQuestion, question
+  allJSON
+} from '../app/controllers/avatars';
+import {
+  play,
+  render
+} from '../app/controllers/index';
+import {
+  all as allQuestions,
+  show as showQuestion,
+  question
 } from '../app/controllers/questions';
 import {
-  all as allAnswers, show as showAnswer, answer
+  all as allAnswers,
+  show as showAnswer,
+  answer
 } from '../app/controllers/answers';
 import {
   signin,
@@ -21,8 +30,13 @@ import {
   authCallback,
   user
 } from '../app/controllers/users';
-import { requiresLogin } from './middlewares/authorization';
-import createGameLogs from '../app/controllers/games';
+import {
+  requiresLogin
+} from './middlewares/authorization';
+import {
+  createGameLogs,
+  getLeaderboard
+} from '../app/controllers/games';
 
 export default (app, passport) => {
   // User Routes
@@ -117,4 +131,5 @@ export default (app, passport) => {
 
   // Game Routes
   app.post('/api/v1/games/:id/start', requiresLogin, createGameLogs);
+  app.get('/api/v1/games/leaderboard', requiresLogin, getLeaderboard);
 };
