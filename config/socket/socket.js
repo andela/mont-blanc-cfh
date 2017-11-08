@@ -232,9 +232,10 @@ export default (io) => {
       joinGame(socket, data);
     });
 
-    socket.on('startGame', () => {
+    socket.on('startGame', (data) => {
       if (allGames[socket.gameID]) {
         const thisGame = allGames[socket.gameID];
+        thisGame.locationId = data.locationId;
         console.log('comparing', thisGame.players[0].socket.id, 'with', socket.id);
         if (thisGame.players.length >= thisGame.playerMinLimit) {
           // Remove this game from gamesNeedingPlayers so new players can't join it.

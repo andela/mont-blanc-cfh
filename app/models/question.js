@@ -26,6 +26,9 @@ const QuestionSchema = mongoose.Schema({
     type: String,
     default: '',
     trim: true
+  },
+  locationId: {
+    type: Number
   }
 });
 
