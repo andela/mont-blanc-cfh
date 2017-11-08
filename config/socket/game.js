@@ -5,12 +5,12 @@ import * as questions from '../../app/controllers/questions';
 import * as answers from '../../app/controllers/answers';
 
 const guestNames = [
-  'Disco Potato',
-  'Silver Blister',
-  'Insulated Mustard',
-  'Funeral Flapjack',
-  'Toenail',
-  'Urgent Drip',
+  'Daddy yo',
+  'Baba dee',
+  '!deligthed gulp',
+  'Heroku master',
+  'Professor',
+  'Generator rex',
   'Raging Bagel',
   'Aggressive Pie',
   'Loving Spoon',
@@ -189,15 +189,12 @@ class Game {
         }
         self.questions = results[0];
         self.answers = results[1];
+        this.shuffleCards(this.questions);
+        this.shuffleCards(this.answers);
+        this.stateChoosing(this);
       }
     );
-    setTimeout(() => {
-      this.shuffleCards(this.questions);
-      this.shuffleCards(this.answers);
-      this.stateChoosing(this);
-    }, 100);
   }
-
 
   /**
    * @description This method sends game update
@@ -333,7 +330,7 @@ class Game {
    * @returns {void}
    * @param {object} winner
    * @memberof Game
-  */
+   */
   stateEndGame(winner) {
     this.state = 'game ended';
     this.gameWinner = winner;
@@ -352,7 +349,7 @@ class Game {
    * @description this method change game state to "game dissolved"
    * @returns {void}
    * @memberof Game
-  */
+   */
   stateDissolveGame() {
     this.state = 'game dissolved';
     this.sendUpdate();
