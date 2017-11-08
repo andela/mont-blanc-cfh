@@ -19,9 +19,6 @@ export default (passport) => {
     User.findOne({
       _id: id
     }, (err, user) => {
-      user.email = null;
-      user.facebook = null;
-      user.hashed_password = null;
       done(err, user);
     });
   });
@@ -59,9 +56,9 @@ export default (passport) => {
   // Use twitter strategy
   passport.use(new TwitterStrategy(
     {
-      consumerKey: process.env.TWITTER_CONSUMER_KEY || config.twitter.clientID,
-      consumerSecret: process.env.TWITTER_CONSUMER_SECRET || config.twitter.clientSecret,
-      callbackURL: config.twitter.callbackURL
+      consumerKey: process.env.consumerKey,
+      consumerSecret: process.env.consumerSecret,
+      callbackURL: process.env.twitterCallback
     },
     ((token, tokenSecret, profile, done) => {
       User.findOne({
@@ -91,9 +88,9 @@ export default (passport) => {
   // Use facebook strategy
   passport.use(new FacebookStrategy(
     {
-      clientID: process.env.FB_CLIENT_ID || config.facebook.clientID,
-      clientSecret: process.env.FB_CLIENT_SECRET || config.facebook.clientSecret,
-      callbackURL: config.facebook.callbackURL
+      clientID: process.env.facebookClientID,
+      clientSecret: process.env.facebookClientSecret,
+      callbackURL: process.env.facebookCallback
     },
     ((accessToken, refreshToken, profile, done) => {
       User.findOne({
@@ -103,7 +100,6 @@ export default (passport) => {
           return done(err);
         }
         if (!user) {
-          console.log(profile);
           user = new User({
             name: profile.displayName,
             email: (profile.emails && profile.emails[0].value) || '',
@@ -127,9 +123,9 @@ export default (passport) => {
   // Use github strategy
   passport.use(new GitHubStrategy(
     {
-      clientID: process.env.GITHUB_CLIENT_ID || config.github.clientID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET || config.github.clientSecret,
-      callbackURL: config.github.callbackURL
+      clientID: process.env.githubClientID,
+      clientSecret: process.env.githubClientSecret,
+      callbackURL: process.env.githubCallback
     },
     ((accessToken, refreshToken, profile, done) => {
       User.findOne({
@@ -160,9 +156,9 @@ export default (passport) => {
   // Use google strategy
   passport.use(new GoogleStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID || config.google.clientID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || config.google.clientSecret,
-      callbackURL: config.google.callbackURL
+      clientID: process.env.googleClientID,
+      clientSecret: process.env.googleClientSecret,
+      callbackURL: process.env.googleCallback
     },
     ((accessToken, refreshToken, profile, done) => {
       User.findOne({

@@ -8,6 +8,7 @@ import logger from 'mean-logger';
 import io from 'socket.io';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import session from 'express-session';
 import config from './config/config';
 import auth from './config/middlewares/authorization';
 import expressFunction from './config/express';
@@ -44,6 +45,17 @@ const walk = (path) => {
   });
 };
 walk(modelsPath);
+
+app.use(session({
+  secret: process.env.sessionSecret,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: new Date(Date.now() + (24 * 60 * 60 * 1000))
+  }
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.bodyParser());
 app.use((req, res, next) => {
   next();

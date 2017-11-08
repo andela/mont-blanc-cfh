@@ -20,6 +20,6 @@ export default [{
   google: {
     clientID: process.env.googleID,
     clientSecret: process.env.googleSecret,
-    callbackURL: process.env.callback
+    callbackURL: process.env.googleCallback
   }
 }];

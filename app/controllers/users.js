@@ -17,7 +17,12 @@ const allAvatars = require('./avatars').all();
  * @param {any} next
  */
 export function authCallback(req, res) {
-  res.redirect('/chooseavatars');
+  if (!req.user) {
+    res.redirect('/#!/signin?error=invalid');
+  } else {
+    res.cookie('token', req.user.generateJwt());
+    res.redirect('/#!');
+  }
 }
 
 /**
