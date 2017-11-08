@@ -187,7 +187,9 @@ describe('Game Server', () => {
       done();
     };
     const expectStartGame = () => {
-      client1.emit('startGame');
+      client1.emit('startGame', {
+        locationId: 1
+      });
       client1.on('gameUpdate', (gameData) => {
         gameData.state.should.equal('waiting for czar to draw a card');
       });
