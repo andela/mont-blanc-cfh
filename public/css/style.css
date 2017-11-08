@@ -29,16 +29,16 @@ body {
   border: 0;
 }
 
-.navbar-brand .initialLogo{
+.navbar-brand .initialLogo {
   max-height: 100px;
   margin-top: -20px;
 }
 
-
-.navbar-nav li, .navbar-nav a {
+.navbar-nav li,
+.navbar-nav a {
   color: white !important;
   cursor: pointer;
-  background: transparent !important;	
+  background: transparent !important;
 }
 
 .navbar-collapse {
@@ -52,32 +52,30 @@ body {
 .navbar-scroll {
   background-color: #43bf06 !important;
   padding: 0px;
-  height:80px;
+  height: 80px;
 }
 
-.finalLogo{
+.finalLogo {
   max-height: 60px;
   margin-top: -5px;
 }
-
 
 .toggleButton {
   margin-top: 20px;
 }
 
 @media screen and (max-width: 1000px) {
-  .navbar-nav li, .navbar-nav a {
+  .navbar-nav li,
+  .navbar-nav a {
     color: white !important;
     cursor: pointer;
-    background: #43bf06 !important;	
-  
+    background: #43bf06 !important;
   }
-  .navbar-brand .initialLogo{
+  .navbar-brand .initialLogo {
     max-height: 50px;
     margin-top: -10px;
   }
-
-  .finalLogo{
+  .finalLogo {
     max-height: 60px;
     margin-top: 1px;
   }
@@ -90,13 +88,13 @@ body {
 
 .navbar-nav li a:hover {
   border-top: 1px solid white;
-  border-bottom:  1px solid white;
+  border-bottom: 1px solid white;
   border-radius: 5px;
 }
 
 .changeHover {
   border-top: 1px solid #43bf06;
-  border-bottom:  1px solid #43bf06;
+  border-bottom: 1px solid #43bf06;
   border-radius: 5px;
   color: #43bf06 !important;
   background-color: white !important;
@@ -172,10 +170,9 @@ body {
 .first-section {
   background-image: url('../img/newimage4.png');
   background-size: cover;
-  min-height:100%;
+  min-height: 100%;
   background-position: center;
   background-attachment: fixed;
-
 }
 
 .content {
@@ -190,18 +187,15 @@ body {
 }
 
 @media (max-width:400px) {
-
   .first-section {
-  background-image: url('../img/third-sectionbg.png');
-  background-size: cover;
-  min-height:100%;
-  background-position: center;
+    background-image: url('../img/third-sectionbg.png');
+    background-size: cover;
+    min-height: 100%;
+    background-position: center;
   }
   .content h1 {
-      margin-top: 100px;
+    margin-top: 100px;
   }
-
-
 }
 
 .content h4 {
@@ -243,7 +237,6 @@ body {
   border-color: transparent;
   font-size: 17px;
   text-transform: uppercase;
-  
 }
 
 .content .guest:hover {
@@ -336,6 +329,7 @@ body {
   text-transform: uppercase;
   transition: color 1.0s, background-color 1.0s;
 }
+
 .third-section .join:hover {
   background: white;
   color: #43bf06;
