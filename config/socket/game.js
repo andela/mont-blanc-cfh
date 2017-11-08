@@ -54,6 +54,7 @@ class Game {
       stateJudging: 16,
       stateResults: 6
     };
+    this.locationId = 0;
     // setTimeout ID that triggers the czar judging state
     // Used to automatically run czar judging if players don't pick before time limit
     // Gets cleared if players finish picking before time limit.
