@@ -140,6 +140,11 @@
 
         </div>
       </div>
+      <div class="row">
+          <div class="text-center" ng-hide="showOptions">
+          <a class="btn btn-success join" href="#!/app">Join Game</a>
+          </div>
+        </div>
     </div>
     <!-- Third section content ends here-->
 
@@ -221,7 +226,7 @@
 
 
 <!-- Modal to select region for play with strangers and as guests -->
-<div id="regionModal" class="modal fade" role="dialog">
+<div id="regionModal" class="modal fade" role="dialog" ng-controller="IndexController">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -233,14 +238,13 @@
             <p>Select the region you want to play with</p>
           </div>
           <div class="col-md-8 col-md-offset-2" id="regionSelectWrapper">
-            <select name="region" id="regionSelectGuest">
-              <option value=""></option>
-              <option value="1">Nigeria</option>
-              <option value="2">United States</option>
-              <option value="3">Brazil</option>
+            <select name="region" id="regionSelectGuest" ng-model="regionSelectGuest" ng-change ="changedValue(regionSelectGuest)"
+                    data-ng-options="location as location.country for location in locations"
+            >
+              <option value="">Select Region</option>
             </select>
           </div>
-          <div class="col-md-3 col-md-offset-3">
+          <div class="col-md-3 col-md-offset-3" id="regionGameStartClick">
             <a href="/play" disabled type="button" id="regionGameStartGuest" class="btn btn-block btn-cfh-green">
               Play Game
             </a>
@@ -258,7 +262,7 @@
 </div>
 
 <!-- Modal to select region for play with friends -->
-<div id="regionModalFriends" class="modal fade" role="dialog">
+<div id="regionModalFriends" class="modal fade" role="dialog" ng-controller="IndexController">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -270,11 +274,10 @@
             <p>Select the region you want to play with</p>
           </div>
           <div class="col-md-8 col-md-offset-2" id="regionSelectWrapper">
-            <select name="region" id="regionSelectFriends">
-              <option value=""></option>
-              <option value="1">Nigeria</option>
-              <option value="2">United States</option>
-              <option value="3">Brazil</option>
+            <select name="region" id="regionSelectFriends" ng-model="regionSelectFriends" ng-change ="changedValue(regionSelectFriends)"
+            data-ng-options="location as location.country for location in locations"
+            >
+              <option value="">Select Region</option>
             </select>
           </div>
           <div class="col-md-3 col-md-offset-3">
