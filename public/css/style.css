@@ -324,6 +324,23 @@ body {
   padding-bottom: 20px;
 }
 
+.third-section .join {
+  line-height: 50px;
+  min-width: 180px;
+  text-align: center;
+  background: #43bf06;
+  color: white;
+  border-radius: 10px;
+  margin: 50px 0 30px 0;
+  font-size: 16px;
+  text-transform: uppercase;
+  transition: color 1.0s, background-color 1.0s;
+}
+.third-section .join:hover {
+  background: white;
+  color: #43bf06;
+}
+
 .third-section img {
   margin-top: 20px;
   max-height: 324px;
@@ -436,6 +453,7 @@ body {
   align-content: center;
   align-items: center;
   margin-top: 30px;
+  background-color: black;
 }
 
 .footer-section .github .twitter-follow-button .btn {
@@ -611,4 +629,17 @@ body {
   padding: 10px;
   border-radius: 7px;
   text-align: center;
+}
+
+#regionSelectGuest, #regionSelectFriends {
+  width: 100%;
+}
+
+#regionSelectWrapper {
+  margin-top: 2%;
+  margin-bottom: 5%;
+}
+
+#regionGameStartClick {
+  padding-bottom: 3px !important;
 }

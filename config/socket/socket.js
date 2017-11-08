@@ -1,10 +1,12 @@
 import mongoose from 'mongoose';
+import firebase from 'firebase';
 import consoleStamp from 'console-stamp';
 import Game from './game';
 import Player from './player';
 import {
   all
 } from '../../app/controllers/avatars';
+import config from '../fireBaseConfig';
 
 consoleStamp(console, 'm/dd HH:MM:ss');
 const User = mongoose.model('User');
@@ -12,6 +14,10 @@ const avatars = all();
 
 // Valid characters to use to generate random private game IDs
 const chars = process.env.RANDOM_CHARACTERS;
+// Initialize firebase
+firebase.initializeApp(config);
+
+const database = firebase.database();
 
 export default (io) => {
   const allGames = {};
@@ -155,6 +161,10 @@ export default (io) => {
       const game = allGames[socket.gameID];
       console.log(socket.id, 'has left game', game.gameID);
       delete allPlayers[socket.id];
+      // it removes stored messages when number of players online is less than two
+      if (game.players.length < 2) {
+        database.ref(`chatStore/${socket.gameID}/`).remove();
+      }
       if (game.state === 'awaiting players' ||
         game.players.length - 1 >= game.playerMinLimit) {
         game.removePlayer(socket.id);
@@ -164,6 +174,8 @@ export default (io) => {
           game.players[j].socket.leave(socket.gameID);
         }
         game.killGame();
+        // it removes stored messages if game session is ended
+        database.ref(`chatStore/${socket.gameID}/`).remove();
         delete allGames[socket.gameID];
       }
     }
@@ -174,6 +186,22 @@ export default (io) => {
     console.log(`${socket.id} Connected`);
     socket.emit('id', {
       id: socket.id
+    });
+    // loads snapshot of messages stored in for a particular game session
+    setTimeout(() => database.ref(`chatStore/${socket.gameID}/`).once('value', (snapshot) => {
+      const savedMessages = [];
+
+      snapshot.forEach((message) => {
+        savedMessages.push(message.toJSON());
+      });
+      socket.emit('loadChat', savedMessages);
+    }), 300);
+
+    // Emit message to other players and push message to firbase database
+    socket.on('new message', (message) => {
+      socket.broadcast.to(socket.gameID).emit('add message', message);
+
+      database.ref(`chatStore/${socket.gameID}/`).push(message);
     });
 
     socket.on('pickCards', (data) => {
@@ -204,9 +232,10 @@ export default (io) => {
       joinGame(socket, data);
     });
 
-    socket.on('startGame', () => {
+    socket.on('startGame', (data) => {
       if (allGames[socket.gameID]) {
         const thisGame = allGames[socket.gameID];
+        thisGame.locationId = data.locationId;
         console.log('comparing', thisGame.players[0].socket.id, 'with', socket.id);
         if (thisGame.players.length >= thisGame.playerMinLimit) {
           // Remove this game from gamesNeedingPlayers so new players can't join it.
