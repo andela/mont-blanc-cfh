@@ -1,325 +1,312 @@
 <div landing id="main-bod" ng-controller="IndexController">
-
-  <body data-spy="scroll" data-target=".navbar" data-offset="50">
-    <!-- Navigation -->
-    <div class="container-fluid">
-      <div class="row">
-        <nav class="navbar navbar-landing navbar-default navbar-fixed-top">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle toggleButton" data-toggle="collapse" data-target="#cfhNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="#">
-                <img src="img/logo10.png" class=initialLogo id="image" alt="CFH LOGO">
+  
+    <body data-spy="scroll" data-target=".navbar" data-offset="50">
+      <!-- Navigation -->
+      <div class="container-fluid">
+        <div class="row">
+          <nav class="navbar navbar-landing navbar-default navbar-fixed-top">
+            <div class="container">
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle toggleButton" data-toggle="collapse" data-target="#cfhNavbar">
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                  <img src="img/logo10.png" class=initialLogo id="image" alt="CFH LOGO">
+                </a>
+              </div>
+              <div class="collapse navbar-collapse" id="cfhNavbar">
+                <ul class="nav navbar-nav-landing navbar-nav navbar-right" align="center">
+                  <li active>
+                    <a onClick="window.scroll(0,0)">Home</a>
+                  </li>
+                  <li>
+                    <a onClick="window.scroll(0,680)">About</a>
+                  </li>
+                  <li>
+                    <a onClick="window.scroll(0,1140)">How to Play</a>
+                  </li>
+                  <li>
+                    <a onClick="window.scroll(0,1700)">Charity</a>
+                  </li>
+                  <li ng-show="showOptions">
+                    <a href="#!/signin"> Sign In</a>
+                  </li>
+                  <li ng-show="showOptions">
+                    <a href="#!/signup"> Sign Up</a>
+                  </li>
+                  <li ng-hide="showOptions">
+                    <a href="#!/dashboard"> Dashboard</a>
+                  </li>
+                  <li ng-hide="showOptions" ng-click="signOut()">
+                    <a> Sign Out</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+  
+      <!-- First section content -->
+  
+      <div class="container-fluid first-section" id="home">
+        <div class="container content">
+          <!--  First row -->
+          <div class="row header-message">
+            <div class="col-sm-12">
+              <h1>CARDS FOR HUMANITY</h1>
+            </div>
+  
+            <div class="col-sm-12">
+              <h4>A GAME FOR HORRIBLE PEOPLE
+                <span>DESPERATELY</span> TRYING TO BE GOOD</h4>
+            </div>
+          </div>
+  
+          <!-- End of first row -->
+  
+          <!--  Second row for button -->
+          <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-6 col-lg-offset-3" ng-show="showOptions">
+              <a class="btn signup" href="/#!signup">Sign up</a>
+              <a class="btn btn-success guest" href="#" data-toggle="modal" data-target="#regionModal" data-backdrop="static" data-keyboard="false">Play as a guest</a>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-6 col-lg-offset-3" ng-hide="showOptions">
+              <a class="btn signup" data-toggle="modal" data-target="#regionModal" data-backdrop="static" data-keyboard="false">
+                Play Game with Strangers
+              </a>
+              <a class="btn btn-success guest" data-toggle="modal" data-target="#regionModalFriends" data-backdrop="static" data-keyboard="false">
+                Play Game with Friends
               </a>
             </div>
-            <div class="collapse navbar-collapse" id="cfhNavbar">
-              <ul class="nav navbar-nav-landing navbar-nav navbar-right" align="center">
-                <li active>
-                  <a onClick="window.scroll(0,0)">Home</a>
-                </li>
-                <li>
-                  <a onClick="window.scroll(0,680)">About</a>
-                </li>
-                <li>
-                  <a onClick="window.scroll(0,1140)">How to Play</a>
-                </li>
-                <li>
-                  <a onClick="window.scroll(0,1700)">Charity</a>
-                </li>
-                <li ng-show="showOptions">
-                  <a href="#!/signin"> Sign In</a>
-                </li>
-                <li ng-show="showOptions">
-                  <a href="#!/signup"> Sign Up</a>
-                </li>
-                <li ng-hide="showOptions">
-                  <a href="#!/dashboard"> Dashboard</a>
-                </li>
-                <li ng-hide="showOptions" ng-click="signOut()">
-                  <a> Sign Out</a>
-                </li>
-              </ul>
+          </div>
+          <!-- Second row ends -->
+        </div>
+      </div>
+  
+      <!-- First section content ends here-->
+  
+      <!-- Second section content starts here-->
+      <div class="container second-section" id="about">
+        <div class="row title-holder">
+          <div class="col-sm-12 title-question">
+            <h1>WHAT IS CARD FOR HUMANITY?</h1>
+          </div>
+        </div>
+  
+        <div class="row description">
+          <p>Cards for Humanity is a fast-paced online version of the popular card game, Cards Against Humanity, that gives you
+            the opportunity to donate to children in need - all while remaining as despicable and awkward as you naturally
+            are.
+          </p>
+  
+          <p class="warning">
+            <b>Warning!</b> This game contains offensive, profane, explicit content created by Cards Against Humanity and provided
+            here, uncensored and complete, in digital form. Human Resources made us say that.</p>
+        </div>
+      </div>
+  
+      <!-- Section section content ends here-->
+  
+  
+      <!-- Third section content starts here-->
+      <div class="container-fluid third-section">
+        <div class="container">
+          <div class="row how-to-play-title">
+            <div class="col-md-12">
+              <h1>HOW TO PLAY</h1>
             </div>
           </div>
-        </nav>
-      </div>
-    </div>
-
-    <!-- First section content -->
-
-    <div class="container-fluid first-section" id="home">
-      <div class="container content">
-        <!--  First row -->
-        <div class="row header-message">
-          <div class="col-sm-12">
-            <h1>CARDS FOR HUMANITY</h1>
-          </div>
-
-          <div class="col-sm-12">
-            <h4>A GAME FOR HORRIBLE PEOPLE
-              <span>DESPERATELY</span> TRYING TO BE GOOD</h4>
-          </div>
-        </div>
-
-        <!-- End of first row -->
-
-        <!--  Second row for button -->
-        <div class="row">
-          <div class="col-sm-12 col-md-6 col-lg-6 col-lg-offset-3" ng-show="showOptions">
-            <a class="btn signup" href="/#!signup">Sign up</a>
-<<<<<<< Updated upstream
-          <a class="btn btn-success guest" href="/play">Play as a guest</a>
-=======
-            <a class="btn btn-success guest" href="#" data-toggle="modal" data-target="#regionModal" data-backdrop="static" data-keyboard="false">Play as a guest</a>
->>>>>>> Stashed changes
-          </div>
-        </div>
-
-        <div class="row">
-<<<<<<< Updated upstream
-            <div class="col-sm-12 col-md-6 col-lg-6 col-lg-offset-3" ng-hide="showOptions">
-              <a class="btn signup" href="/play">Play Game with Strangers</a>
-            <a class="btn btn-success guest" href="/play?custom">Play Game with Friends</a>
+          <div class="row">
+            <div class="col-sm-12 col-lg-3">
+              <img src="img/howto1.png" class="img-responsive" data-aos="flip-up" data-aos-duration="1000" alt="">
             </div>
-=======
-          <div class="col-sm-12 col-md-6 col-lg-6 col-lg-offset-3" ng-hide="showOptions">
-            <a class="btn signup" data-toggle="modal" data-target="#regionModal" data-backdrop="static" data-keyboard="false">
-              Play Game with Strangers
-            </a>
-            <a class="btn btn-success guest" data-toggle="modal" data-target="#regionModalFriends" data-backdrop="static" data-keyboard="false">
-              Play Game with Friends
-            </a>
->>>>>>> Stashed changes
-          </div>
-        </div>
-        <!-- Second row ends -->
-      </div>
-    </div>
-
-    <!-- First section content ends here-->
-
-    <!-- Second section content starts here-->
-    <div class="container second-section" id="about">
-      <div class="row title-holder">
-        <div class="col-sm-12 title-question">
-          <h1>WHAT IS CARD FOR HUMANITY?</h1>
-        </div>
-      </div>
-
-      <div class="row description">
-        <p>Cards for Humanity is a fast-paced online version of the popular card game, Cards Against Humanity, that gives you
-          the opportunity to donate to children in need - all while remaining as despicable and awkward as you naturally
-          are.
-        </p>
-
-        <p class="warning">
-          <b>Warning!</b> This game contains offensive, profane, explicit content created by Cards Against Humanity and provided
-          here, uncensored and complete, in digital form. Human Resources made us say that.</p>
-      </div>
-    </div>
-
-    <!-- Section section content ends here-->
-
-
-    <!-- Third section content starts here-->
-    <div class="container-fluid third-section">
-      <div class="container">
-        <div class="row how-to-play-title">
-          <div class="col-md-12">
-            <h1>HOW TO PLAY</h1>
+            <div class="col-sm-12 col-lg-3">
+              <img src="img/howto2.png" class="img-responsive" data-aos="flip-up" data-aos-duration="2000" alt="">
+            </div>
+  
+            <div class="col-sm-12 col-lg-3">
+              <img src="img/howto3.png" class="img-responsive" data-aos="flip-up" data-aos-duration="3000" alt="">
+            </div>
+  
+            <div class="col-sm-12 col-lg-3">
+              <img src="img/howto4.png" class="img-responsive" data-aos="flip-up" data-aos-duration="4000" alt="">
+            </div>
+  
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-12 col-lg-3">
-            <img src="img/howto1.png" class="img-responsive" data-aos="flip-up" data-aos-duration="1000" alt="">
-          </div>
-          <div class="col-sm-12 col-lg-3">
-            <img src="img/howto2.png" class="img-responsive" data-aos="flip-up" data-aos-duration="2000" alt="">
-          </div>
-
-          <div class="col-sm-12 col-lg-3">
-            <img src="img/howto3.png" class="img-responsive" data-aos="flip-up" data-aos-duration="3000" alt="">
-          </div>
-
-          <div class="col-sm-12 col-lg-3">
-            <img src="img/howto4.png" class="img-responsive" data-aos="flip-up" data-aos-duration="4000" alt="">
-          </div>
-
-        </div>
-      </div>
-      <div class="row">
-          <div class="text-center" ng-hide="showOptions">
-          <a class="btn btn-success join" href="#!/app">Join Game</a>
-          </div>
-        </div>
-    </div>
-    <!-- Third section content ends here-->
-
-    <div class="container-fluid fourth-section" id="charity">
-      <div class="container">
-        <h1>CHARITY</h1>
-        <h2>
-          <i class="fa fa-quote-left"></i> Save a child today ~ Protect the future
-          <i class="fa fa-quote-right"></i>
-        </h2>
-        <div class="row fourth-section-content">
-          <div class="col-lg-6">
-            <div class="embed-responsive embed-responsive-16by9">
-              <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/YFaeFkhuKX0" allowfullscreen></iframe>
+            <div class="text-center" ng-hide="showOptions">
+            <a class="btn btn-success join" href="#!/app">Join Game</a>
             </div>
           </div>
-
-          <div class="col-lg-6">
-            <div class="row">
-              <p data-aos="flip-up" data-aos-duration="3000">When you donate, you're giving children renewed strength to fight their illnesses, bringing families closer
-                together and uniting entire communities. You can change lives.</p>
-              <p data-aos="flip-up" data-aos-duration="3000">We're quite sure you feel the same way, so we've integrated donation widgets (via crowdrise.com), along with
-                some not-so-subtle reminders throughout the game to give you the opportunity to donate. If you're signed
-                in when you donate, we'll even upgrade your account and place a crown on your avatar's head (to remind other
-                players how much better you are than them).
-              </p>
-
-              <p data-aos="flip-up" data-aos-duration="3000">All donations go to the Make-a-Wish Foundation and benefit children in need.
-                <a href="https://www.crowdrise.com/donate/project/cfhio/cards4humanity?widget=true&redirect_to=file%3A%2F%2F%2FUsers%2Fandeladeveloper%2FDesktop%2Fcfh-landingpage%2Fcfh-ui%2FnewIndex.html&stylesheet=&amounts="
-                  class="btn donate">
-                  DONATE NOW
-                </a>
-              </p>
-
+      </div>
+      <!-- Third section content ends here-->
+  
+      <div class="container-fluid fourth-section" id="charity">
+        <div class="container">
+          <h1>CHARITY</h1>
+          <h2>
+            <i class="fa fa-quote-left"></i> Save a child today ~ Protect the future
+            <i class="fa fa-quote-right"></i>
+          </h2>
+          <div class="row fourth-section-content">
+            <div class="col-lg-6">
+              <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/YFaeFkhuKX0" allowfullscreen></iframe>
+              </div>
+            </div>
+  
+            <div class="col-lg-6">
               <div class="row">
-                <!-- <div class="col-lg-2"></div> -->
-                <div class="col-sm-12 col-lg-5 makeAWish">
-                  <a href="http://www.wish.org" target="_blank">
-                    <img src="img/make-a-wish-logo-white-large.png" class="img-responsive" alt="">
+                <p data-aos="flip-up" data-aos-duration="3000">When you donate, you're giving children renewed strength to fight their illnesses, bringing families closer
+                  together and uniting entire communities. You can change lives.</p>
+                <p data-aos="flip-up" data-aos-duration="3000">We're quite sure you feel the same way, so we've integrated donation widgets (via crowdrise.com), along with
+                  some not-so-subtle reminders throughout the game to give you the opportunity to donate. If you're signed
+                  in when you donate, we'll even upgrade your account and place a crown on your avatar's head (to remind other
+                  players how much better you are than them).
+                </p>
+  
+                <p data-aos="flip-up" data-aos-duration="3000">All donations go to the Make-a-Wish Foundation and benefit children in need.
+                  <a href="https://www.crowdrise.com/donate/project/cfhio/cards4humanity?widget=true&redirect_to=file%3A%2F%2F%2FUsers%2Fandeladeveloper%2FDesktop%2Fcfh-landingpage%2Fcfh-ui%2FnewIndex.html&stylesheet=&amounts="
+                    class="btn donate">
+                    DONATE NOW
                   </a>
+                </p>
+  
+                <div class="row">
+                  <!-- <div class="col-lg-2"></div> -->
+                  <div class="col-sm-12 col-lg-5 makeAWish">
+                    <a href="http://www.wish.org" target="_blank">
+                      <img src="img/make-a-wish-logo-white-large.png" class="img-responsive" alt="">
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-</div>
-<!-- Footer section -->
-
-<div class="container-fluid footer-section">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-12 col-lg-9">
-        <p>Legal stuff: This game is based on the
-          <a href="http://cardsagainsthumanity.com" target="_blank">
-            Cards Against Humanity</a> card game, which is CC licensed (BY-NC-SA). Cards for Humanity is not affiliated with
-          Cards Against Humanity. In complying with the Creative Commons license of the Cards Against Humanity card game,
-          all proceeds from donations go directly to charity, as managed by
-          <a href="http://crowdrise.com" target="_blank">crowdrise</a>
-        </p>
-      </div>
-
-      <div class="col-sm-12 col-lg-3 github">
-        <div class="row">
-          <div class="col-sm-12 col-lg-6">
-            <a href="https://github.com/andela/mont-blanc-cfh" target="_blank">
-              <img src="img/github.png" id="gitcat">
-            </a>
+  </div>
+  <!-- Footer section -->
+  
+  <div class="container-fluid footer-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 col-lg-9">
+          <p>Legal stuff: This game is based on the
+            <a href="http://cardsagainsthumanity.com" target="_blank">
+              Cards Against Humanity</a> card game, which is CC licensed (BY-NC-SA). Cards for Humanity is not affiliated with
+            Cards Against Humanity. In complying with the Creative Commons license of the Cards Against Humanity card game,
+            all proceeds from donations go directly to charity, as managed by
+            <a href="http://crowdrise.com" target="_blank">crowdrise</a>
+          </p>
+        </div>
+  
+        <div class="col-sm-12 col-lg-3 github">
+          <div class="row">
+            <div class="col-sm-12 col-lg-6">
+              <a href="https://github.com/andela/mont-blanc-cfh" target="_blank">
+                <img src="img/github.png" id="gitcat">
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-</body>
-
-</div>
-
-
-<!-- Modal to select region for play with strangers and as guests -->
-<div id="regionModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Select Region</h4>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-12">
-            <p>Select the region you want to play with</p>
-          </div>
-          <div class="col-md-8 col-md-offset-2" id="regionSelectWrapper">
-            <select name="region" id="regionSelectGuest">
-              <option value=""></option>
-              <option value="1">Nigeria</option>
-              <option value="2">United States</option>
-              <option value="3">Brazil</option>
-            </select>
-          </div>
-          <div class="col-md-3 col-md-offset-3">
-            <a href="/play" disabled type="button" id="regionGameStartGuest" class="btn btn-block btn-cfh-green">
-              Play Game
-            </a>
-          </div>
-          <div class="col-md-3">
-            <button type="button" class="btn btn-block btn-danger" data-dismiss="modal">
-              Cancel
-            </button>
+  </body>
+  
+  </div>
+  
+  
+  <!-- Modal to select region for play with strangers and as guests -->
+  <div id="regionModal" class="modal fade" role="dialog" ng-controller="IndexController">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Select Region</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <p>Select the region you want to play with</p>
+            </div>
+            <div class="col-md-8 col-md-offset-2" id="regionSelectWrapper">
+              <select name="region" id="regionSelectGuest" ng-model="regionSelectGuest" ng-change ="changedValue(regionSelectGuest)"
+                      data-ng-options="location as location.country for location in locations"
+              >
+                <option value="">Select Region</option>
+              </select>
+            </div>
+            <div class="col-md-3 col-md-offset-3" id="regionGameStartClick">
+              <a href="/play" disabled type="button" id="regionGameStartGuest" class="btn btn-block btn-cfh-green">
+                Play Game
+              </a>
+            </div>
+            <div class="col-md-3">
+              <button type="button" class="btn btn-block btn-danger" data-dismiss="modal">
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       </div>
+  
     </div>
-
   </div>
-</div>
-
-<!-- Modal to select region for play with friends -->
-<div id="regionModalFriends" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Select Region</h4>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-12">
-            <p>Select the region you want to play with</p>
-          </div>
-          <div class="col-md-8 col-md-offset-2" id="regionSelectWrapper">
-            <select name="region" id="regionSelectFriends">
-              <option value=""></option>
-              <option value="1">Nigeria</option>
-              <option value="2">United States</option>
-              <option value="3">Brazil</option>
-            </select>
-          </div>
-          <div class="col-md-3 col-md-offset-3">
-            <a href="/play?custom" disabled type="button" id="regionGameStartFriends" class="btn btn-block btn-cfh-green">
-              Play Game
-            </a>
-          </div>
-          <div class="col-md-3">
-            <button type="button" class="btn btn-block btn-danger" data-dismiss="modal">
-              Cancel
-            </button>
+  
+  <!-- Modal to select region for play with friends -->
+  <div id="regionModalFriends" class="modal fade" role="dialog" ng-controller="IndexController">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Select Region</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <p>Select the region you want to play with</p>
+            </div>
+            <div class="col-md-8 col-md-offset-2" id="regionSelectWrapper">
+              <select name="region" id="regionSelectFriends" ng-model="regionSelectFriends" ng-change ="changedValue(regionSelectFriends)"
+              data-ng-options="location as location.country for location in locations"
+              >
+                <option value="">Select Region</option>
+              </select>
+            </div>
+            <div class="col-md-3 col-md-offset-3">
+              <a href="/play?custom" disabled type="button" id="regionGameStartFriends" class="btn btn-block btn-cfh-green">
+                Play Game
+              </a>
+            </div>
+            <div class="col-md-3">
+              <button type="button" class="btn btn-block btn-danger" data-dismiss="modal">
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       </div>
+  
     </div>
-
   </div>
-</div>
-
-<script>
-  $(document).ready(() => {
-    $('#regionSelectGuest').change((event) => {
-      event.preventDefault();
-      $('#regionGameStartGuest').removeAttr('disabled');
+  
+  <script>
+    $(document).ready(() => {
+      $('#regionSelectGuest').change((event) => {
+        event.preventDefault();
+        $('#regionGameStartGuest').removeAttr('disabled');
+      });
+  
+      $('#regionSelectFriends').change((event) => {
+        event.preventDefault();
+        $('#regionGameStartFriends').removeAttr('disabled');
+      });
     });
-
-    $('#regionSelectFriends').change((event) => {
-      event.preventDefault();
-      $('#regionGameStartFriends').removeAttr('disabled');
-    });
-  });
-</script>
+  </script>
