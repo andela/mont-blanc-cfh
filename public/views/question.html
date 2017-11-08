@@ -8,8 +8,8 @@
       </div>
       <div id="game-ended" ng-show="game.state === 'game ended' && game.gameWinner === game.playerIndex">
         <h3>Congratulations! You won the game, {{game.players[game.playerIndex].username}}!</h3>
-        <h3>We hope you feel special. If you'd like to share that special feeling with the world, consider donating to charity.
-          Or just horde it all for youself. </h3>
+        <h3>We hope you feel special. If you'd like to share that special feeling with the world, consider
+          donating to charity. Or just horde it all for youself. </h3>
       </div>
       <div id="game-ended" ng-show="game.state === 'game ended' && game.gameWinner !== game.playerIndex">
         <h3>Aw, shucks! {{game.players[game.gameWinner].username}} won the game! </h3>
@@ -30,12 +30,8 @@
 
         <div class="row">
           <div class="col-md-5 pull-left">
-            <a 
-              ng-show="(game.playerIndex === 0 || game.joinOverride)"
-              data-target="#start-game-modal" 
-              class="btn btn-block btn-cfh-green"
-              ng-click="checkPlayerLimit()" 
-            >
+            <a ng-show="(game.playerIndex === 0 || game.joinOverride)" data-target="#start-game-modal" class="btn btn-block btn-cfh-green"
+              ng-click="checkPlayerLimit()">
               Start Game
             </a>
           </div>
@@ -63,11 +59,21 @@
 
   <!-- Game console notifications -->
   <div class="row czar-notification">
-    <div class="col-md-12" ng-show="isCzar($index) && game.table.length===0 && game.state !== 'game dissolved' && game.state !== 'awaiting players'">
+    <div class="col-md-12" ng-show="isCzar($index) && game.state !== 'game dissolved' && game.state === 'waiting for players to pick'">
       <h3>
         Czar! You're Czar!!
       </h3>
       <h3>Other players are selecting their answers. Get ready to choose the winner!</h3>
+    </div>
+
+  </div>
+
+  <div class="row czar-notification">
+    <div class="col-md-12" ng-show="!isCzar($index) && game.state === 'waiting for czar to draw a card' && game.state !== 'game dissolved'">
+      <h3>
+        Please, wait for czar to draw card.
+      </h3>
+      <h3>Get ready to choose your answer!</h3>
     </div>
 
   </div>
