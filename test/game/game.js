@@ -1,5 +1,8 @@
-const should = require('should');
-const io = require('socket.io-client');
+import expect from 'expect';
+
+import should from 'should';
+import io from 'socket.io-client';
+
 
 const socketURL = 'http://localhost:3000';
 
@@ -22,7 +25,7 @@ describe('Game Server', () => {
         room: '',
         createPrivate: false
       });
-      setTimeout(disconnect, 200);
+      setTimeout(disconnect, 10);
     });
   });
 
@@ -41,7 +44,7 @@ describe('Game Server', () => {
       client1.on('gameUpdate', (gameData) => {
         gameData.gameID.should.match(/\d+/);
       });
-      setTimeout(disconnect, 200);
+      setTimeout(disconnect, 10);
     });
   });
 
@@ -70,7 +73,7 @@ describe('Game Server', () => {
           gameData.notification.should.match(/ has joined the game!/);
         });
       });
-      setTimeout(disconnect, 200);
+      setTimeout(disconnect, 10);
     });
   });
 
@@ -142,7 +145,7 @@ describe('Game Server', () => {
       client1.on('gameUpdate', (gameData) => {
         gameData.state.should.equal('waiting for players to pick');
       });
-      setTimeout(disconnect, 200);
+      setTimeout(disconnect, 10);
     };
     client1.on('connect', () => {
       client1.emit('joinGame', {
@@ -164,7 +167,7 @@ describe('Game Server', () => {
             room: '',
             createPrivate: false
           });
-          setTimeout(expectDrawCard, 100);
+          setTimeout(expectDrawCard, 10);
         });
       });
     });
@@ -203,7 +206,7 @@ describe('Game Server', () => {
       client6.on('gameUpdate', (gameData) => {
         gameData.state.should.equal('waiting for czar to draw a card');
       });
-      setTimeout(disconnect, 200);
+      setTimeout(disconnect, 10);
     };
     client1.on('connect', () => {
       client1.emit('joinGame', {
@@ -253,13 +256,185 @@ describe('Game Server', () => {
                       room: gameID,
                       createPrivate: false
                     });
-                    setTimeout(expectStartGame, 100);
+                    setTimeout(expectStartGame, 10);
                   });
                 });
               });
             });
           });
         }
+      });
+    });
+  });
+
+
+  it('Should send message to client 2 when a message is emitted by client 1', (done) => {
+    let client2, client3;
+    const payLoad = {
+      avatar: 'avatar',
+      username: 'jack sparrow',
+      message: 'hello',
+      timeSent: '12:45:09 PM'
+    };
+    const client1 = io.connect(socketURL, options);
+    const disconnect = () => {
+      client1.disconnect();
+      client2.disconnect();
+      client3.disconnect();
+      done();
+    };
+
+    const sendMessage = () => {
+      client1.emit('new message', payLoad);
+      client2.on('add message', (messageBank) => {
+        expect(messageBank).toEqual(payLoad);
+        messageBank.avatar.should.equal('avatar');
+        messageBank.username.should.equal('jack sparrow');
+        messageBank.message.should.equal('hello');
+        messageBank.timeSent.should.equal('12:45:09 PM');
+      });
+      setTimeout(disconnect, 10);
+    };
+    client1.on('connect', () => {
+      client1.emit('joinGame', {
+        userID: 'unauthenticated',
+        room: '',
+        createPrivate: false
+      });
+      client2 = io.connect(socketURL, options);
+      client2.on('connect', () => {
+        client2.emit('joinGame', {
+          userID: 'unauthenticated',
+          room: '',
+          createPrivate: false
+        });
+        client3 = io.connect(socketURL, options);
+        client3.on('connect', () => {
+          client3.emit('joinGame', {
+            userID: 'unauthenticated',
+            room: '',
+            createPrivate: false
+          });
+          setTimeout(sendMessage, 10);
+        });
+      });
+    });
+  });
+  it('Should send message to two clients when a message is sent by client 2', (done) => {
+    let client2, client3;
+    const payLoad = {
+      avatar: 'avatar',
+      username: 'jack sparrow',
+      message: 'hello',
+      timeSent: '12:45:09 PM'
+    };
+    const client1 = io.connect(socketURL, options);
+    const disconnect = () => {
+      client1.disconnect();
+      client2.disconnect();
+      client3.disconnect();
+      done();
+    };
+
+    const sendMessage = () => {
+      client2.emit('new message', payLoad);
+      client1.on('add message', (messageBank) => {
+        expect(messageBank).toEqual(payLoad);
+        messageBank.avatar.should.equal('avatar');
+        messageBank.username.should.equal('jack sparrow');
+        messageBank.message.should.equal('hello');
+        messageBank.timeSent.should.equal('12:45:09 PM');
+      });
+      client3.on('add message', (messageBank) => {
+        expect(messageBank).toEqual(payLoad);
+        messageBank.avatar.should.equal('avatar');
+        messageBank.username.should.equal('jack sparrow');
+        messageBank.message.should.equal('hello');
+        messageBank.timeSent.should.equal('12:45:09 PM');
+      });
+      setTimeout(disconnect, 10);
+    };
+    client1.on('connect', () => {
+      client1.emit('joinGame', {
+        userID: 'unauthenticated',
+        room: '',
+        createPrivate: false
+      });
+      client2 = io.connect(socketURL, options);
+      client2.on('connect', () => {
+        client2.emit('joinGame', {
+          userID: 'unauthenticated',
+          room: '',
+          createPrivate: false
+        });
+        client3 = io.connect(socketURL, options);
+        client3.on('connect', () => {
+          client3.emit('joinGame', {
+            userID: 'unauthenticated',
+            room: '',
+            createPrivate: false
+          });
+          setTimeout(sendMessage, 10);
+        });
+      });
+    });
+  });
+
+  it('Should not send message to client 1 if not in socket sync with client 2', (done) => {
+    let client2, client3;
+    const payLoad = {
+      avatar: 'avatar',
+      username: 'jack sparrow',
+      message: 'hello',
+      timeSent: '12:45:09 PM'
+    };
+    const client1 = io.connect(socketURL, options);
+    const disconnect = () => {
+      client1.disconnect();
+      client2.disconnect();
+      client3.disconnect();
+      done();
+    };
+
+    const sendMessage = () => {
+      client2.emit('new message', payLoad);
+      client1.on('add mes', (messageBank) => {
+        const {
+          avatar,
+          username,
+          message,
+          timeSent
+        } = messageBank;
+        expect(messageBank).toEqual(payLoad);
+        expect(avatar).toNotBe('avatar');
+        expect(username).toNotBe('jac row');
+        expect(message).toNotBe('hello');
+        expect(timeSent).toNotBe('12:55:09 PM');
+      });
+      setTimeout(disconnect, 10);
+    };
+    client1.on('connect', () => {
+      client1.emit('joinGame', {
+        userID: 'unauthenticated',
+        room: '',
+        createPrivate: false
+      });
+      client2 = io.connect(socketURL, options);
+      client2.on('connect', () => {
+        client2.emit('joinGame', {
+          userID: 'unauthenticated',
+          room: '',
+          createPrivate: false
+        });
+        client3 = io.connect(socketURL, options);
+        client3.on('connect', () => {
+          client3.emit('joinGame', {
+            userID: 'unauthenticated',
+            room: '',
+            createPrivate: false
+          });
+          setTimeout(sendMessage, 10);
+        });
       });
     });
   });

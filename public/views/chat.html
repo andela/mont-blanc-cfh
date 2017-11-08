@@ -1,0 +1,59 @@
+<div ng-app="mean.system" ng-controller="chat" class="container">
+  <div class="row chat-window" style="display: {{chatDisplay}}" id="chat_window_1">
+    <div class="col-md-3 pull-right">
+      <div class="panel panel-default">
+        <div class="panel-heading top-bar">
+          <div class="col-md-8 col-xs-8">
+            <h3 style="color:{{chatNotificationColor}}" class="panel-title">
+              {{unreadMessage}}
+              <span class="glyphicon glyphicon-comment"></span>
+            </h3>
+          </div>
+          <div>
+            <a style="color:#999" ng-click="chatPanelCrtl()">
+              <span id="minim_chat_window" style="position: relative; right: 25%" class="glyphicon glyphicon-minus icon_minim"></span>
+            </a>
+            <a class="pull-right" ng-click="toggleChat()" style="color:#999">
+              <span class="glyphicon glyphicon-remove-circle" style="padding: 2px 10px"></span>
+            </a>
+          </div>
+        </div>
+        <div class="panel-body msg_container_base">
+          <h5 ng-show='!!chatLoading'>Loading........</h5>
+          <div class="row msg_container" ng-repeat="item in messageBank">
+            <div style="padding:0" class="col-md-2 col-xs-2 ">
+              <img src={{item.avatar}} class=" img-responsive ">
+            </div>
+            <div style="padding:0" class="col-md-10 col-xs-10">
+              <p>
+                <strong>{{item.username}}</strong>
+                <span class="mute-text">
+                  <small>{{item.timeSent}}</small>
+                </span>
+                <br /> {{item.message}}
+              </p>
+            </div>
+
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="input-group">
+            <input id="btn-input" type="text" class="form-control input-sm chat_input" ng-keypress="enterMessage($event)" ng-model="message"
+              placeholder="Write your message here..." value="message" />
+            <span class="input-group-btn">
+              <button class="btn btn-success btn-sm">@</button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Chat Icon container -->
+  <div id="chat-icon-container" ng-click="toggleChat()">
+    <div id="unread-messages-icon" style="color:{{chatNotificationColor}}">
+
+      <strong>{{unreadMessage}}</strong>
+    </div>
+    <i class="glyphicon glyphicon-comment"></i>
+  </div>
+</div>
