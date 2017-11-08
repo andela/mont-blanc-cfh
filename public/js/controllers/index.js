@@ -64,7 +64,10 @@ angular.module('mean.system')
         $cookies.token = '';
         $location.path('/#!');
       };
-
+      $scope.locations = [{ locationId: 1, country: 'Nigeria' }, { locationId: 2, country: 'Brazil' }, { locationId: 3, country: 'United States' }];
+      $scope.changedValue = (item) => {
+        $window.localStorage.setItem('locationId', item.locationId);
+      };
       $scope.avatars = [];
       AvatarService.getAvatars()
         .then((data) => {
