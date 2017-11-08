@@ -5,12 +5,12 @@ import * as questions from '../../app/controllers/questions';
 import * as answers from '../../app/controllers/answers';
 
 const guestNames = [
-  'Disco Potato',
-  'Silver Blister',
-  'Insulated Mustard',
-  'Funeral Flapjack',
-  'Toenail',
-  'Urgent Drip',
+  'Daddy yo',
+  'Baba dee',
+  '!deligthed gulp',
+  'Heroku master',
+  'Professor',
+  'Generator rex',
   'Raging Bagel',
   'Aggressive Pie',
   'Loving Spoon',
@@ -167,7 +167,6 @@ class Game {
    * @memberof Game
    */
   startGame() {
-    console.log(this.gameID, this.state);
     this.setCzar(this);
   }
 
@@ -185,19 +184,16 @@ class Game {
       ],
       (err, results) => {
         if (err) {
-          console.log(err);
+          return err;
         }
         self.questions = results[0];
         self.answers = results[1];
+        this.shuffleCards(this.questions);
+        this.shuffleCards(this.answers);
+        this.stateChoosing(this);
       }
     );
-    setTimeout(() => {
-      this.shuffleCards(this.questions);
-      this.shuffleCards(this.answers);
-      this.stateChoosing(this);
-    }, 100);
   }
-
 
   /**
    * @description This method sends game update
@@ -310,7 +306,6 @@ class Game {
    */
   stateResults(self) {
     self.state = 'winner has been chosen';
-    console.log(self.state);
     // TODO: do stuff
     let winner = -1;
     for (let i = 0; i < self.players.length; i += 1) {
@@ -333,7 +328,7 @@ class Game {
    * @returns {void}
    * @param {object} winner
    * @memberof Game
-  */
+   */
   stateEndGame(winner) {
     this.state = 'game ended';
     this.gameWinner = winner;
@@ -352,7 +347,7 @@ class Game {
    * @description this method change game state to "game dissolved"
    * @returns {void}
    * @memberof Game
-  */
+   */
   stateDissolveGame() {
     this.state = 'game dissolved';
     this.sendUpdate();
@@ -451,7 +446,6 @@ class Game {
     if (this.state === 'waiting for players to pick') {
       // Find the player's position in the players array
       const playerIndex = this._findPlayerIndexBySocket(thisPlayer);
-      console.log('player is at index', playerIndex);
       if (playerIndex !== -1) {
         // Verify that the player hasn't previously picked a card
         let previouslySubmitted = false;
@@ -470,11 +464,9 @@ class Game {
                 cardIndex = j;
               }
             }
-            console.log('card', i, 'is at index', cardIndex);
             if (cardIndex !== null) {
               tableCard.push(this.players[playerIndex].hand.splice(cardIndex, 1)[0]);
             }
-            console.log('table object at', cardIndex, ':', tableCard);
           }
           if (tableCard.length === this.curQuestion.numAnswers) {
             this.table.push({
@@ -482,7 +474,6 @@ class Game {
               player: this.players[playerIndex].socket.id
             });
           }
-          console.log('final table object', this.table);
           if (this.table.length === this.players.length - 1) {
             clearTimeout(this.choosingTimeout);
             this.stateJudging(this);
@@ -492,7 +483,7 @@ class Game {
         }
       }
     } else {
-      console.log('NOTE:', thisPlayer, 'picked a card during', this.state);
+      return 'picked a card during';
     }
   }
 
@@ -591,7 +582,7 @@ class Game {
         this.winnerAutopicked = autopicked;
         this.stateResults(this);
       } else {
-        console.log('WARNING: czar', thisPlayer, 'picked a card that was not on the table.');
+        return 'picked a card that was not on the table.';
       }
     } else {
       // TODO: Do something?
@@ -605,7 +596,6 @@ class Game {
    * @memberof Game
    */
   killGame() {
-    console.log('Killing game', this.gameID);
     clearTimeout(this.resultsTimeout);
     clearTimeout(this.choosingTimeout);
     clearTimeout(this.judgingTimeout);
