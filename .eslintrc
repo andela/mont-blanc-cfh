@@ -52,6 +52,7 @@
     "AOS": false,
     "_": false,
     "io": false,
-    "event": true
+    "event": true,
+    "fetch": true
   }
 }
