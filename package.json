@@ -37,6 +37,7 @@
     "dotenv": "^4.0.0",
     "expect": "^21.2.1",
     "express": "~3.4.2",
+    "express-session": "^1.15.6",
     "firebase": "^4.6.0",
     "forever": "latest",
     "gulp": "^3.9.1",

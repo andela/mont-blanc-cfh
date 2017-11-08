@@ -1,9 +1,16 @@
 angular.module('mean.system')
-  .controller('IndexController', ['$scope', 'Global', '$location', '$http', '$window', 'socket', 'game', 'AvatarService',
+  .controller('IndexController', ['$scope', 'Global', '$location', '$http', '$window', 'socket', 'game', 'AvatarService', '$cookies',
     function (
       $scope, Global, $location, $http,
-      $window, socket, game, AvatarService
+      $window, socket, game, AvatarService, $cookies
     ) {
+      $scope.checkCookie = () => {
+        if ($cookies.token) {
+          $window.localStorage.setItem('token', $cookies.token);
+          $http.defaults.headers.common['x-token'] = $cookies.token;
+        }
+      };
+      $scope.checkCookie();
       $scope.global = Global;
       $scope.data = {};
 
@@ -54,6 +61,7 @@ angular.module('mean.system')
 
       $scope.signOut = () => {
         setTokenHeader();
+        $cookies.token = '';
         $location.path('/#!');
       };
 
