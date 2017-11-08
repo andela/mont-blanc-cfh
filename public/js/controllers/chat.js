@@ -101,4 +101,21 @@ angular.module('mean.system')
         $scope.downScrollPane();
       }, 200);
     });
+
+    $(document).ready(() => {
+      const emoji = $('#btn-input').emojioneArea({
+        autoHideFilters: true,
+        pickerPosition: 'top',
+        recentEmojis: true,
+        events: {
+          keyup: (editor, event) => {
+            if (event.which === 13) {
+              $scope.message = (emoji.data('emojioneArea').getText());
+              emoji.data('emojioneArea').setText('');
+              $scope.enterMessage(event);
+            }
+          }
+        }
+      });
+    });
   }]);
