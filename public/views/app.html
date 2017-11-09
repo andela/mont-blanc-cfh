@@ -1,4 +1,4 @@
-<div ng-controller="GameController">
+<div ng-controller="GameController" ng-init="takeTour()" id="app-container">
 
   <body data-spy="scroll" data-target=".navbar" data-offset="50">
     <nav class="navbar navbar-scroll navbar-default navbar-fixed-top">
@@ -21,6 +21,11 @@
 
             <li class="nav-item">
               <a id="abandon" class="nav-link" href="/">Abandon Game
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a id="takeTourBtn" class="nav-link" ng-click="repeatTour()">Take Tour
               </a>
             </li>
           </ul>

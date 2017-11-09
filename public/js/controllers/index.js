@@ -40,6 +40,8 @@ angular.module('mean.system')
         $http.post('/api/v1/auth/signup', JSON.stringify($scope.data)).then((user) => {
           if (user.data.token) {
             setTokenHeader(user.data.token);
+            // set tour status in localstorage on signup
+            $window.localStorage.setItem('tour_status', false);
           } else {
             $scope.showMessage = 'Token not provided';
           }
@@ -73,4 +75,10 @@ angular.module('mean.system')
         .then((data) => {
           $scope.avatars = data;
         });
+
+      // Set guests tour status on click of the "play as a guest button"
+      $scope.guestsTour = () => {
+      // Set tour status for guests
+        localStorage.setItem('guests_tour_status', false);
+      };
     }]);
