@@ -624,6 +624,7 @@ body {
   text-align: center;
 }
 
+
 .authenticationWrapper {
   color: #000;
   font-family: 'Quicksand', 'Roboto', 'Ubuntu Mono', sans-serif;
@@ -642,4 +643,11 @@ body {
 .form-group,
 .input-group {
   font-family: 'Quicksand', 'Roboto', 'Ubuntu Mono', sans-serif;
+#regionSelectGuest, #regionSelectFriends {
+  width: 100%;
+}
+
+#regionSelectWrapper {
+  margin-top: 2%;
+  margin-bottom: 5%;
 }
