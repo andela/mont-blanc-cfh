@@ -205,7 +205,9 @@ angular.module('mean.system')
     };
 
     game.startGame = () => {
-      socket.emit('startGame');
+      socket.emit('startGame', {
+        locationId: window.localStorage.getItem('locationId')
+      });
     };
 
     game.leaveGame = () => {
