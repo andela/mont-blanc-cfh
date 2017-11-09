@@ -1,6 +1,6 @@
 <div class="row" ng-repeat="player in game.players" ng-hide="game.state === 'game ended' || game.state ==='game dissolved'">
   <div class="col-md-12">
-    <div class="player-card">
+    <div class="player-card" id="player-card">
       <div class="row">
         <div class="col-md-2">
           <img ng-src="{{player.avatar}}" width="35px" height="35px" alt="avatar">

@@ -47,8 +47,10 @@
   },
   "globals": {
     "angular": false,
+    "introJs": false,
     "document": false,
     "window": false,
+    "localStorage": false,
     "AOS": false,
     "_": false,
     "io": false,

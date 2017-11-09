@@ -12,6 +12,8 @@ $(document).ready(() => {
       $('.nav').addClass('link-adjust');
       $('#image').removeClass('initialLogo');
       $('#image').addClass('finalLogo');
+      $('.nav-item').addClass('abandon-adjust');
+      $('.nav-item').removeClass('#abandon');
     } else {
       $('.navbar-landing').removeClass('navbar-scroll');
       $('.navbar-brand-fixed').removeClass('navbar-brand-animate');

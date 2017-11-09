@@ -1,0 +1,23 @@
+.introjs-fixedTooltip, .introjs-helperLayer {
+    background-color: rgba(0, 0, 0, 0.4) !important;
+    border: 2px solid #43bf06 !important;
+  }
+  
+  .introjs-bullets a.active {
+    background: #43bf06 !important;
+  }
+  
+  .introjs-tooltiptext {
+    color: black !important;
+  }
+  
+  .introjs-tooltipbuttons {
+    text-align: center !important;
+  }
+  .introjs-tooltipbuttons button {
+    background: #43bf06 !important;
+  }
+
+  .introjs-helperNumberLayer {
+    background: #43bf06 !important;
+  }

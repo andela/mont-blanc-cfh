@@ -57,6 +57,7 @@
     "gulp-sass": "^3.1.0",
     "gulp-sequence": "^0.4.6",
     "gulp-uglify": "^3.0.0",
+    "intro.js": "^2.8.0-alpha.1",
     "jade": "~0.35.0",
     "jsonwebtoken": "^8.1.0",
     "mean-logger": "~0.0.1",
