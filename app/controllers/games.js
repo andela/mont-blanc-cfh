@@ -98,3 +98,40 @@ export const getLeaderboard = (req, res) => {
     });
   });
 };
+
+/**
+ * Gets game log when game session ends
+ * @returns {object} description
+ * @export { function }
+ * @param {object} req
+ * @param {object} res
+ */
+export const getGameLog = (req, res) => {
+  // get game if user is authenticated
+  if (req.decoded) {
+    const userId = req.decoded._id;
+    Game.aggregate([
+      { $match: { userID: userId } },
+      {
+        $group: {
+          _id: '$gameID',
+          gameID: { $first: '$gameID' },
+          gameRound: { $first: '$gameRound' },
+          gameWinner: { $first: '$gameWinner' },
+          gamePlayers: { $first: '$gamePlayers' }
+        }
+      }
+    ])
+      .exec((err, gameLog) => {
+        if (err) {
+          return res.status(500).send({
+            message: 'Game log not succesfully retrieved',
+            err
+          });
+        }
+        return res.status(200).send(gameLog);
+      });
+  } else {
+    return res.status(401).send({ message: 'Unauthenticated user' });
+  }
+};
