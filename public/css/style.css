@@ -105,7 +105,7 @@ body {
   color: #fff !important;
   border-radius: 10px;
   padding: 14px;
-  margin-top: 9px;
+  margin-top: 16px;
   margin-right: 10px;
 }
 
@@ -114,8 +114,25 @@ body {
   color: #fff !important;
   border-radius: 10px;
   padding: 14px;
-  margin-top: 9px;
+  margin-top: 16px;
   margin-right: 10px;
+}
+
+#takeTourBtn {
+  background-color: #d95450 !important;
+  color: #fff !important;
+  border-radius: 10px;
+  padding: 14px;
+  margin-top: 16px;
+  margin-right: 10px;
+}
+
+#tourTourBtn:hover {
+  border-top: 1px solid #43bf06;
+  border-bottom:  1px solid #43bf06;
+  border-radius: 5px;
+  color: #43bf06 !important;
+  background-color: white !important;
 }
 
 .btn-tweet {
