@@ -37,27 +37,39 @@ angular.module('mean.system')
         }
       };
       $scope.signUp = () => {
-        $http.post('/api/v1/auth/signup', JSON.stringify($scope.data)).then((user) => {
-          if (user.data.token) {
-            setTokenHeader(user.data.token);
+        fetch('/api/v1/auth/signup', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify($scope.data)
+        }).then(user => user.json()).then((res) => {
+          if (res.token) {
+            setTokenHeader(res.token);
             // set tour status in localstorage on signup
             $window.localStorage.setItem('tour_status', false);
           } else {
-            $scope.showMessage = 'Token not provided';
+            $scope.showMessage = res.message;
           }
         }).catch((error) => {
-          $scope.showMessage = error;
         });
       };
       $scope.logIn = () => {
-        $http.post('/api/v1/auth/login', JSON.stringify($scope.data)).then((user) => {
-          if (user.data.token) {
-            setTokenHeader(user.data.token);
+        fetch('/api/v1/auth/login', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify($scope.data)
+        }).then(user => user.json()).then((res) => {
+          if (res.token) {
+            setTokenHeader(res.token);
           } else {
-            $scope.showMessage = 'Token not provided';
+            $scope.showMessage = res.message;
           }
         }).catch((error) => {
-          $scope.showMessage = error;
         });
       };
 
