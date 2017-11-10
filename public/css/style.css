@@ -772,3 +772,31 @@ tbody{
   border-radius: 7px;
   text-align: center;
 }
+
+
+.authenticationWrapper {
+  color: #000;
+  font-family: 'Quicksand', 'Roboto', 'Ubuntu Mono', sans-serif;
+  text-align: center;
+  padding: 13px;
+  margin-top: 13%;
+}
+
+.authenticationBox {
+  background-color: rgba(255, 255, 255, 0.8);
+  min-height: 400px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.form-group,
+.input-group {
+  font-family: 'Quicksand', 'Roboto', 'Ubuntu Mono', sans-serif;
+#regionSelectGuest, #regionSelectFriends {
+  width: 100%;
+}
+
+#regionSelectWrapper {
+  margin-top: 2%;
+  margin-bottom: 5%;
+}
