@@ -264,7 +264,7 @@ angular.module('mean.system')
           intro: 'Click this button to start a new game.'
         },
         {
-          element: '#invite-friends',
+          element: '#invite-players',
           intro: '...and this button allows you invite your friends.'
         },
         {
@@ -302,7 +302,7 @@ angular.module('mean.system')
           const timeout = setTimeout(() => {
             $scope.gameTour.start();
             clearTimeout(timeout);
-          }, 500);
+          }, 2000);
           localStorage.removeItem('tour_status') || localStorage.removeItem('guests_tour_status');
         }
       };
