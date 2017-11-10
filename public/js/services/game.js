@@ -11,7 +11,7 @@ angular.module('mean.system')
       table: [],
       czar: null,
       playerMinLimit: 3,
-      playerMaxLimit: 6,
+      playerMaxLimit: 12,
       pointLimit: null,
       state: null,
       round: 0,
@@ -178,6 +178,10 @@ angular.module('mean.system')
         game.players[game.playerIndex].hand = [];
         game.time = 0;
       }
+    });
+
+    socket.on('roomFilled', () => {
+      socket.emit($('#roomFilled').modal('show'));
     });
 
     socket.on('notification', (data) => {

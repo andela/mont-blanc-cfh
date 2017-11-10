@@ -534,10 +534,19 @@ body {
 }
 
 .search-box {
-  width: 60%;
+  width: 70%;
   margin: 0px auto;
 }
 
+.search-box input {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid rgba(97, 89, 89, 0.24);
+}
+.search-box p {
+  font-size: 20px;
+  font-weight: 600;
+}
 .invite-box {
   width: 60%;
 }
@@ -650,4 +659,8 @@ body {
 #regionSelectWrapper {
   margin-top: 2%;
   margin-bottom: 5%;
+}
+
+.invite-btn-row{
+  margin-top: 6px;
 }
