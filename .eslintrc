@@ -55,7 +55,6 @@
     "_": false,
     "io": false,
     "event": true,
-    "localStorage": true,
     "fetch": true
   }
 }
