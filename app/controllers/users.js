@@ -3,6 +3,7 @@
  */
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
+import nodemailer from 'nodemailer';
 import User from '../models/user';
 
 
@@ -38,6 +39,57 @@ export function signin(req, res) {
   } else {
     res.redirect('/#!/app');
   }
+}
+/**
+ * @returns {json} user
+ * @param {*} req
+ * @param {*} res
+ */
+export function search(req, res) {
+  User
+    .find({
+      name: req.params.username
+    }, (error, user) => {
+      if (user.length < 1) {
+        return res.status(404).send({
+          message: 'User not found'
+        });
+      }
+      return res.status(200).json({ user: user[0].name, email: user[0].email });
+    });
+}
+/**
+ * @returns {json} mail
+ * @param {*} req
+ * @param {*} res
+ */
+export function sendInvite(req, res) {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.usermail,
+      pass: process.env.mailpassword
+    }
+  });
+  const mailOptions = {
+    from: 'Cards for Humanity Mont-Blanc',
+    to: req.body.recipient,
+    subject: 'Invitation to join a current game session',
+    text: `Click this link to join game: ${req.body.gameLink}`,
+    html: `<b>click this link to join game: ${req.body.gameLink}</b>`
+  };
+
+  transporter.sendMail(mailOptions, (error) => {
+    if (error) {
+      res.status(400).json({
+        message: 'An error occured while trying to send your mail'
+      });
+    } else {
+      res.status(200).json({
+        message: 'Message sent successfully'
+      });
+    }
+  });
 }
 
 /**

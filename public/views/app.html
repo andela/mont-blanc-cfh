@@ -43,15 +43,10 @@
             </div>
             <answers></answers>
             <chat></chat>
-
           </div>
-
           <div class="col-md-3 avatar-row">
             <player></player>
-
           </div>
-
-
         </div>
 
       </div>
@@ -66,7 +61,7 @@
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
           <div class="modal-body">
-            <p>Oops! The minimum number of players to play this game is three (3)!</p>
+            <p>Don't be stingy! The minimum number of players to play this game is three (3)!<br /> Invite more friends</p>
           </div>
         </div>
 
@@ -120,19 +115,26 @@
           <div class="modal-body">
             <div class="search-box">
               <div class="row">
-                <div class="col-md-9">
-                  <input value="" placeholder="Player's Username">
+                <p ng-show = "">{{notFound}}</p>
+                <div class="col-md-8">
+                    <input ng-model="username"  placeholder="Player's Username">
                 </div>
-                <div class="col-md-3">
-                  <a class="btn btn-responsive btn-cfh-green">Search</a>
+                <div class="col-md-4">
+                    <a class="btn btn-responsive btn-cfh-green btn-block" ng-click="searchUser()" id="name">Search</a>
                 </div>
               </div>
-
-            </div>
-            <p>Username is not available to play!</p>
-            <a class="btn btn-block btn-cfh-green">Invite Player</a>
-            <div class="invite-box">
-
+              <div ng-controller="GameController" id ="searchControl">
+                <div class="row" >
+                  <div class="col-md-12">
+                      <p>{{searchResult}}</p>
+                  </div>
+                </div>
+                <div class="row invite-btn-row">
+                    <div class="col-md-12">
+                        <button class="btn btn-cfh-green btn-block"  ng-click="sendInvite(email)" data-dismiss="modal">invite</button>
+                    </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -142,19 +144,18 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="roomFilled" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Modal title</h4>
+            <h4 class="modal-title">Room FIlled</h4>
           </div>
           <div class="modal-body">
-            ...
+            <p>Maximum number of players reached</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
           </div>
         </div>
         <!-- /.modal-content -->
