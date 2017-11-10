@@ -1,6 +1,6 @@
 angular.module('mean.system')
-  .controller('GameController', ['$scope', 'game', '$timeout', '$location', 'MakeAWishFactsService',
-    '$dialog', ($scope, game, $timeout, $location, MakeAWishFactsService, $dialog) => {
+  .controller('GameController', ['$scope', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$http',
+    '$dialog', ($scope, game, $timeout, $location, MakeAWishFactsService, $http, $dialog) => {
       $scope.hasPickedCards = false;
       $scope.winningCardPicked = false;
       $scope.showTable = false;
@@ -42,6 +42,35 @@ angular.module('mean.system')
       $scope.sendPickedCards = () => {
         game.pickCards($scope.pickedCards);
         $scope.showTable = true;
+      };
+
+      $scope.searchUser = () => {
+        const { username } = $scope;
+        if (username && username.length !== 0) {
+          $http({
+            method: 'GET',
+            url: `/api/v1/search/${username}`
+          }).then((response) => {
+            if (response.data.user && response.data.email) {
+              $('#searchControl').show();
+              $scope.searchResult = response.data.user;
+              $scope.email = response.data.email;
+            }
+          });
+        } else {
+          $scope.searchResult = [];
+        }
+      };
+      $scope.popModal = () => {
+        $('#searchControl').hide();
+        $('#invite-players-modal').modal('show');
+      };
+      $scope.sendInvite = (email) => {
+        $('#searchControl').hide();
+        $http.post('/api/v1/users/invite', {
+          recipient: email,
+          gameLink: document.URL
+        });
       };
 
       $scope.cardIsFirstSelected = (card) => {
@@ -125,8 +154,11 @@ angular.module('mean.system')
             backdrop: 'static'
           });
           $('#startModal').modal('show');
+        } else {
+          $('#few-players-modal').modal('show');
         }
       };
+
 
       $scope.abandonGame = () => {
         game.leaveGame();

@@ -91,7 +91,7 @@ export default (io) => {
       // Also checking the number of players, so node doesn't crash when
       // no one is in this custom room.
       if (game.state === 'awaiting players' && (!game.players.length ||
-          game.players[0].socket.id !== socket.id)) {
+        game.players[0].socket.id !== socket.id) && (game.players.length < game.playerMaxLimit)) {
         // Put player into the requested game
         allPlayers[socket.id] = true;
         game.players.push(player);
@@ -106,6 +106,7 @@ export default (io) => {
         }
       } else {
         // TODO: Send an error message back to this user saying the game has already started
+        socket.emit('roomFilled');
       }
     } else {
       // Put players into the general queue

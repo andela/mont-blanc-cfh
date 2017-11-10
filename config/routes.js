@@ -23,6 +23,8 @@ import {
   addDonation,
   avatars as userAvatars,
   create,
+  search,
+  sendInvite,
   logIn,
   me,
   session,
@@ -50,6 +52,8 @@ export default (app, passport) => {
   /**
    * Setting up the users api
    */
+  app.post('/api/v1/users/invite', sendInvite);
+  app.get('/api/v1/search/:username', search);
   app.post('/api/v1/auth/signup', create);
   app.post('/api/v1/auth/login', logIn);
   app.post('/users/avatars', userAvatars);

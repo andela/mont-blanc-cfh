@@ -28,7 +28,7 @@ User.collection.drop();
 Game.collection.drop();
 
 const userDetails = {
-  name: 'Oluwadunsin Oyebiyi',
+  name: 'Oluwadunsin',
   password: 'password',
   email: 'ebenezer99.dawuda@gmail.com',
 
@@ -39,6 +39,8 @@ const gameData = {
   gameRound: 7,
   gameWinner: 'victoria'
 };
+const inviteUrl = '/api/v1/users/invite';
+const searchUrl = '/api/v1/search';
 
 describe('Create game using authenticated route', () => {
   before((done) => {
@@ -51,7 +53,6 @@ describe('Create game using authenticated route', () => {
         done();
       });
   });
-
   it('should return 201 status code for successfully creating a game log', (done) => {
     server
       .post(gameUrl)
@@ -124,6 +125,33 @@ describe('Leaderboard route', () => {
         });
         expect(res.body.leaderboard).to.have.property('victoria');
         if (err) return done(err);
+        done();
+      });
+  });
+});
+describe('Search users test', () => {
+  it('should return error if user does not exists', (done) => {
+    server.get(`${searchUrl}/babadee`)
+      .set('Connection', 'keep alive')
+      .set('Accept', 'application/json')
+      .set('x-token', token)
+      .set('Content-Type', 'application/json')
+      .end((err, res) => {
+        expect(res.status).to.equal(404);
+        expect(res.body.message).to.be.equal('User not found');
+        expect(res).to.be.json;
+        done();
+      });
+  });
+  it('should return saved users', (done) => {
+    server.get(`${searchUrl}/Oluwadunsin`)
+      .set('Connection', 'keep alive')
+      .set('Accept', 'application/json')
+      .set('x-token', token)
+      .set('Content-Type', 'application/json')
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body.user).to.be.equal('Oluwadunsin');
         done();
       });
   });
