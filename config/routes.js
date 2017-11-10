@@ -21,6 +21,7 @@ import {
   checkAvatar,
   signout,
   addDonation,
+  getDonation,
   avatars as userAvatars,
   create,
   search,
@@ -37,7 +38,8 @@ import {
 } from './middlewares/authorization';
 import {
   createGameLogs,
-  getLeaderboard
+  getLeaderboard,
+  getGameLog
 } from '../app/controllers/games';
 
 export default (app, passport) => {
@@ -60,6 +62,7 @@ export default (app, passport) => {
 
   // Donation Routes
   app.post('/donations', addDonation);
+  app.get('/api/v1/donations/:token', requiresLogin, getDonation);
 
   app.post('/users/session', passport.authenticate('local', {
     failureRedirect: '/signin',
@@ -135,5 +138,6 @@ export default (app, passport) => {
 
   // Game Routes
   app.post('/api/v1/games/:id/start', requiresLogin, createGameLogs);
-  app.get('/api/v1/games/leaderboard', requiresLogin, getLeaderboard);
+  app.get('/api/v1/games/history/:token', requiresLogin, getGameLog);
+  app.get('/api/v1/games/leaderboard', getLeaderboard);
 };

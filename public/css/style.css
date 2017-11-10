@@ -29,16 +29,19 @@ body {
   border: 0;
 }
 
-.navbar-brand .initialLogo {
+.navbar-brand .initialLogo{
   max-height: 100px;
   margin-top: -20px;
 }
 
-.navbar-nav li,
-.navbar-nav a {
+.navbar-nav-dashboard li{
+  margin-top: 10px;
+}
+
+.navbar-nav li, .navbar-nav a {
   color: white !important;
   cursor: pointer;
-  background: transparent !important;
+  background: transparent !important;	
 }
 
 .navbar-collapse {
@@ -52,30 +55,38 @@ body {
 .navbar-scroll {
   background-color: #43bf06 !important;
   padding: 0px;
-  height: 80px;
+  height:80px;
 }
 
-.finalLogo {
+.navbar-dashboard {
+  background-color: #43bf06 !important;
+  padding: 0px;
+  height:60px;
+}
+
+.finalLogo{
   max-height: 60px;
   margin-top: -5px;
 }
+
 
 .toggleButton {
   margin-top: 20px;
 }
 
 @media screen and (max-width: 1000px) {
-  .navbar-nav li,
-  .navbar-nav a {
+  .navbar-nav li, .navbar-nav a {
     color: white !important;
     cursor: pointer;
-    background: #43bf06 !important;
+    background: #43bf06 !important;	
+  
   }
-  .navbar-brand .initialLogo {
+  .navbar-brand .initialLogo{
     max-height: 50px;
     margin-top: -10px;
   }
-  .finalLogo {
+
+  .finalLogo{
     max-height: 60px;
     margin-top: 1px;
   }
@@ -88,13 +99,13 @@ body {
 
 .navbar-nav li a:hover {
   border-top: 1px solid white;
-  border-bottom: 1px solid white;
+  border-bottom:  1px solid white;
   border-radius: 5px;
 }
 
 .changeHover {
   border-top: 1px solid #43bf06;
-  border-bottom: 1px solid #43bf06;
+  border-bottom:  1px solid #43bf06;
   border-radius: 5px;
   color: #43bf06 !important;
   background-color: white !important;
@@ -187,9 +198,10 @@ body {
 .first-section {
   background-image: url('../img/newimage4.png');
   background-size: cover;
-  min-height: 100%;
+  min-height:100%;
   background-position: center;
   background-attachment: fixed;
+
 }
 
 .content {
@@ -204,15 +216,18 @@ body {
 }
 
 @media (max-width:400px) {
+
   .first-section {
-    background-image: url('../img/third-sectionbg.png');
-    background-size: cover;
-    min-height: 100%;
-    background-position: center;
+  background-image: url('../img/third-sectionbg.png');
+  background-size: cover;
+  min-height:100%;
+  background-position: center;
   }
   .content h1 {
-    margin-top: 100px;
+      margin-top: 100px;
   }
+
+
 }
 
 .content h4 {
@@ -254,6 +269,7 @@ body {
   border-color: transparent;
   font-size: 17px;
   text-transform: uppercase;
+  
 }
 
 .content .guest:hover {
@@ -332,24 +348,6 @@ body {
   color: white;
   font-family: 'Righteous';
   padding-bottom: 20px;
-}
-
-.third-section .join {
-  line-height: 50px;
-  min-width: 180px;
-  text-align: center;
-  background: #43bf06;
-  color: white;
-  border-radius: 10px;
-  margin: 50px 0 30px 0;
-  font-size: 16px;
-  text-transform: uppercase;
-  transition: color 1.0s, background-color 1.0s;
-}
-
-.third-section .join:hover {
-  background: white;
-  color: #43bf06;
 }
 
 .third-section img {
@@ -609,8 +607,159 @@ body {
   height: 150px;
   border-radius: 3px;
   padding: 12px;
-  margin-right: 4px;
-  margin-top: 5px;
+}
+
+.tabs{
+  margin-top: 100px;
+}
+
+button {
+  margin: -3px;
+  width: 200px;
+  background-color: white;
+  font-weight: bold;  
+}
+
+.btn-lg:hover {
+  background-color: #43bf06; 
+  color: white; 
+}
+
+.btn-lg:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  background-color: #43bf06; 
+  color: white; 
+}
+
+.btn-lg{
+  font-size: 18px;
+  font-family: Righteous
+}
+
+@media (max-width: 400px) {
+  .btn-lg{
+    font-size: 13px;
+    font-family: Righteous
+  }
+  button {
+    margin: -3px;
+    width: 100px;  
+  }
+}
+.leaderboard-section {
+  background-image: url('../img/newimage4.png');
+  background-size: cover;
+  min-height:100%;
+  background-position: center;
+  background-attachment: fixed;
+  }
+
+.children {
+  max-width:900px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.menu {
+  margin: 0 auto;
+}
+
+.board {
+  margin: auto;
+  border-radius: 5px;
+  margin-top: 50px;    
+}
+
+.panel-heading{
+  background-color: #43bf06;
+  line-height: 30px;
+  font-size: 18px;
+  color: white;
+  font-family: Righteous;
+  width: 590px;
+  margin: auto;
+}
+
+.table-responsive{
+  width: 590px;
+}
+
+thead {
+  min-width:590px;
+}
+
+@media (max-width: 400px) {
+  .panel-heading {
+    width:300px !important
+  }
+}
+
+@media (max-width: 400px) {
+  .table-responsive {
+    width:300px !important
+  }
+}
+
+thead{
+  background-color: white; 
+}
+
+th{
+  text-align: center;
+  font-family: Righteous;
+  font-size: 15px;
+}
+
+td{
+  font-size: 13px;
+  font-family: Quicksand;
+}
+
+tbody{
+  background-color: white;
+  text-align: center;
+}
+
+.active-class{
+  background-color: #43bf06;
+  color: white
+ }
+ 
+ .noDonation{
+   background-color: white;
+   width: 590px; 
+   font-size: 18px;
+   font-family: Quicksand;
+ }
+ 
+ .noDonation button{
+   background-color: #ecb60d;
+   width: 100px;
+   margin-top: 10px;
+ }
+ 
+ .noDonation button:hover{
+   -webkit-box-shadow: -2px -1px 35px -2px rgba(0,0,0,0.75);
+   -moz-box-shadow: -2px -1px 35px -2px rgba(0,0,0,0.75);
+   box-shadow: -2px -1px 10px -2px rgba(0,0,0,0.75);
+ }
+ 
+ .noDonation a {
+   text-decoration: none;
+   color: white;
+   font-size: 18px;
+   font-family: Quicksand;
+ }
+
+@media (max-width: 400px) {
+  .noDonation{
+    width: 300px;
+  }
 }
 
 #player-username {

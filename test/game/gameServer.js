@@ -104,6 +104,38 @@ describe('Create game using authenticated route', () => {
   });
 });
 
+describe('Get game log using authenticated route', () => {
+  it('should return 200 status code for successfully getting a game log', (done) => {
+    server
+      .get(`/api/v1/games/history/${token}`)
+      .end((err, res) => {
+        expect(res).to.be.json;
+        expect(res.body[0].gameID).to.equal('nmtys');
+        expect(res.body[0].gameRound).to.equal(7);
+        expect(res.body[0].gameWinner).to.equal('victoria');
+        expect(res.body[0].gamePlayers[0]).to.equal('philnewman');
+        expect(res.body[0].gamePlayers[1]).to.equal('temilaj');
+        expect(res.body[0].gamePlayers[2]).to.equal('victoria');
+        expect(res.status).to.equal(200);
+        if (err) return done(err);
+        done();
+      });
+  });
+
+  it('should return 401 status code and not get game log when token is expired', (done) => {
+    server
+      .get(`/api/v1/games/history/${expiredToken}`)
+      .end((err, res) => {
+        expect(res).to.be.json;
+        expect(res.body.message).to.equal('Expired token');
+        expect(res.status).to.equal(401);
+        if (err) return done(err);
+        done();
+      });
+  });
+});
+
+
 describe('Leaderboard route', () => {
   it('should load leaderboard', (done) => {
     server

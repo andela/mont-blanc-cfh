@@ -301,6 +301,32 @@ export function addDonation(req, res) {
 }
 
 /**
+ * @returns {void} description
+ * get donation
+ * @export
+ * @param {any} req
+ * @param {any} res
+ */
+export function getDonation(req, res) {
+  if (req.decoded) {
+    const userId = req.decoded._id;
+    User.findById({
+      _id: userId
+    })
+      .exec((err, userDonations) => {
+        if (err) {
+          return res.status(500).send({
+            message: 'Donation not succesfully retrieved'
+          });
+        }
+        return res.status(200).json(userDonations);
+      });
+  } else {
+    return res.status(401).send({ message: 'Unauthenticated user' });
+  }
+}
+
+/**
  * Show profile
  * @returns {void} description
  * @export
