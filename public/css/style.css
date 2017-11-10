@@ -669,6 +669,7 @@ body {
 .form-group,
 .input-group {
   font-family: 'Quicksand', 'Roboto', 'Ubuntu Mono', sans-serif;
+}
 #regionSelectGuest, #regionSelectFriends {
   width: 100%;
 }
