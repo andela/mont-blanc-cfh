@@ -103,8 +103,8 @@ i.glyphicon.glyphicon-comment {
   position: absolute;
   z-index: 1000;
   bottom: 0;
-  right: -15;
-  top: 12;
+  right: -5;
+  top: 19;
   left: 0;
   color: #ff0505;
   cursor: pointer;
