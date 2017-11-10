@@ -19,7 +19,7 @@
           </div>
         </div>
         <div class="panel-body msg_container_base">
-          <h5 ng-show='!!chatLoading'>Loading........</h5>
+          <h5 ng-show='chatLoading'>Loading........</h5>
           <div class="row msg_container" ng-repeat="item in messageBank">
             <div style="padding:0" class="col-md-2 col-xs-2 ">
               <img src={{item.avatar}} class=" img-responsive ">
@@ -38,10 +38,7 @@
         </div>
         <div class="panel-footer">
           <div class="input-group">
-            <input id="btn-input" 
-              type="text" class="form-control input-sm chat_input" 
-              ng-keypress="enterMessage($event)" 
-              ng-model="message"
+            <input id="btn-input" type="text" class="form-control input-sm chat_input" ng-keypress="enterMessage($event)" ng-model="message"
               placeholder="Write your message here..." value="message" />
             <span class="input-group-btn"></span>
           </div>
