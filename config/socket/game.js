@@ -41,7 +41,7 @@ class Game {
     this.winnerAutopicked = false;
     this.czar = -1; // Index in this.players
     this.playerMinLimit = 3;
-    this.playerMaxLimit = 6;
+    this.playerMaxLimit = 12;
     this.pointLimit = 5;
     this.state = 'awaiting players';
     this.round = 0;
@@ -54,6 +54,7 @@ class Game {
       stateJudging: 16,
       stateResults: 6
     };
+    this.locationId = 0;
     // setTimeout ID that triggers the czar judging state
     // Used to automatically run czar judging if players don't pick before time limit
     // Gets cleared if players finish picking before time limit.
@@ -186,7 +187,8 @@ class Game {
         if (err) {
           return err;
         }
-        self.questions = results[0];
+        self.questions = results[0].filter(question =>
+          question.locationId === parseInt(this.locationId, 10));
         self.answers = results[1];
         this.shuffleCards(this.questions);
         this.shuffleCards(this.answers);

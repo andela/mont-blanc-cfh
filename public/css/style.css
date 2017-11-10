@@ -116,7 +116,7 @@ body {
   color: #fff !important;
   border-radius: 10px;
   padding: 14px;
-  margin-top: 9px;
+  margin-top: 16px;
   margin-right: 10px;
 }
 
@@ -125,8 +125,25 @@ body {
   color: #fff !important;
   border-radius: 10px;
   padding: 14px;
-  margin-top: 9px;
+  margin-top: 16px;
   margin-right: 10px;
+}
+
+#takeTourBtn {
+  background-color: #d95450 !important;
+  color: #fff !important;
+  border-radius: 10px;
+  padding: 14px;
+  margin-top: 16px;
+  margin-right: 10px;
+}
+
+#tourTourBtn:hover {
+  border-top: 1px solid #43bf06;
+  border-bottom:  1px solid #43bf06;
+  border-radius: 5px;
+  color: #43bf06 !important;
+  background-color: white !important;
 }
 
 .btn-tweet {
@@ -532,10 +549,19 @@ body {
 }
 
 .search-box {
-  width: 60%;
+  width: 70%;
   margin: 0px auto;
 }
 
+.search-box input {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid rgba(97, 89, 89, 0.24);
+}
+.search-box p {
+  font-size: 20px;
+  font-weight: 600;
+}
 .invite-box {
   width: 60%;
 }
@@ -771,4 +797,37 @@ tbody{
   padding: 10px;
   border-radius: 7px;
   text-align: center;
+}
+
+
+.authenticationWrapper {
+  color: #000;
+  font-family: 'Quicksand', 'Roboto', 'Ubuntu Mono', sans-serif;
+  text-align: center;
+  padding: 13px;
+  margin-top: 13%;
+}
+
+.authenticationBox {
+  background-color: rgba(255, 255, 255, 0.8);
+  min-height: 400px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.form-group,
+.input-group {
+  font-family: 'Quicksand', 'Roboto', 'Ubuntu Mono', sans-serif;
+}
+#regionSelectGuest, #regionSelectFriends {
+  width: 100%;
+}
+
+#regionSelectWrapper {
+  margin-top: 2%;
+  margin-bottom: 5%;
+}
+
+.invite-btn-row{
+  margin-top: 6px;
 }

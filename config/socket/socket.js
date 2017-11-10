@@ -38,7 +38,6 @@ export default (io) => {
         isUniqueRoom = true;
       }
     }
-    console.log(socket.id, 'has created unique game', uniqueRoom);
     const game = new Game(uniqueRoom, io);
     allPlayers[socket.id] = true;
     game.players.push(player);
@@ -62,7 +61,6 @@ export default (io) => {
       gamesNeedingPlayers.push(game);
       socket.join(game.gameID);
       socket.gameID = game.gameID;
-      console.log(socket.id, 'has joined newly created game', game.gameID);
       game.assignPlayerColors();
       game.assignGuestNames();
       game.sendUpdate();
@@ -70,7 +68,6 @@ export default (io) => {
       [game] = gamesNeedingPlayers;
       allPlayers[socket.id] = true;
       game.players.push(player);
-      console.log(socket.id, 'has joined game', game.gameID);
       socket.join(game.gameID);
       socket.gameID = game.gameID;
       game.assignPlayerColors();
@@ -86,9 +83,7 @@ export default (io) => {
   const getGame = (player, socket, requestedGameId, createPrivate) => {
     requestedGameId = requestedGameId || '';
     createPrivate = createPrivate || false;
-    console.log(socket.id, 'is requesting room', requestedGameId);
     if (requestedGameId.length && allGames[requestedGameId]) {
-      console.log('Room', requestedGameId, 'is valid');
       const game = allGames[requestedGameId];
       // Ensure that the same socket doesn't try to join the same game
       // This can happen because we rewrite the browser's URL to reflect
@@ -96,9 +91,8 @@ export default (io) => {
       // Also checking the number of players, so node doesn't crash when
       // no one is in this custom room.
       if (game.state === 'awaiting players' && (!game.players.length ||
-          game.players[0].socket.id !== socket.id)) {
+        game.players[0].socket.id !== socket.id) && (game.players.length < game.playerMaxLimit)) {
         // Put player into the requested game
-        console.log('Allowing player to join', requestedGameId);
         allPlayers[socket.id] = true;
         game.players.push(player);
         socket.join(game.gameID);
@@ -112,15 +106,16 @@ export default (io) => {
         }
       } else {
         // TODO: Send an error message back to this user saying the game has already started
+        socket.emit('roomFilled');
       }
     } else {
       // Put players into the general queue
-      console.log('Redirecting player', socket.id, 'to general queue');
       if (createPrivate) {
         createGameWithFriends(player, socket);
       } else {
         fireGame(player, socket);
       }
+      return 'Redirecting player';
     }
   };
 
@@ -133,7 +128,6 @@ export default (io) => {
         _id: data.userID
       }).exec((err, user) => {
         if (err) {
-          console.log('err', err);
           return err; // Hopefully this never happens.
         }
         if (!user) {
@@ -156,10 +150,8 @@ export default (io) => {
   };
 
   const exitGame = (socket) => {
-    console.log(socket.id, 'has disconnected');
     if (allGames[socket.gameID]) { // Make sure game exists
       const game = allGames[socket.gameID];
-      console.log(socket.id, 'has left game', game.gameID);
       delete allPlayers[socket.id];
       // it removes stored messages when number of players online is less than two
       if (game.players.length < 2) {
@@ -183,7 +175,6 @@ export default (io) => {
   };
 
   io.sockets.on('connection', (socket) => {
-    console.log(`${socket.id} Connected`);
     socket.emit('id', {
       id: socket.id
     });
@@ -205,11 +196,10 @@ export default (io) => {
     });
 
     socket.on('pickCards', (data) => {
-      console.log(socket.id, 'picked', data);
       if (allGames[socket.gameID]) {
         allGames[socket.gameID].pickCards(data.cards, socket.id);
       } else {
-        console.log('Received pickCard from', socket.id, 'but game does not appear to exist!');
+        return ('Received pickCard from', socket.id, 'but game does not appear to exist!');
       }
     });
 
@@ -217,7 +207,7 @@ export default (io) => {
       if (allGames[socket.gameID]) {
         allGames[socket.gameID].pickWinning(data.card, socket.id);
       } else {
-        console.log('Received pickWinning from', socket.id, 'but game does not appear to exist!');
+        return ('Received pickWinning from', socket.id, 'but game does not appear to exist!');
       }
     });
 
@@ -232,10 +222,10 @@ export default (io) => {
       joinGame(socket, data);
     });
 
-    socket.on('startGame', () => {
+    socket.on('startGame', (data) => {
       if (allGames[socket.gameID]) {
         const thisGame = allGames[socket.gameID];
-        console.log('comparing', thisGame.players[0].socket.id, 'with', socket.id);
+        thisGame.locationId = data.locationId;
         if (thisGame.players.length >= thisGame.playerMinLimit) {
           // Remove this game from gamesNeedingPlayers so new players can't join it.
           gamesNeedingPlayers.forEach((game, index) => {
@@ -270,7 +260,6 @@ export default (io) => {
     });
 
     socket.on('disconnect', () => {
-      console.log('Rooms on Disconnect ', io.sockets.manager.rooms);
       exitGame(socket);
     });
   });

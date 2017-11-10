@@ -11,7 +11,7 @@ angular.module('mean.system')
       table: [],
       czar: null,
       playerMinLimit: 3,
-      playerMaxLimit: 6,
+      playerMaxLimit: 12,
       pointLimit: null,
       state: null,
       round: 0,
@@ -180,6 +180,10 @@ angular.module('mean.system')
       }
     });
 
+    socket.on('roomFilled', () => {
+      socket.emit($('#roomFilled').modal('show'));
+    });
+
     socket.on('notification', (data) => {
       addToNotificationQueue(data.notification);
     });
@@ -205,7 +209,9 @@ angular.module('mean.system')
     };
 
     game.startGame = () => {
-      socket.emit('startGame');
+      socket.emit('startGame', {
+        locationId: window.localStorage.getItem('locationId')
+      });
     };
 
     game.leaveGame = () => {

@@ -37,25 +37,39 @@ angular.module('mean.system')
         }
       };
       $scope.signUp = () => {
-        $http.post('/api/v1/auth/signup', JSON.stringify($scope.data)).then((user) => {
-          if (user.data.token) {
-            setTokenHeader(user.data.token);
+        fetch('/api/v1/auth/signup', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify($scope.data)
+        }).then(user => user.json()).then((res) => {
+          if (res.token) {
+            setTokenHeader(res.token);
+            // set tour status in localstorage on signup
+            $window.localStorage.setItem('tour_status', false);
           } else {
-            $scope.showMessage = 'Token not provided';
+            $scope.showMessage = res.message;
           }
         }).catch((error) => {
-          $scope.showMessage = error;
         });
       };
       $scope.logIn = () => {
-        $http.post('/api/v1/auth/login', JSON.stringify($scope.data)).then((user) => {
-          if (user.data.token) {
-            setTokenHeader(user.data.token);
+        fetch('/api/v1/auth/login', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify($scope.data)
+        }).then(user => user.json()).then((res) => {
+          if (res.token) {
+            setTokenHeader(res.token);
           } else {
-            $scope.showMessage = 'Token not provided';
+            $scope.showMessage = res.message;
           }
         }).catch((error) => {
-          $scope.showMessage = error;
         });
       };
 
@@ -64,10 +78,19 @@ angular.module('mean.system')
         $cookies.token = '';
         $location.path('/#!');
       };
-
+      $scope.locations = [{ locationId: 1, country: 'Nigeria' }, { locationId: 2, country: 'Brazil' }, { locationId: 3, country: 'United States' }];
+      $scope.changedValue = (item) => {
+        $window.localStorage.setItem('locationId', item.locationId);
+      };
       $scope.avatars = [];
       AvatarService.getAvatars()
         .then((data) => {
           $scope.avatars = data;
         });
+
+      // Set guests tour status on click of the "play as a guest button"
+      $scope.guestsTour = () => {
+      // Set tour status for guests
+        localStorage.setItem('guests_tour_status', false);
+      };
     }]);
