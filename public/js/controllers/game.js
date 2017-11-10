@@ -9,6 +9,7 @@ angular.module('mean.system')
       $scope.pickedCards = [];
       let makeAWishFacts = MakeAWishFactsService.getMakeAWishFacts();
       $scope.makeAWishFact = makeAWishFacts.pop();
+      $scope.gameTour = introJs();
 
       $scope.pickCard = (card) => {
         if (!$scope.hasPickedCards) {
@@ -240,5 +241,75 @@ angular.module('mean.system')
       } else {
         game.joinGame();
       }
-    }
-  ]);
+
+      //* ************************************************ *//
+      //* *************GAME TOUR STARTS HERE************** *//
+      //* ************************************************ *//
+
+      $scope.gameTour.setOptions({
+        exitOnOverlayClick: false,
+        steps: [{
+          intro: '<h3>Welcome Gamer</h3> <br/> I would like to take you on a quick tour of how this game is played.'
+        },
+        {
+          element: '#player-card',
+          intro: 'This is the player card. It shows the username, avatar, and score of players that have joined the current game session.'
+        },
+        {
+          element: '#question-box',
+          intro: 'This pane, also called the <b>question box</b> shows the number of players that have joined the game and also provides buttons with which you can start the game or invite your friends.',
+        },
+        {
+          element: '#start-game',
+          intro: 'Click this button to start a new game.'
+        },
+        {
+          element: '#invite-friends',
+          intro: '...and this button allows you invite your friends.'
+        },
+        {
+          element: '#counter',
+          intro: 'A game session lasts for 20 seconds. This pane shows the number of seconds left for a game session to end.'
+        },
+        {
+          element: '#instructions-row',
+          intro: 'This panel shows the instructions of the game. When the game starts, the answers to the question in the <strong>question box</strong> above will be shown here.',
+        },
+        {
+          element: '#chat-icon-container',
+          intro: 'Feel like chatting with players in this game session? Here is the place to chat. Just click on this button and voila! the chat begins.',
+          position: 'top'
+        },
+        {
+          element: '#abandon',
+          intro: 'If you ever decide to the quit or leave the game, you can click this button.'
+        },
+        {
+          element: '#takeTourBtn',
+          intro: 'If you feel like taking this tour again, you can always click here.'
+        },
+
+        {
+          intro: 'YES! We are done with the tour. Go and ahead and start or join a game.'
+        },
+        ]
+      });
+
+      // Take tour method: This will run on ng-init
+      $scope.takeTour = () => {
+        const tourStatus = localStorage.getItem('tour_status') || localStorage.getItem('guests_tour_status');
+        if (tourStatus === 'false') {
+          const timeout = setTimeout(() => {
+            $scope.gameTour.start();
+            clearTimeout(timeout);
+          }, 500);
+          localStorage.removeItem('tour_status') || localStorage.removeItem('guests_tour_status');
+        }
+      };
+
+      // Repeate tour method:
+      // This will run on click of take tour button on game screen
+      $scope.repeatTour = () => {
+        $scope.gameTour.start();
+      };
+    }]);

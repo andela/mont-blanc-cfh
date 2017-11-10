@@ -49,6 +49,8 @@
     "angular": false,
     "document": false,
     "window": false,
+    "introJs": false,
+    "localStorage": false,
     "AOS": false,
     "_": false,
     "io": false,
